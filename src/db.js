@@ -1,22 +1,34 @@
-import { collection, getDoc } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import {db} from './firebase';
+import React,{useEffect, useState}from 'react';
    
-const addTodo = async (e) => {
-        e.preventDefault();  
-       
-        try {
-            const docRef = await collection(db, "users"); 
-            const docSnap = await getDoc(docRef);
+function Name (){
 
-            if (docSnap.exists()) {
-            console.log("Document data:", docSnap.data());
-            } else {
-            // docSnap.data() will be undefined in this case
-            console.log("No such document!");
-            }
-          } catch (e) {
-            console.error("Error adding document: ", e);
-          }
-    }
+  const [name,setName] = useState("")
+  useEffect(()=>{
+    getName()
+  },[])
+  
+  const getName = async () => {
+    const querySnapshot = await getDocs(collection(db, "users"));
+    querySnapshot.forEach((doc) => { 
+      if (doc.data().haskey) {
+        console.log(doc.data().name)
+        setName(doc.data().name)
+      }
+    });
+  }
 
-export default addTodo;
+  const newOwner =()=>{    
+
+  }
+
+  return (
+    <div>
+      <h1>{name}</h1>
+      <button onClick={()=>newOwner()}>I have the key </button>
+    </div>
+  )
+}
+
+export default Name;

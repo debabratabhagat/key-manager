@@ -1,8 +1,8 @@
-import logo from './logo.svg';
 import './App.css';
 import Name from "./db";
 // import { BrowserRouter as Router,Link,Routes,Route } from 'react-router-dom';
-import React,{useState}from 'react';
+import React from 'react';
+import Signup from "./components/signup";
 
 function App() {
   
@@ -13,7 +13,7 @@ function App() {
   return (
     <div className="App">
       <Name/>
-      
+      <Signup />
     </div>
   );
 }

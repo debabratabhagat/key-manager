@@ -1,11 +1,16 @@
-import React from 'react'
+import React from 'react';
 import { db, auth } from '../firebase';
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { query, collection, where, doc, setDoc } from "firebase/firestore";
 
 const Signup = () => {
-  const [checked, setChecked] = React.useState(false); 
-  function handleChange(e) { setChecked(e.target.checked); }
+//   const [checked, setChecked] = useState(false); 
+//   function handleChange(e) { setChecked(e.target.checked); }
+
+//   const q = await query(collection(db, "users"), where("haskey", "==", true));
+//   console.log(`q=${(q!= null)}`);
+//   const [haskey, setHaskey] = useState((q != null));
+
   return (
     <>
         <h1>Sign Up</h1>
@@ -21,10 +26,10 @@ const Signup = () => {
             <label htmlFor="userPasswd">Password:</label>
             <input type="text" id="userPasswd"/>
         </div>
-        <div>
+        {/* {haskey? null : <>
             <input type = "checkbox" id="checkBox" onChange = {handleChange} />
             <label htmlFor="checkBox">Do you have the key ?</label>
-        </div>
+        </>} */}
         
         <button
             onClick={
@@ -36,8 +41,9 @@ const Signup = () => {
                     createUserWithEmailAndPassword(auth, email, passwd).then(async cred => {
                         await setDoc(doc(db, "users", cred.user.uid), {
                             name: name,
-                            haskey: checked,
-                          });
+                            haskey: false,
+                          }
+                        );
                         console.log('added succesfully');
                         }
                     );
@@ -48,4 +54,4 @@ const Signup = () => {
   )
 }
 
-export default  Signup
+export default  Signup;

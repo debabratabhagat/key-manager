@@ -1,37 +1,36 @@
 import "./App.css";
-import Name from "./db";
-// import Home from "./components/home";
-import Login from './components/login';
-import Signup from './components/signup'
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import React from "react";
-// import { onAuthStateChanged } from "firebase/auth";
-// import { auth } from "./firebase";
+
+import Login from "./components/login/login";
+import Signup from "./components/signup/signup";
+import Signout from "./components/signout";
+import { AuthContext, AuthProvider } from "./components/auth";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase";
 import Navbar from "./components/navbar";
+import Name from "./components/main/db";
 
 function App() {
-  // const ownername =async() => await addTodo()
-  // console.log(ownername)
+  const user = useContext(AuthContext);
 
-  // const [user, setUser] = useState();
+  // useEffect(()=>{
 
-  // const CheckUser = () => {
-  //   const temp = onAuthStateChanged(auth, (authUser) => {
-  //     console.log(authUser);
-  //   });
-  // };
+  // },[user])
 
   return (
-    <BrowserRouter>
-      {/* <CheckUser /> */}
-      <Routes>
-          <Route path='/' element={ <Navbar /> } >  
-            <Route path='/' element={ <Name /> } />
-            <Route path='login' element={ <Login /> } />
-            <Route path='signup' element={ <Signup /> } />
-          </Route> 
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Name />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/signout" element={<Signout />} />
+          {/* <Route path="/" element={<Navbar />}>
+          {/* </Route> */}
         </Routes>
       </BrowserRouter>
+    </AuthProvider>
   );
 }
 

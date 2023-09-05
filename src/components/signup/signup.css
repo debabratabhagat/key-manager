@@ -9,7 +9,7 @@ body{
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(to bottom right, #1898ed, #8e989f); /* Gradient background */
+  background: linear-gradient(to bottom right, #1898ed, #aedcff); /* Gradient background */
 }
 
 /* Styles for the signup box */
@@ -25,7 +25,7 @@ body{
 }
 
 /* Styles for the input fields */
-.input-field {
+.signup-box .input-field {
   margin: 5px 0;
   padding: 10px;
   width: 90%;

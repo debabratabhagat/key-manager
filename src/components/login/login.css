@@ -9,7 +9,7 @@ body{
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background: linear-gradient(to bottom right, #1898ed, #8e989f);  /* Aesthetic blue background color */
+    background: linear-gradient(to bottom right, #1898ed, #b2dfff);  /* Aesthetic blue background color */
   }
   
   /* Styles for the login box */
@@ -28,8 +28,9 @@ body{
   .login-box .input-field {
     margin: 10px 0;
     padding: 10px;
-    width: 90%;
-    backdrop-filter: blur(10px);
+    width: 85%;
+    backdrop-filter: blur(20px);
+    /* backdrop-filter: blur(10px); Apply a blur effect to create the glass effect */
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;

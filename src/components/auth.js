@@ -1,19 +1,31 @@
-import React, { useContext, createContext, useEffect, useState } from "react";
-import { auth } from "../firebase";
+import React, { createContext, useState } from "react";
+import { auth, db } from "../firebase";
 import { onAuthStateChanged } from "@firebase/auth";
+import { getDoc, doc } from "firebase/firestore";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [currentOwner, setCurrentOwner] = useState(null);
-  // console.log("rummomg");
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      setCurrentOwner(user);
-    });
-  }, []);
+  const [currentUser, setCurrentUser] = useState( { id: '', name: '' } );
+  
+  
+  onAuthStateChanged(auth, async (user) => {
+    const signupBtn = document.querySelector(".signup-button");
+    // console.log(user.uid);
 
+    if (user && signupBtn){
+      // console.log("Waiting for data upload");
+      
+    }
+
+    else if(user) {
+      const userDocRef = doc(db, 'users', user.uid);
+      const userDoc = await getDoc(userDocRef);
+      setCurrentUser({ id: user.uid, name: userDoc.data().name });
+    }
+  });
+  
   return (
-    <AuthContext.Provider value={currentOwner}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={currentUser}>{children}</AuthContext.Provider>
   );
 };

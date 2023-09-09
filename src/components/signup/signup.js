@@ -5,27 +5,34 @@ import { Link } from "react-router-dom";
 import { doc, setDoc } from "firebase/firestore";
 import "./signup.css";
 
+let ignoreAuthStateChanges = true;
+
+export {ignoreAuthStateChanges};
+
 export default function Signup() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState();
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleSignup = () => {
-    console.log("Username:", username);
-    console.log("Email:", email);
-    console.log("Password:", password);
+    // console.log("Username:", username);
+    // console.log("Email:", email);
+    // console.log("Password:", password);
 
     createUserWithEmailAndPassword(auth, email, password)
-      .then(async (cred) => {
-        console.log(cred.user.uid);
+      .then( async (cred) => {
+         
         await setDoc(doc(db, "users", cred.user.uid), {
           name: username,
           haskey: false,
           email: email,
+          phone: phone
         });
-        console.log("added succesfully");
-        window.location.href = "/";
+        // console.log("added succesfully");
+        window.location.href = "/home";
+
       })
       .catch((error) => {
         if (error.code === "auth/email-already-in-use") {
@@ -94,6 +101,14 @@ export default function Signup() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        <input
+          className="input-field"
+          type="number"
+          id="phone-number"
+          placeholder="Enter your mobile number"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+        />
         <button onClick={handleSignup} className="signup-button">
           Submit
         </button>
@@ -108,3 +123,15 @@ export default function Signup() {
     </div>
   );
 }
+
+
+// const email = document.getElementById("email").value;
+// const username = document.getElementById("username").value;
+
+// const userInfo = {
+//                     email: email, 
+//                     name: username, 
+//                     haskey: false
+//                   };
+
+// export {Signup, userInfo};

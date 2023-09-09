@@ -6,7 +6,8 @@ import { AuthContext } from "./auth";
 function Signout() {
   const user = useContext(AuthContext);
   const handleSignout = async () => {
-    signOut(auth);
+    await signOut(auth);
+    window.location.href = '/';
     console.log("signed out");
     console.log(user);
   };

@@ -1,117 +1,140 @@
 /* Define CSS classes */
 body{
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
+
+.user-info{
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center;
+}
+
 .container {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    height: 100vh;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(to bottom right , #7d0fe3, #a061bb);
+  font-family: Arial, sans-serif;
+  text-align: center;
+  height: 100vh;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom right , #7d0fe3, #a061bb);
+}
+
+.container-box {
+  background-color:rgb(243, 231, 242); 
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  width: 70%;
+  height: 75%;
+  /* max-height: 70%; */
+  align-items: center;
+  justify-content: center;
+
+}
+
+.phone-number{
+  color:black;
+}
+
+.container-box > button{
+  background-color: #3498db;
+  color: #fff;
+  padding: 10px 20px; 
+  border: none; 
+  border-radius: 5px; 
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+  cursor: pointer; 
+}
+
+.container-box > button:hover {
+  background-color: #2980b9; 
+}
+
+.title {
+  font-size: 24px;
+  color: #7d0fe3;
+}
+
+.header {
+  font-size: 20px;
+  color: #7d0fe3;
+
+}
+
+.formContainer {
+  margin-top: 20px;
+}
+
+
+
+
+
+.button {
+  background-color: blue;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.message {
+  font-size: 18px;
+  color: black;
+}
+
+.linkContainer {
+  margin-top: 20px;
+}
+
+.link {
+  color: rgb(53, 4, 68);
+  margin: 0 10px;
+  text-decoration: none;
+  font-size: 20px;
+}
+.highlighted {
+  /* background-color: #8a2be2;  */
+  color: rgb(157, 30, 151); 
+}
+.link:hover {
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+  font-size: 22px;
+  text-decoration: underline;
+}
+
+
+/* Media queries for responsiveness */
+@media screen and (max-width: 600px) {
+  .container {
+    padding: 10px;
   }
 
-  .container-box {
-    background-color:rgb(243, 231, 242); 
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    text-align: center;
-    width: 70%;
-    height: 75%;
-    /* max-height: 70%; */
-    align-items: center;
-    justify-content: center;
-
-    /* backdrop-filter: blur(10px); Apply a blur effect to create the glass effect */
+  .container-box{
+    width: 95%;
+    height: 95%;
   }
   .title {
-    font-size: 24px;
-    color: #7d0fe3;
-  }
-  
-  .header {
     font-size: 20px;
-    color: #7d0fe3;
+  }
 
-  }
-  
-  .formContainer {
-    margin-top: 20px;
-  }
-  
-  .input-field {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;
-    max-width: 300px;
-  }
-  
-  .button {
-    background-color: blue;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 10px;
-    width: 100%;
-    max-width: 300px;
-  }
-  
-  .message {
+  .header {
     font-size: 18px;
-    color: black;
   }
-  
-  .linkContainer {
-    margin-top: 20px;
+
+  .input-field,
+  .button {
+    max-width: 100%;
   }
-  
-  .link {
-    color: rgb(53, 4, 68);
-    margin: 0 10px;
-    text-decoration: none;
-    font-size: 20px;
-  }
-  .highlighted {
-    /* background-color: #8a2be2;  */
-    color: rgb(157, 30, 151); 
-  }
-  .link:hover {
-    transition: cubic-bezier(0.075, 0.82, 0.165, 1);
-    font-size: 22px;
-    text-decoration: underline;
-  }
-  
-  
-  /* Media queries for responsiveness */
-  @media screen and (max-width: 600px) {
-    .container {
-      padding: 10px;
-    }
-  
-    .container-box{
-      width: 95%;
-      height: 95%;
-    }
-    .title {
-      font-size: 20px;
-    }
-  
-    .header {
-      font-size: 18px;
-    }
-  
-    .input-field,
-    .button {
-      max-width: 100%;
-    }
-  }
-  
+}
+
+
+

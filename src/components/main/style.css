@@ -55,10 +55,10 @@ body{
   background-color: #2980b9; 
 }
 
-.title {
+/* .title {
   font-size: 24px;
   color: #7d0fe3;
-}
+} */
 
 .header {
   font-size: 20px;
@@ -66,15 +66,15 @@ body{
 
 }
 
-.formContainer {
+/* .formContainer {
   margin-top: 20px;
-}
+} */
 
 
 
 
 
-.button {
+/* .button {
   background-color: blue;
   color: white;
   border: none;
@@ -84,14 +84,14 @@ body{
   margin-top: 10px;
   width: 100%;
   max-width: 300px;
-}
+} */
 
-.message {
+/* .message {
   font-size: 18px;
   color: black;
-}
+} */
 
-.linkContainer {
+/* .linkContainer {
   margin-top: 20px;
 }
 
@@ -100,17 +100,17 @@ body{
   margin: 0 10px;
   text-decoration: none;
   font-size: 20px;
-}
+} */
 .highlighted {
   /* background-color: #8a2be2;  */
   color: rgb(157, 30, 151); 
 }
-.link:hover {
+
+/* .link:hover {
   transition: cubic-bezier(0.075, 0.82, 0.165, 1);
   font-size: 22px;
   text-decoration: underline;
-}
-
+} */
 
 /* Media queries for responsiveness */
 @media screen and (max-width: 600px) {
@@ -122,9 +122,9 @@ body{
     width: 95%;
     height: 95%;
   }
-  .title {
+  /* .title {
     font-size: 20px;
-  }
+  } */
 
   .header {
     font-size: 18px;
@@ -135,6 +135,5 @@ body{
     max-width: 100%;
   }
 }
-
 
 

@@ -8,8 +8,8 @@ function Signout() {
   const handleSignout = async () => {
     await signOut(auth);
     window.location.href = '/';
-    console.log("signed out");
-    console.log(user);
+    // console.log("signed out");
+    // console.log(user);
   };
 
   return (

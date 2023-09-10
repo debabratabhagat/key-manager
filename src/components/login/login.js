@@ -1,31 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { auth } from "../../firebase";
-import {
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../auth";
 import "./login.css";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [user, setUser] = useState();
   const [errorMessage, setErrorMessage] = useState("");
-  // const [fallacy, setfallacy] = useState(false);
-  // console.log(user);
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, (authUser) => {
-  //     console.log(authUser);
-  //     if (authUser) {
-  //       setUser(authUser);
-  //     } else {
-  //       setUser(null);
-  //       console.log("not logged in");
-  //     }
-  //   });
-  // }, [user]);
+
+  const user = useContext(AuthContext);
   
   const handleLogin = async () => {
     try {
@@ -65,10 +50,6 @@ function Login() {
     }
   };
 
-  // const handleSignout = async () => {
-  //   signOut(auth);
-  //   console.log("signed out");
-  // };
 
   return (
     <div className="login-container">

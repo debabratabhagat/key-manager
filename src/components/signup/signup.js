@@ -1,13 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { db, auth } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
 import { doc, setDoc } from "firebase/firestore";
+import { AuthContext } from "../auth";
 import "./signup.css";
 
-let ignoreAuthStateChanges = true;
-
-export {ignoreAuthStateChanges};
 
 export default function Signup() {
   const [username, setUsername] = useState("");
@@ -16,11 +14,9 @@ export default function Signup() {
   const [phone, setPhone] = useState();
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSignup = () => {
-    // console.log("Username:", username);
-    // console.log("Email:", email);
-    // console.log("Password:", password);
+  const user = useContext(AuthContext);
 
+  const handleSignup = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then( async (cred) => {
          
@@ -30,7 +26,6 @@ export default function Signup() {
           email: email,
           phone: phone
         });
-        // console.log("added succesfully");
         window.location.href = "/home";
 
       })
@@ -69,8 +64,8 @@ export default function Signup() {
           setErrorMessage("An unknown error occurred:", error);
         }
       });
-    // .catch(error);
   };
+
 
   return (
     <div className="signup-container">
@@ -116,7 +111,7 @@ export default function Signup() {
 
       <div>
         <h3 className="signup-h3">
-          Already have an account? <Link to="/login">Login</Link>
+          Already have an account? <Link to="/">Login</Link>
         </h3>
       </div>
       <p className="error-message">{errorMessage}</p>
@@ -125,13 +120,3 @@ export default function Signup() {
 }
 
 
-// const email = document.getElementById("email").value;
-// const username = document.getElementById("username").value;
-
-// const userInfo = {
-//                     email: email, 
-//                     name: username, 
-//                     haskey: false
-//                   };
-
-// export {Signup, userInfo};

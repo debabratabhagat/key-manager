@@ -1,8 +1,9 @@
-import React, { useState, useContext, useEffect } from "react";
-import { auth } from "../../firebase";
+import React, { useState, useContext } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 import { AuthContext } from "../auth";
+import { auth } from "../../firebase"
 import "./login.css";
 
 function Login() {
@@ -10,12 +11,15 @@ function Login() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const user = useContext(AuthContext);
+  const currentUser = useContext(AuthContext);
+  const navigate = useNavigate(); //hook to navigate to homepage after successful login
   
   const handleLogin = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      window.location.href = "/home";
+      // window.location.href = "/home";
+      // navigate("/home");
+
     } catch (error) {
       console.log(error.code);
       if (error.code === "auth/user-not-found") {
@@ -52,36 +56,38 @@ function Login() {
 
 
   return (
-    <div className="login-container">
-      <div className="login-box">
-        <h1>Login</h1>
+    <>  
+      <div className="login-container">
+        <div className="login-box">
+          <h1>Login</h1>
 
-        <input
-          className="input-field"
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          className="input-field"
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button className="login-button" onClick={handleLogin}>
-          Login
-        </button>
-      </div>
+          <input
+            className="input-field"
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            className="input-field"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button className="login-button" onClick={handleLogin}>
+            Login
+          </button>
+        </div>
 
-      <div>
-        <h3 className="login-h3">
-          Don't have an account? <Link to="/signup">Signup</Link>
-        </h3>
+        <div>
+          <h3 className="login-h3">
+            Don't have an account? <Link to="/signup">Signup</Link>
+          </h3>
+        </div>
+        <p className="error-message">{errorMessage}</p>
       </div>
-      <p className="error-message">{errorMessage}</p>
-    </div>
+    </>
   );
 }
 

@@ -7,11 +7,13 @@ import {
   updateDoc,
   doc,
 } from "firebase/firestore";
-import { db } from "../../firebase";
 import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../auth";
-import Signout from "../signout";
 import "./style.css";
+
+import { db } from "../../firebase";
+import { AuthContext } from "../auth";
+
+import Signout from "../signout/signout";
 // import PhoneIcon from "./phone.svg";
 // import UserIcon from "./user.svg";
 import LoadingSign from "../loader/loader";
@@ -19,10 +21,10 @@ import LoadingSign from "../loader/loader";
 
 const Name =  () => {
   const [ keyHolder, setKeyHolder ] = useState({id:'', name:''});
-    const [ userIsKeyHolder, setUserIsKeyHolder ] = useState(false);
-    const [ isLoading, setIsLoading ] = useState(true);
-    const [ changingOwner, setChangingOwner ] = useState(false);
-    const user = useContext(AuthContext);
+  const [ userIsKeyHolder, setUserIsKeyHolder ] = useState(false);
+  const [ isLoading, setIsLoading ] = useState(true);
+  const [ changingOwner, setChangingOwner ] = useState(false);
+  const currentUser  = useContext(AuthContext);
     
     
     useEffect( ()=> {
@@ -33,7 +35,7 @@ const Name =  () => {
         
         setKeyHolder({name: keyHolderDoc.data().name, id: keyHolderDoc.id , phone: keyHolderDoc.data().phone});
 
-        if (keyHolderDoc.id === user.id){
+        if (keyHolderDoc.id === currentUser.id){
           setUserIsKeyHolder(true);
         }
         setIsLoading(false);
@@ -41,7 +43,7 @@ const Name =  () => {
       
       func();
       
-    }, [user] );
+    }, [currentUser] );
     
     
 
@@ -52,7 +54,7 @@ const Name =  () => {
     useEffect( () => {
       const newOwner = async () => {
           const keyHolderDocRef = doc(db, 'users', keyHolder.id);
-          const currentUserDocRef = doc(db, "users", user.id);
+          const currentUserDocRef = doc(db, "users", currentUser.id);
           const currentUserDoc = await getDoc(currentUserDocRef);
           
           await Promise.all([
@@ -68,6 +70,8 @@ const Name =  () => {
         if (changingOwner) {newOwner()}
         else {}
       }, [changingOwner]);
+
+
     
 
     
@@ -79,7 +83,7 @@ const Name =  () => {
               <div>
                 {/* <UserIcon /> */}
                 {/* <svg  width="40" height="40" xmlns="./user.svg" alt="user"></svg> */}
-                {user.name}
+                {currentUser.name}
               </div>
             <h3>CYBORG</h3>
             <Signout></Signout>
@@ -90,7 +94,7 @@ const Name =  () => {
             <div className="container">
               <div className="container-box">
                 <h2 className="header">
-                  Keys with <span className="highlighted">{keyHolder.name}</span>{" "}
+                  Keys' with <span className="highlighted">{keyHolder.name}</span>{" "}
                 </h2>
                 <div className="phone-number">
                   {/* <PhoneIcon /> */}

@@ -1,21 +1,23 @@
 import React, { createContext, useState, useEffect } from "react";
-import { auth, db } from "../firebase";
 import { onAuthStateChanged } from "@firebase/auth";
 import { getDoc, doc } from "firebase/firestore";
 
+import { auth, db } from "../firebase";
+
+
 export const AuthContext = createContext();
 
+
 export const AuthProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState( { id: '', name: '' } );
+  const [currentUser, setCurrentUser] = useState( "fetching..." );
   
   
   useEffect( ()=> {
     onAuthStateChanged(auth, async (user) => {
       const signupBtn = document.querySelector(".signup-button");
-      // console.log(user);
 
       if (user && signupBtn){
-        // console.log("Waiting for data upload");
+        // "Waiting for data upload"
         
       }
 
@@ -24,11 +26,14 @@ export const AuthProvider = ({ children }) => {
         const userDoc = await getDoc(userDocRef);
         setCurrentUser({ id: user.uid, name: userDoc.data().name });
       }
+
+      else {setCurrentUser("null")}
       });
 
-  }, []);
+
+  }, [auth]);
   
   return (
-    <AuthContext.Provider value={currentUser}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={ currentUser }> {children} </AuthContext.Provider>
   );
 };

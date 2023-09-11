@@ -1,9 +1,9 @@
-import React, { useState, useContext } from "react";
-import { db, auth } from "../../firebase";
+import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
 import { doc, setDoc } from "firebase/firestore";
-import { AuthContext } from "../auth";
+
+import { db, auth } from "../../firebase";
 import "./signup.css";
 
 
@@ -14,7 +14,6 @@ export default function Signup() {
   const [phone, setPhone] = useState();
   const [errorMessage, setErrorMessage] = useState("");
 
-  const user = useContext(AuthContext);
 
   const handleSignup = () => {
     createUserWithEmailAndPassword(auth, email, password)
@@ -68,54 +67,56 @@ export default function Signup() {
 
 
   return (
-    <div className="signup-container">
-      <div className="signup-box">
-        {" "}
-        <h1>Sign Up</h1>
-        <input
-          className="input-field"
-          type="text"
-          id="username"
-          placeholder="Enter your username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          className="input-field"
-          type="email"
-          id="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          className="input-field"
-          type="password"
-          id="password"
-          placeholder="Enter your password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <input
-          className="input-field"
-          type="number"
-          id="phone-number"
-          placeholder="Enter your mobile number"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-        />
-        <button onClick={handleSignup} className="signup-button">
-          Submit
-        </button>
-      </div>
+    <>
+      <div className="signup-container">
+        <div className="signup-box">
+          {" "}
+          <h1>Sign Up</h1>
+          <input
+            className="input-field"
+            type="text"
+            id="username"
+            placeholder="Enter your username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <input
+            className="input-field"
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            className="input-field"
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <input
+            className="input-field"
+            type="number"
+            id="phone-number"
+            placeholder="Enter your mobile number"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />
+          <button onClick={handleSignup} className="signup-button">
+            Submit
+          </button>
+        </div>
 
-      <div>
-        <h3 className="signup-h3">
-          Already have an account? <Link to="/">Login</Link>
-        </h3>
+        <div>
+          <h3 className="signup-h3">
+            Already have an account? <Link to="/">Login</Link>
+          </h3>
+        </div>
+        <p className="error-message">{errorMessage}</p>
       </div>
-      <p className="error-message">{errorMessage}</p>
-    </div>
+    </>
   );
 }
 

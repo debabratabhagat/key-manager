@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import Signout from "../signout";
 import Signup from "../signup/signup";
 import "./style.css";
+import Login from "../login/login";
 
 function Name() {
   const [currentOwner, setCurrentOwner] = useState("");
@@ -121,50 +122,58 @@ function Name() {
 
   return (
     <div className="container">
-      <div className="container-box">
-        <h1 className="title">WELCOME</h1>
-        <h2 className="header">
-          Keys with <span className="highlighted">{currentOwner}</span>{" "}
-        </h2>
+      {user ? (
+        <div>
+          <div className="container-box">
+            <h1 className="title">WELCOME</h1>
+            <h2 className="header">
+              Keys with <span className="highlighted">{currentOwner}</span>{" "}
+            </h2>
 
-        {fallacy ? (
-          <div className="formContainer">
-            {" "}
-            <input
-              type="text"
-              placeholder="new owner"
-              name="owner"
-              value={nextOwner}
-              onChange={(val) => {
-                setNextOwner(val.target.value);
-              }}
-              className="input-field"
-            />
-            <button
-              className="button"
-              onClick={() => {
-                newOwner();
-              }}
-            >
-              Has the key{" "}
-            </button>
+            {fallacy ? (
+              <div className="formContainer">
+                {" "}
+                <input
+                  type="text"
+                  placeholder="new owner"
+                  name="owner"
+                  value={nextOwner}
+                  onChange={(val) => {
+                    setNextOwner(val.target.value);
+                  }}
+                  className="input-field"
+                />
+                <button
+                  className="button"
+                  onClick={() => {
+                    newOwner();
+                  }}
+                >
+                  Has the key{" "}
+                </button>
+              </div>
+            ) : (
+              <h3 className="message">
+                owner can be changed by the person who holds the keys
+              </h3>
+            )}
           </div>
-        ) : (
-          <h3 className="message">
-            owner can be changed by the person who holds the keys
-          </h3>
-        )}
-
-        {user ? (
           <Signout></Signout>
-        ) : (
-          <div>
-            <h3 className="linkContainer">
-              <Link to="/signup" className="link">SignUP</Link>/ <Link to="/login" className="link">login</Link>
-            </h3>
-          </div>
-        )}
-      </div>
+        </div>
+      ) : (
+        <div>
+          <h3 className="linkContainer">
+            <Login></Login>
+            {/* <Link to="/signup" className="link">
+              SignUP
+            </Link>
+            /{" "}
+            <Link to="/login" className="link">
+              login
+            </Link> */}
+          </h3>
+        </div>
+      )}
     </div>
   );
 }

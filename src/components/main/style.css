@@ -5,11 +5,64 @@ body{
   overflow: hidden;
 }
 
-.user-info{
+/* .user-info{
   display: flex; 
   justify-content: space-between; 
   align-items: center;
+} */
+
+/* Navbar container styles */
+.user-info {
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center;
+  background-color: hwb(155 16% 24%);
+  overflow: hidden;
+  position: static;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
 }
+
+/* user-info links styles */
+.user-info div {
+  float: left;
+  display: block;
+  color: #fff;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-weight: bold;
+  letter-spacing: 1px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* user-info link hover effect */
+.user-info button:hover {
+  background-color: #f00707;
+  color: #fff;
+}
+
+/* Logo styles */
+.user-info .logo {
+  float: left;
+  padding: 10px;
+}
+
+/* Robotics-themed icon */
+.robot-icon {
+  font-size: 24px;
+  color: #FF5722;
+  vertical-align: middle;
+}
+
+/* Responsive navigation menu */
+@media screen and (max-width: 600px) {
+  .user-info div {
+      float: none;
+      display: block;
+      text-align: left;
+  }
+}
+
 
 .container {
   font-family: Arial, sans-serif;

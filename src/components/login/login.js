@@ -1,40 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { auth } from "../../firebase";
-import {
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { Link, useNavigate } from "react-router-dom";
+
+import { AuthContext } from "../auth";
+import { auth } from "../../firebase"
 import "./login.css";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState();
   const [errorMessage, setErrorMessage] = useState("");
-  const [fallacy, setfallacy] = useState(false);
-  console.log(user);
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (authUser) => {
-      console.log(authUser);
-      if (authUser) {
-        console.log("user in");
-        setUser(user);
-        window.location.href = "/";
-        console.log(authUser);
-      } else {
-        setUser(null);
-        setfallacy(false);
-        console.log("not logged in");
-      }
-    });
-  }, [user]);
 
+  const currentUser = useContext(AuthContext);
+  const navigate = useNavigate(); //hook to navigate to homepage after successful login
+  
   const handleLogin = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      console.log("logged in");
+      // window.location.href = "/home";
+      // navigate("/home");
+
     } catch (error) {
       console.log(error.code);
       if (error.code === "auth/user-not-found") {
@@ -69,42 +54,40 @@ function Login() {
     }
   };
 
-  const handleSignout = async () => {
-    signOut(auth);
-    console.log("signed out");
-  };
 
   return (
-    <div className="login-container">
-      <div className="login-box">
-        <h1>Login</h1>
+    <>  
+      <div className="login-container">
+        <div className="login-box">
+          <h1>Login</h1>
 
-        <input
-          className="input-field"
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          className="input-field"
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button className="login-button" onClick={handleLogin}>
-          Login
-        </button>
-      </div>
+          <input
+            className="input-field"
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            className="input-field"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button className="login-button" onClick={handleLogin}>
+            Login
+          </button>
+        </div>
 
-      <div>
-        <h3 className="login-h3">
-          Don't have an account? <Link to="/signup">Signup</Link>
-        </h3>
+        <div>
+          <h3 className="login-h3">
+            Don't have an account? <Link to="/signup">Signup</Link>
+          </h3>
+        </div>
+        <p className="error-message">{errorMessage}</p>
       </div>
-      <p className="error-message">{errorMessage}</p>
-    </div>
+    </>
   );
 }
 

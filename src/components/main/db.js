@@ -6,176 +6,115 @@ import {
   getDoc,
   updateDoc,
   doc,
-  onSnapshot,
 } from "firebase/firestore";
-import { db } from "../../firebase";
 import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../auth";
-import { Link } from "react-router-dom";
-import Signout from "../signout";
-import Signup from "../signup/signup";
 import "./style.css";
-import Login from "../login/login";
 
-function Name() {
-  const [currentOwner, setCurrentOwner] = useState("");
-  const [nextOwner, setNextOwner] = useState("");
-  const [fallacy, setfallacy] = useState(false);
-  const user = useContext(AuthContext);
+import { db } from "../../firebase";
+import { AuthContext } from "../auth";
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        console.log(user.uid);
-        const docRef = doc(db, "users", user.uid);
-        const docSnapshot = await getDoc(docRef);
-        console.log(docSnapshot.data().name);
-        // console.log(docSnapshot.data().haskey);
+import Signout from "../signout/signout";
+// import PhoneIcon from "./phone.svg";
+// import UserIcon from "./user.svg";
+import LoadingSign from "../loader/loader";
 
-        if (docSnapshot.data().haskey && user) {
-          console.log("inside true");
-          setfallacy(true);
+
+const Name =  () => {
+  const [ keyHolder, setKeyHolder ] = useState({id:'', name:''});
+  const [ userIsKeyHolder, setUserIsKeyHolder ] = useState(false);
+  const [ isLoading, setIsLoading ] = useState(true);
+  const [ changingOwner, setChangingOwner ] = useState(false);
+  const currentUser  = useContext(AuthContext);
+    
+    
+    useEffect( ()=> {
+      const func = async () => {
+        const q = query(collection(db, 'users'), where('haskey', '==', true));  //querying who has keys
+        const keyHolderDocRef = await getDocs(q);
+        const keyHolderDoc = keyHolderDocRef.docs[0];
+        
+        setKeyHolder({name: keyHolderDoc.data().name, id: keyHolderDoc.id , phone: keyHolderDoc.data().phone});
+
+        if (keyHolderDoc.id === currentUser.id){
+          setUserIsKeyHolder(true);
         }
-
-        console.log(fallacy);
-        console.log(docSnapshot.data());
-      } catch (error) {
-        console.log(error);
+        setIsLoading(false);
       }
-    };
+      
+      func();
+      
+    }, [currentUser] );
+    
+    
 
-    if (user) {
-      fetchData();
-    }
-  }, [user]);
 
-  //   console.log(user.uid);
 
-  useEffect(() => {
-    getName();
-  }, []);
 
-  const getName = async () => {
-    const whole = await getDocs(collection(db, "users"));
-    const listenTo = collection(db, "users");
-    const q = query(collection(db, "users"), where("haskey", "==", true));
-
-    onSnapshot(listenTo, (element) => {
-      element.forEach((doc) => {
-        if (doc.data().haskey) {
-          //   console.log(doc.data().name);
-          setCurrentOwner(doc.data().name);
+    
+    useEffect( () => {
+      const newOwner = async () => {
+          const keyHolderDocRef = doc(db, 'users', keyHolder.id);
+          const currentUserDocRef = doc(db, "users", currentUser.id);
+          const currentUserDoc = await getDoc(currentUserDocRef);
+          
+          await Promise.all([
+            updateDoc(currentUserDocRef, { haskey: true }),
+            updateDoc(keyHolderDocRef, { haskey: false }),
+          ]);
+          
+          setKeyHolder({id: currentUserDoc.id, name: currentUserDoc.data().name , phone: currentUserDoc.data().phone});
+          setUserIsKeyHolder(true);
+          setIsLoading(false);
+          setChangingOwner(false);
         }
-      });
-    });
+        if (changingOwner) {newOwner()}
+        else {}
+      }, [changingOwner]);
 
-    try {
-      const querySnapshot = await getDocs(q);
 
-      // console.log(querySnapshot.docs[0].data());
-      setCurrentOwner(querySnapshot.docs[0].data().name);
+    
 
-      //   whole.forEach((doc) => {
-      //     console.log("heello");
-      //     console.log(doc.data());
-      //   });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const newOwner = async () => {
-    setfallacy(false);
-    //changing database values
-    const nextq = query(
-      collection(db, "users"),
-      where("name", "==", nextOwner)
-    );
-    const currentq = query(
-      collection(db, "users"),
-      where("name", "==", currentOwner)
-    );
-
-    try {
-      const currentQuerySnapshot = await getDocs(currentq);
-      const nextQuerySnapshot = await getDocs(nextq);
-
-      const currentUID = currentQuerySnapshot.docs[0].id;
-      const nextUID = nextQuerySnapshot.docs[0].id;
-
-      const nextRef = doc(db, "users", nextUID);
-      const currentRef = doc(db, "users", currentUID);
-
-      await Promise.all([
-        updateDoc(nextRef, { haskey: true }),
-        updateDoc(currentRef, { haskey: false }),
-      ]);
-      // await updateDoc(nextRef, { haskey: true });
-      // await updateDoc(currentRef, { haskey: false });
-    } catch (error) {
-      console.log(error);
-    }
-
-    // console.log(nextOwner);
-    setNextOwner("");
-  };
-
-  return (
-    <div className="container">
-      {user ? (
+    
+    return (
+      <>
+        {isLoading ? (<LoadingSign />) : null}
         <div>
-          <div className="container-box">
-            <h1 className="title">WELCOME</h1>
-            <h2 className="header">
-              Keys with <span className="highlighted">{currentOwner}</span>{" "}
-            </h2>
-
-            {fallacy ? (
-              <div className="formContainer">
-                {" "}
-                <input
-                  type="text"
-                  placeholder="new owner"
-                  name="owner"
-                  value={nextOwner}
-                  onChange={(val) => {
-                    setNextOwner(val.target.value);
-                  }}
-                  className="input-field"
-                />
-                <button
-                  className="button"
-                  onClick={() => {
-                    newOwner();
-                  }}
-                >
-                  Has the key{" "}
-                </button>
+            <div className="user-info">
+              <div>
+                {/* <UserIcon /> */}
+                {/* <svg  width="40" height="40" xmlns="./user.svg" alt="user"></svg> */}
+                {currentUser.name}
               </div>
-            ) : (
-              <h3 className="message">
-                owner can be changed by the person who holds the keys
-              </h3>
-            )}
-          </div>
-          <Signout></Signout>
+            <h3>CYBORG</h3>
+            <Signout></Signout>
+            </div>
+
+
+
+            <div className="container">
+              <div className="container-box">
+                <h2 className="header">
+                  Keys' with <span className="highlighted">{keyHolder.name}</span>{" "}
+                </h2>
+                <div className="phone-number">
+                  {/* <PhoneIcon /> */}
+                  {/* <svg width="40" height="40" xmlns="./phone.svg" alt="phone"></svg> */}
+                  <h3>+91 {keyHolder.phone}</h3>
+                </div>
+                {(userIsKeyHolder) ? null 
+                                  : <button 
+                                        onClick={ () => {
+                                            setIsLoading(true);
+                                            setChangingOwner(true);
+                                            }
+                                          }>
+                                        <h1>I've the Key</h1></button>}
+              </div>
+            </div> 
         </div>
-      ) : (
-        <div>
-          <h3 className="linkContainer">
-            <Login></Login>
-            {/* <Link to="/signup" className="link">
-              SignUP
-            </Link>
-            /{" "}
-            <Link to="/login" className="link">
-              login
-            </Link> */}
-          </h3>
-        </div>
-      )}
-    </div>
-  );
-}
+      </>
+    );
+    }
+
 
 export default Name;

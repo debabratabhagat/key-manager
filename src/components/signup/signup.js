@@ -1,31 +1,32 @@
 import React, { useState } from "react";
-import { db, auth } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
 import { doc, setDoc } from "firebase/firestore";
+
+import { db, auth } from "../../firebase";
 import "./signup.css";
+
 
 export default function Signup() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState();
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSignup = () => {
-    console.log("Username:", username);
-    console.log("Email:", email);
-    console.log("Password:", password);
 
+  const handleSignup = () => {
     createUserWithEmailAndPassword(auth, email, password)
-      .then(async (cred) => {
-        console.log(cred.user.uid);
+      .then( async (cred) => {
+         
         await setDoc(doc(db, "users", cred.user.uid), {
           name: username,
           haskey: false,
           email: email,
+          phone: phone
         });
-        console.log("added succesfully");
-        window.location.href = "/";
+        window.location.href = "/home";
+
       })
       .catch((error) => {
         if (error.code === "auth/email-already-in-use") {
@@ -62,49 +63,61 @@ export default function Signup() {
           setErrorMessage("An unknown error occurred:", error);
         }
       });
-    // .catch(error);
   };
 
-  return (
-    <div className="signup-container">
-      <div className="signup-box">
-        {" "}
-        <h1>Sign Up</h1>
-        <input
-          className="input-field"
-          type="text"
-          id="username"
-          placeholder="Enter your username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          className="input-field"
-          type="email"
-          id="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          className="input-field"
-          type="password"
-          id="password"
-          placeholder="Enter your password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button onClick={handleSignup} className="signup-button">
-          Submit
-        </button>
-      </div>
 
-      <div>
-        <h3 className="signup-h3">
-          Already have an account? <Link to="/login">Login</Link>
-        </h3>
+  return (
+    <>
+      <div className="signup-container">
+        <div className="signup-box">
+          {" "}
+          <h1>Sign Up</h1>
+          <input
+            className="input-field"
+            type="text"
+            id="username"
+            placeholder="Enter your username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <input
+            className="input-field"
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            className="input-field"
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <input
+            className="input-field"
+            type="number"
+            id="phone-number"
+            placeholder="Enter your mobile number"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />
+          <button onClick={handleSignup} className="signup-button">
+            Submit
+          </button>
+        </div>
+
+        <div>
+          <h3 className="signup-h3">
+            Already have an account? <Link to="/">Login</Link>
+          </h3>
+        </div>
+        <p className="error-message">{errorMessage}</p>
       </div>
-      <p className="error-message">{errorMessage}</p>
-    </div>
+    </>
   );
 }
+
+

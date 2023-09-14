@@ -16,6 +16,7 @@ import { db } from "../../firebase";
 import { AuthContext } from "../auth";
 import LoadingSign from "../loader/loader";
 import Signout from "../signout/signout";
+import toast from "react-hot-toast";
 
 const Name = () => {
   const [keyHolder, setKeyHolder] = useState({ id: "", name: "", phone: "" });
@@ -45,14 +46,15 @@ const Name = () => {
     };
 
     try {
+      toast.dismiss(); //###################
       func();
     } catch (error) {
       if (error.code === "permission-denied") {
-        console.error("Permission denied:", error.message);
+        toast.error("Permission denied:", error.message); //#########################
       } else if (error.code === "not-found") {
-        console.error("Document not found:", error.message);
+        toast.error("Document not found:", error.message); //#########################
       } else {
-        console.error("Firestore error:", error);
+        toast.error("Firestore error:", error); //#########################
       }
     }
   }, []);
@@ -82,20 +84,16 @@ const Name = () => {
         newOwner();
       } catch (error) {
         if (error.code === "permission-denied") {
-          console.error("Permission denied:", error.message);
+          toast.error("Permission denied:", error.message); //################
         } else if (error.code === "not-found") {
-          console.error("Document not found:", error.message);
+          toast.error("Document not found:", error.message); //################
         } else {
-          console.error("Firestore error:", error);
+          toast.error("Firestore error:", error); //################
         }
       }
     } else {
     }
   }, [changingOwner]);
-
-  // styling for html body
-
-  // styling for html body
 
   return (
     <>

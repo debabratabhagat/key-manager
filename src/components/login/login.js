@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { signInWithRedirect } from "firebase/auth";
 import logo from "./cyborg-logo.png";
 import key from "../signup/key.png";
-
+import toast from "react-hot-toast";
 import { auth, googleProvider, microsoftProvider } from "../../firebase";
 import LoadingSign from "../loader/loader";
 import "./login.css";
@@ -15,94 +15,142 @@ function Login() {
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  // new toast promise here
+
   const handleLogin = async () => {
     try {
-      console.log("inside handle login");
-      document.querySelector(".login-message").style.display = "block";
-      await signInWithEmailAndPassword(auth, email, password);
+      // Display a loading toast while waiting for authentication
+      // const loadingToast = toast.loading("Logging in...");
+
+      await toast.promise(signInWithEmailAndPassword(auth, email, password), {
+        loading: "Logging in...", // Loading message (optional)
+        success: "Logged in successfully!", // Displayed on successful login
+        error: (error) => {
+          toast.dismiss();
+          // Customize error messages based on error code
+          switch (error.code) {
+            case "auth/user-not-found":
+              return "User not found. Please check your email.";
+            case "auth/wrong-password":
+              return "Incorrect password. Please try again.";
+            case "auth/invalid-email":
+              return "Invalid email address. Please enter a valid email.";
+            case "auth/user-disabled":
+              return "User account is disabled. Contact support for assistance.";
+            case "auth/user-token-expired":
+              return "User session has expired. Please sign in again.";
+            case "auth/too-many-requests":
+              return "Too many sign-in attempts. Please try again later.";
+            case "auth/network-request-failed":
+              return "Network error. Check your internet connection.";
+            case "auth/internal-error":
+              return "Internal error occurred. Please try again later.";
+            case "auth/invalid-api-key":
+              return "Invalid Firebase API key. Check your configuration.";
+            case "auth/invalid-tenant-id":
+              return "Invalid tenant ID. Check your setup.";
+            case "auth/operation-not-supported-in-this-environment":
+              return "Sign-in not supported in this environment.";
+            default:
+              return "An error occurred. Please try again.";
+          }
+        },
+      });
+
+      // If the promise resolves successfully, hide the loading toast
+      toast.dismiss();
     } catch (error) {
-      document.querySelector(".login-message").style.display = "none";
-      if (error.code === "auth/user-not-found") {
-        setErrorMessage("User not found. Please check your email.");
-      } else if (error.code === "auth/wrong-password") {
-        setErrorMessage("Incorrect password. Please try again.");
-      } else if (error.code === "auth/invalid-email") {
-        setErrorMessage("Invalid email address. Please enter a valid email.");
-      } else if (error.code === "auth/user-disabled") {
-        setErrorMessage(
-          "User account is disabled. Contact support for assistance."
-        );
-      } else if (error.code === "auth/user-token-expired") {
-        setErrorMessage("User session has expired. Please sign in again.");
-      } else if (error.code === "auth/too-many-requests") {
-        setErrorMessage("Too many sign-in attempts. Please try again later.");
-      } else if (error.code === "auth/network-request-failed") {
-        setErrorMessage("Network error. Check your internet connection.");
-      } else if (error.code === "auth/internal-error") {
-        setErrorMessage("Internal error occurred. Please try again later.");
-      } else if (error.code === "auth/invalid-api-key") {
-        setErrorMessage("Invalid Firebase API key. Check your configuration.");
-      } else if (error.code === "auth/invalid-tenant-id") {
-        setErrorMessage("Invalid tenant ID. Check your setup.");
-      } else if (
-        error.code === "auth/operation-not-supported-in-this-environment"
-      ) {
-        setErrorMessage("Sign-in not supported in this environment.");
-      } else {
-        setErrorMessage("An error occurred. Please try again.");
-      }
+      // toast.error("An unexpected error occurred:", error);
     }
   };
 
+  // new toast promise here
+
+  // const handleLogin = async () => {
+  //   try {
+  //     // document.querySelector(".login-message").style.display = "block";
+  //     await signInWithEmailAndPassword(auth, email, password);
+  //   } catch (error) {
+  //     document.querySelector(".login-message").style.display = "none";
+  //     if (error.code === "auth/user-not-found") {
+  //       toast.error("User not found. Please check your email.");
+  //     } else if (error.code === "auth/wrong-password") {
+  //       toast.error("Incorrect password. Please try again.");
+  //     } else if (error.code === "auth/invalid-email") {
+  //       toast.error("Invalid email address. Please enter a valid email.");
+  //     } else if (error.code === "auth/user-disabled") {
+  //       toast.error(
+  //         "User account is disabled. Contact support for assistance."
+  //       );
+  //     } else if (error.code === "auth/user-token-expired") {
+  //       toast.error("User session has expired. Please sign in again.");
+  //     } else if (error.code === "auth/too-many-requests") {
+  //       toast.error("Too many sign-in attempts. Please try again later.");
+  //     } else if (error.code === "auth/network-request-failed") {
+  //       toast.error("Network error. Check your internet connection.");
+  //     } else if (error.code === "auth/internal-error") {
+  //       toast.error("Internal error occurred. Please try again later.");
+  //     } else if (error.code === "auth/invalid-api-key") {
+  //       toast.error("Invalid Firebase API key. Check your configuration.");
+  //     } else if (error.code === "auth/invalid-tenant-id") {
+  //       toast.error("Invalid tenant ID. Check your setup.");
+  //     } else if (
+  //       error.code === "auth/operation-not-supported-in-this-environment"
+  //     ) {
+  //       toast.error("Sign-in not supported in this environment.");
+  //     } else {
+  //       toast.error("An error occurred. Please try again.");
+  //     }
+  //   }
+  // };
+
   const possibleErrorsOnRedirectingSign = (error) => {
     if (error.code === "auth/redirect-cancelled-by-user") {
-      setErrorMessage("Authentication cancelled by the user.");
+      toast.error("Authentication cancelled by the user.");
     } else if (error.code === "auth/popup-blocked") {
-      setErrorMessage("Popup blocked by the browser.");
+      toast.error("Popup blocked by the browser.");
     } else if (error.code === "auth/popup-closed-by-user") {
-      setErrorMessage("Popup closed by the user.");
+      toast.error("Popup closed by the user.");
     } else if (error.code === "auth/unauthorized-domain") {
-      setErrorMessage(
-        "Unauthorized domain. Add the domain to Firebase Console."
-      );
+      toast.error("Unauthorized domain. Add the domain to Firebase Console.");
     } else if (
       error.code === "auth/operation-not-supported-in-this-environment"
     ) {
-      setErrorMessage("Operation not supported in this environment.");
+      toast.error("Operation not supported in this environment.");
     } else if (error.code === "auth/credential-already-in-use") {
-      setErrorMessage(
+      toast.error(
         "Credential already in use. The account is linked to another Firebase account."
       );
     } else if (error.code === "auth/email-already-in-use") {
-      setErrorMessage("Email address is already in use.");
+      toast.error("Email address is already in use.");
     } else if (error.code === "auth/user-disabled") {
-      setErrorMessage("User account is disabled.");
+      toast.error("User account is disabled.");
     } else if (error.code === "auth/user-not-found") {
-      setErrorMessage("User not found.");
+      toast.error("User not found.");
     } else if (error.code === "auth/invalid-credential") {
-      setErrorMessage(
+      toast.error(
         "Invalid credential. The credential provided is invalid or has expired."
       );
     } else if (error.code === "auth/invalid-email") {
-      setErrorMessage("Invalid email address.");
+      toast.error("Invalid email address.");
     } else if (error.code === "auth/invalid-verification-code") {
-      setErrorMessage("Invalid verification code.");
+      toast.error("Invalid verification code.");
     } else if (error.code === "auth/invalid-verification-id") {
-      setErrorMessage("Invalid verification ID.");
+      toast.error("Invalid verification ID.");
     } else if (error.code === "auth/missing-verification-code") {
-      setErrorMessage("Missing verification code.");
+      toast.error("Missing verification code.");
     } else if (error.code === "auth/network-request-failed") {
-      setErrorMessage(
+      toast.error(
         "Network request failed. Please check your internet connection."
       );
     } else if (error.code === "auth/captcha-check-failed") {
-      setErrorMessage("CAPTCHA verification failed.");
+      toast.error("CAPTCHA verification failed.");
     } else if (error.code === "auth/too-many-requests") {
-      setErrorMessage("Too many sign-in attempts. Try again later.");
+      toast.error("Too many sign-in attempts. Try again later.");
     } else if (error.code === "auth/web-storage-unsupported") {
-      setErrorMessage("Web storage is not supported in this browser.");
+      toast.error("Web storage is not supported in this browser.");
     } else if (error.code === "auth/operation-not-allowed") {
-      setErrorMessage("Authentication operation not allowed.");
+      toast.error("Authentication operation not allowed.");
     } else {
       console.error("An unexpected error occurred:", error);
     }
@@ -133,7 +181,7 @@ function Login() {
                   {/* google login  */}
                   <div className="other-links-google">
                     <svg
-                      className="external-signin-box  "
+                      className="external-signin-box google "
                       onClick={async () => {
                         try {
                           setIsLoading(true);
@@ -158,7 +206,7 @@ function Login() {
                   {/* microsoft login  */}
                   <div className="other-links-microsoft">
                     <svg
-                      className="external-signup-box"
+                      className="external-signup-box microsoft"
                       onClick={async () => {
                         try {
                           setIsLoading(true);
@@ -213,12 +261,12 @@ function Login() {
                   />
                 </div>
 
-                <div className="error-box">
+                {/* <div className="error-box">
                   <p className="login-message" style={{ display: "none" }}>
                     Signing you in....
                   </p>
                   <p className="error-message">{errorMessage}</p>
-                </div>
+                </div> */}
               </div>
             </div>
 

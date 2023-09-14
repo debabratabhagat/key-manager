@@ -235,7 +235,7 @@ export default function Signup() {
                 <div className="other-links">
                   <div className="other-links-google">
                     <svg
-                      className="external-signup-box"
+                      className="external-signup-box google"
                       onClick={async () => {
                         try {
                           setIsLoading(true);
@@ -258,7 +258,7 @@ export default function Signup() {
                   </div>
                   <div className="other-links-microsoft">
                     <svg
-                      className="external-signup-box"
+                      className="external-signup-box microsoft"
                       onClick={async () => {
                         try {
                           setIsLoading(true);

@@ -55,7 +55,9 @@ main {
   transition: 0.5s ease-in-out;
 }
 .other-links {
+  width: 40%;
   display: flex;
+  justify-content: space-evenly;
 }
 .carousel {
   position: absolute;
@@ -186,12 +188,23 @@ main {
   padding: 10px;
 }
 .key-img img {
-  width: 80%;
-  height: 20vh;
+  width: 100px;
+  height: 100px;
 }
 
 .sign-btn:hover {
   background-color: rgb(24, 137, 141);
+}
+
+/* microsoft login icon hover */
+.google:hover {
+  border: 3px solid #151111;
+  border-radius: 50%;
+}
+.microsoft:hover {
+  border: 3px solid #151111;
+  /* width: 50px;
+  height: 50px; */
 }
 
 @media (max-width: 850px) {

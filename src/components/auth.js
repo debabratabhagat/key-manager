@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import { onAuthStateChanged } from "@firebase/auth";
 import { getDoc, doc } from "firebase/firestore";
-
+import toast from "react-hot-toast";
 import { auth, db } from "../firebase";
 
 export const AuthContext = createContext();
@@ -25,7 +25,13 @@ export const AuthProvider = ({ children }) => {
         }
       });
     } catch (error) {
-      alert(error);
+      if (error.code === "auth/network-request-failed") {
+        toast.error("Network error:", error.message); //##########
+      } else if (error.code === "auth/id-token-expired") {
+        toast.error("Firebase auth id-token-expired"); //##########
+      } else {
+        toast.error("Firebase Authentication error:", error); //##########
+      }
     }
   }, []);
 

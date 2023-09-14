@@ -3,6 +3,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
 import { signInWithRedirect } from "firebase/auth";
 import logo from "./cyborg-logo.png";
+import key from "../signup/key.png";
 
 import { auth, googleProvider, microsoftProvider } from "../../firebase";
 import LoadingSign from "../loader/loader";
@@ -16,6 +17,7 @@ function Login() {
 
   const handleLogin = async () => {
     try {
+      console.log("inside handle login");
       document.querySelector(".login-message").style.display = "block";
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
@@ -229,15 +231,17 @@ function Login() {
               <div className="body">
                 <h3>Find out where they are</h3>
               </div>
-              <div className="key-img">{/* key svg  */}</div>
+              <div className="key-img">
+                <img src={key} alt="image-here" />
+              </div>
             </div>
           </div>
         </div>
       </main>
-      <p className="login-message" style={{ display: "none" }}>
+      {/* <p className="login-message" style={{ display: "none" }}>
         Signing you in....
       </p>
-      <p className="error-message">{errorMessage}</p>
+      <p className="error-message">{errorMessage}</p> */}
       {/* html for login  */}
 
       {/* test login */}

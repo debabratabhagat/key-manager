@@ -1,11 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
-import {
-  signInWithRedirect,
-  getRedirectResult,
-  GoogleAuthProvider,
-} from "firebase/auth";
+import { signInWithRedirect } from "firebase/auth";
 
 import key from "./key.png";
 import logo from "./cyborg-logo.png";
@@ -70,6 +66,7 @@ export default function Signup() {
     // signupMessage.innerText = "Creating your account....";
     // signupMessage.style.color = "green";
     // signupMessage.style.display = "block";
+    toast.success("Creating your account....");
 
     if (!auth.currentUser) {
       createUserWithEmailAndPassword(auth, email, password)
@@ -369,10 +366,8 @@ export default function Signup() {
                         passwordRequired.value &&
                         errorMessage
                       ) {
-                        console.log("signing in");
                         handleSignup();
                       } else {
-                        console.log("not signing in");
                         toast.error(
                           "Username or Phone Number Not entered correctly"
                         );
@@ -398,7 +393,7 @@ export default function Signup() {
                 <h3>Find out where they are</h3>
               </div>
               <div className="key-img">
-                <img src={key}></img>
+                <img src={key} alt="image-here" />
               </div>
             </div>
           </div>

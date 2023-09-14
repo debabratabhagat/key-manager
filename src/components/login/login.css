@@ -179,12 +179,15 @@ main {
   text-decoration: underline;
 }
 .carousel h3 {
+  font-style: "poppins";
+  font-weight: 400;
+
   margin: 10px;
   padding: 10px;
 }
-.key-img {
-  width: 100px;
-  height: 100px;
+.key-img img {
+  width: 80%;
+  height: 20vh;
 }
 
 .sign-btn:hover {

@@ -46,8 +46,14 @@ const Name = () => {
 
     try {
       func();
-    } catch (errror) {
-      alert(errror);
+    } catch (error) {
+      if (error.code === "permission-denied") {
+        console.error("Permission denied:", error.message);
+      } else if (error.code === "not-found") {
+        console.error("Document not found:", error.message);
+      } else {
+        console.error("Firestore error:", error);
+      }
     }
   }, []);
 
@@ -75,7 +81,13 @@ const Name = () => {
       try {
         newOwner();
       } catch (error) {
-        alert(error);
+        if (error.code === "permission-denied") {
+          console.error("Permission denied:", error.message);
+        } else if (error.code === "not-found") {
+          console.error("Document not found:", error.message);
+        } else {
+          console.error("Firestore error:", error);
+        }
       }
     } else {
     }

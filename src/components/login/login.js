@@ -5,12 +5,14 @@ import { signInWithRedirect } from "firebase/auth";
 import logo from "./cyborg-logo.png";
 
 import { auth, googleProvider, microsoftProvider } from "../../firebase";
+import LoadingSign from "../loader/loader";
 import "./login.css";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async () => {
     try {
@@ -50,8 +52,63 @@ function Login() {
     }
   };
 
+  const possibleErrorsOnRedirectingSign = (error) => {
+    if (error.code === "auth/redirect-cancelled-by-user") {
+      setErrorMessage("Authentication cancelled by the user.");
+    } else if (error.code === "auth/popup-blocked") {
+      setErrorMessage("Popup blocked by the browser.");
+    } else if (error.code === "auth/popup-closed-by-user") {
+      setErrorMessage("Popup closed by the user.");
+    } else if (error.code === "auth/unauthorized-domain") {
+      setErrorMessage(
+        "Unauthorized domain. Add the domain to Firebase Console."
+      );
+    } else if (
+      error.code === "auth/operation-not-supported-in-this-environment"
+    ) {
+      setErrorMessage("Operation not supported in this environment.");
+    } else if (error.code === "auth/credential-already-in-use") {
+      setErrorMessage(
+        "Credential already in use. The account is linked to another Firebase account."
+      );
+    } else if (error.code === "auth/email-already-in-use") {
+      setErrorMessage("Email address is already in use.");
+    } else if (error.code === "auth/user-disabled") {
+      setErrorMessage("User account is disabled.");
+    } else if (error.code === "auth/user-not-found") {
+      setErrorMessage("User not found.");
+    } else if (error.code === "auth/invalid-credential") {
+      setErrorMessage(
+        "Invalid credential. The credential provided is invalid or has expired."
+      );
+    } else if (error.code === "auth/invalid-email") {
+      setErrorMessage("Invalid email address.");
+    } else if (error.code === "auth/invalid-verification-code") {
+      setErrorMessage("Invalid verification code.");
+    } else if (error.code === "auth/invalid-verification-id") {
+      setErrorMessage("Invalid verification ID.");
+    } else if (error.code === "auth/missing-verification-code") {
+      setErrorMessage("Missing verification code.");
+    } else if (error.code === "auth/network-request-failed") {
+      setErrorMessage(
+        "Network request failed. Please check your internet connection."
+      );
+    } else if (error.code === "auth/captcha-check-failed") {
+      setErrorMessage("CAPTCHA verification failed.");
+    } else if (error.code === "auth/too-many-requests") {
+      setErrorMessage("Too many sign-in attempts. Try again later.");
+    } else if (error.code === "auth/web-storage-unsupported") {
+      setErrorMessage("Web storage is not supported in this browser.");
+    } else if (error.code === "auth/operation-not-allowed") {
+      setErrorMessage("Authentication operation not allowed.");
+    } else {
+      console.error("An unexpected error occurred:", error);
+    }
+  };
+
   return (
     <>
+      {isLoading ? <LoadingSign /> : null}
       {/* html for login  */}
 
       <main>
@@ -75,8 +132,13 @@ function Login() {
                   <div className="other-links-google">
                     <svg
                       className="external-signin-box  "
-                      onClick={() => {
-                        signInWithRedirect(auth, googleProvider);
+                      onClick={async () => {
+                        try {
+                          setIsLoading(true);
+                          await signInWithRedirect(auth, googleProvider);
+                        } catch (error) {
+                          possibleErrorsOnRedirectingSign(error);
+                        }
                       }}
                       width="42px"
                       height="42px"
@@ -95,8 +157,13 @@ function Login() {
                   <div className="other-links-microsoft">
                     <svg
                       className="external-signup-box"
-                      onClick={() => {
-                        signInWithRedirect(auth, microsoftProvider);
+                      onClick={async () => {
+                        try {
+                          setIsLoading(true);
+                          await signInWithRedirect(auth, microsoftProvider);
+                        } catch (error) {
+                          possibleErrorsOnRedirectingSign(error);
+                        }
                       }}
                       width="39px"
                       height="39px"
@@ -177,11 +244,12 @@ function Login() {
       <>
         {/* <p
         className="external-signin-box"
-        onClick={() => {
+        onClick={async () => {
           try {
-            signInWithRedirect(auth, googleProvider);
+            setIsLoading(true);
+            await signInWithRedirect(auth, googleProvider);
           } catch (error) {
-            setErrorMessage(error);
+            possibleErrorsOnRedirectingSign(error);
           }
         }}
         >
@@ -189,11 +257,12 @@ function Login() {
         </p>
         <p
         className="external-signup-box"
-        onClick={() => {
+        onClick={async () => {
           try {
-            signInWithRedirect(auth, microsoftProvider);
+            setIsLoading(true);
+            await signInWithRedirect(auth, microsoftProvider);
           } catch (error) {
-            setErrorMessage(error);
+            possibleErrorsOnRedirectingSign(error);
           }
         }}
         >

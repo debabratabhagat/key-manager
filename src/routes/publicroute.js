@@ -1,19 +1,26 @@
-import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React from "react";
+import { Navigate } from "react-router-dom";
+import Login from "../components/login/login";
 
 function PublicRoute(props) {
   const { currentUser, Component } = props;
-  const navigate = useNavigate();
-
-  useEffect( () => {
-    if (currentUser !== "null") { 
-      navigate("/home") }
-  });
-
+  console.log("         inside Publicroute");
 
   return (
-    <Component />
-  )
+    <>
+      {currentUser === "null" ? (
+        <Component />
+      ) : currentUser === "doc upload pending..." ? (
+        Component === Login ? (
+          <Navigate to="/signup" />
+        ) : (
+          <Component />
+        )
+      ) : (
+        <Navigate to="/home" />
+      )}
+    </>
+  );
 }
 
-export default PublicRoute
+export default PublicRoute;

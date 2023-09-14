@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { signInWithEmailAndPassword, signInWithRedirect } from "firebase/auth";
+import React, { useState, useContext } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
-import { signInWithPopup } from "firebase/auth";
+import { signInWithRedirect } from "firebase/auth";
 
-import { auth, googleProvider } from "../../firebase";
+import { AuthContext } from "../auth";
+import { auth, googleProvider, microsoftProvider } from "../../firebase";
 import "./login.css";
 
 function Login() {
@@ -11,27 +12,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const googleSignin = () => {
-    signInWithRedirect(auth, googleProvider)
-      .then((data) => {
-        console.log(data.user);
-        // window.close();
-        // const isNewUser = data.additionalUserInfo.isNewUser; // checks whether a google user is new
-        // console.log("New user state");
-        // console.log(isNewUser);
-
-        // if (!isNewUser) {
-        //   window.location.href = "/home";
-        // } else {
-        //   const externalSignup = document.querySelector(".external-signup-box");
-        //   localStorage.setItem("googleSignup", JSON.stringify(externalSignup));
-        //   window.location.href = "/signup";
-        // }
-      })
-      .catch((error) => {
-        console.log(error.code);
-      });
-  };
+  console.log("         inside login component");
 
   const handleLogin = async () => {
     document.querySelector(".login-message").style.display = "block";
@@ -73,13 +54,22 @@ function Login() {
 
   return (
     <>
+      {/* googleSignin */}
       <p
         className="external-signin-box"
         onClick={() => {
-          googleSignin();
+          signInWithRedirect(auth, googleProvider);
         }}
       >
         Continue with Google
+      </p>
+      <p
+        className="external-signup-box"
+        onClick={() => {
+          signInWithRedirect(auth, microsoftProvider);
+        }}
+      >
+        Sign up with Microsoft
       </p>
       <div className="login-container">
         <div className="login-box">

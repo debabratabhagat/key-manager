@@ -12,13 +12,14 @@ import "./style.css";
 
 import { db } from "../../firebase";
 import { AuthContext } from "../auth";
-
 import Signout from "../signout/signout";
 // import PhoneIcon from "./phone.svg";
 // import UserIcon from "./user.svg";
 import LoadingSign from "../loader/loader";
 
 const Name = () => {
+  console.log("inside Home page");
+
   const [keyHolder, setKeyHolder] = useState({ id: "", name: "" });
   const [userIsKeyHolder, setUserIsKeyHolder] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -44,7 +45,7 @@ const Name = () => {
     };
 
     func();
-  }, [currentUser]);
+  }, []);
 
   useEffect(() => {
     const newOwner = async () => {

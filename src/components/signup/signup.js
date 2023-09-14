@@ -1,13 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  createUserWithEmailAndPassword,
-  signInWithRedirect,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
-// import { signInWithPopup } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import {
+  signInWithRedirect,
+  getRedirectResult,
+  GoogleAuthProvider,
+} from "firebase/auth";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
-import { db, auth, googleProvider } from "../../firebase";
+import { AuthContext } from "../auth";
+import { db, auth, googleProvider, microsoftProvider } from "../../firebase";
 import "./signup.css";
 
 export default function Signup() {
@@ -17,48 +19,37 @@ export default function Signup() {
   const phone = useRef("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const externalSignup = document.querySelector(".external-signup-box");
-  let isGoogleSignUpButtonClicked = false;
+  console.log("         inside signup component");
 
+  /*###### GETTING REDIRECT RESULT AND UPLOADING NEW USER DOCS, if user is new to firebase #######*/
   useEffect(() => {
-    const GsignupButton = JSON.parse(localStorage.getItem("googleSignup"));
-    if (GsignupButton) {
-      GsignupButton.click();
-      localStorage.removeItem("googleSignup");
+    const func = async function () {
+      console.log("in 1");
+      const userDocRef = doc(db, "users", auth.currentUser.uid);
+      const userDoc = await getDoc(userDocRef);
+      console.log(userDoc.data());
+      if (userDoc.data()) {
+        // if user is not new redirect to home page
+        console.log("in 2");
+        window.location.href = "/home";
+      } else {
+        //else creating its document
+        console.log("in 3");
+        setEmail(auth.currentUser.email);
+        const loginRedirectionLink = document.querySelector(".signup-h3");
+        loginRedirectionLink.style.display = "none";
+        const externalSignup = document.querySelector(".external-signup-box");
+        externalSignup.style.display = "none"; // disabling external signup options
+        const emailInput = document.getElementById("email");
+        const passwordInput = document.getElementById("password");
+        emailInput.disabled = true;
+        passwordInput.style.display = "none";
+      }
+    };
+    if (auth.currentUser) {
+      func();
     }
-  });
-
-  const googleSignup = () => {
-    if (isGoogleSignUpButtonClicked) {
-      signInWithRedirect(auth, googleProvider)
-        .then((data) => {
-          console.log(data);
-          const isNewUser = data.additionalUserInfo.isNewUser; // checks whether a google user is new
-
-          if (!isNewUser) {
-            window.location.href = "/home";
-          } else {
-            setEmail(data.user.email);
-
-            externalSignup.style.display = "none";
-            const emailInput = document.getElementById("email");
-            const passwordInput = document.getElementById("password");
-            emailInput.style.display = "none";
-            passwordInput.style.display = "none";
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      setEmail(auth.currentUser.email);
-      externalSignup.style.display = "none";
-      const emailInput = document.getElementById("email");
-      const passwordInput = document.getElementById("password");
-      emailInput.style.display = "none";
-      passwordInput.style.display = "none";
-    }
-  };
+  }, []);
 
   const handleSignup = () => {
     const signupMessage = document.querySelector(".signup-message");
@@ -66,7 +57,7 @@ export default function Signup() {
     signupMessage.style.color = "green";
     signupMessage.style.display = "block";
 
-    if (externalSignup.style.display !== "none") {
+    if (!auth.currentUser) {
       createUserWithEmailAndPassword(auth, email, password)
         .then(async (cred) => {
           await setDoc(doc(db, "users", cred.user.uid), {
@@ -132,11 +123,18 @@ export default function Signup() {
       <p
         className="external-signup-box"
         onClick={() => {
-          isGoogleSignUpButtonClicked = true;
-          googleSignup();
+          signInWithRedirect(auth, googleProvider);
         }}
       >
         Sign up with Google
+      </p>
+      <p
+        className="external-signup-box"
+        onClick={() => {
+          signInWithRedirect(auth, microsoftProvider);
+        }}
+      >
+        Sign up with Microsoft
       </p>
       <div className="signup-container">
         <div className="signup-box">

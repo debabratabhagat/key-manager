@@ -27,15 +27,15 @@ import { getAuth, GoogleAuthProvider, OAuthProvider } from "firebase/auth";
 //   measurementId: "G-K3H2ZE1J84",
 // };
 
-// const firebaseConfig = {
-//   apiKey: "AIzaSyBPihN5uihyRpg_5oA0r7cYNJEIslCxCOs",
-//   authDomain: "cyborg-keys-app.firebaseapp.com",
-//   projectId: "cyborg-keys-app",
-//   storageBucket: "cyborg-keys-app.appspot.com",
-//   messagingSenderId: "141212332429",
-//   appId: "1:141212332429:web:bea396a7faed1536ba8dc4",
-//   measurementId: "G-YDQL9KJGNL",
-// };
+const firebaseConfig = {
+  apiKey: "AIzaSyBPihN5uihyRpg_5oA0r7cYNJEIslCxCOs",
+  authDomain: "cyborg-keys-app.firebaseapp.com",
+  projectId: "cyborg-keys-app",
+  storageBucket: "cyborg-keys-app.appspot.com",
+  messagingSenderId: "141212332429",
+  appId: "1:141212332429:web:bea396a7faed1536ba8dc4",
+  measurementId: "G-YDQL9KJGNL",
+};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

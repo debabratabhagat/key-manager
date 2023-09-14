@@ -55,15 +55,15 @@ function Login() {
       {/* html for login  */}
 
       <main>
-        <div className="box">
-          <div className="inner-box">
-            <div className="forms-wrap">
+        <div className="login-box">
+          <div className="login-inner-box">
+            <div className="login-forms-wrap">
               <div className="login-form">
-                <div className="logo">
+                <div className="login-logo">
                   <img src={logo} alt="1" />
                 </div>
 
-                <div className="heading">
+                <div className="logo-heading">
                   <h2>WELCOME BACK</h2>
                   <h6>Not registered yet?</h6>
                   <Link to="/signup" className="toggle">
@@ -144,7 +144,6 @@ function Login() {
                   />
                 </div>
 
-                
                 <div className="error-box">
                   <p className="login-message" style={{ display: "none" }}>
                     Signing you in....

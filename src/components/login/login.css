@@ -22,27 +22,17 @@ main {
   justify-content: center;
 }
 
-.message {
-  font-size: 16px;
-  color: green;
-  text-align: center;
-}
-.error-message {
-  text-align: center;
-  font-size: 16px;
-}
-
-.box {
+.login-box {
   position: relative;
   width: 100%;
   max-width: 1020px;
   height: 640px;
-  background-color: rgb(209, 228, 228);
+  background-color: rgb(255, 255, 255);
   border-radius: 3.3rem;
   box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 0.5);
 }
 
-.inner-box {
+.login-inner-box {
   position: absolute;
   width: calc(100% - 4.1rem);
   height: calc((100% - 4.1rem));
@@ -53,7 +43,7 @@ main {
   background-color: rgb(209, 228, 228);
 }
 
-.forms-wrap {
+.login-forms-wrap {
   position: absolute;
   height: 100%;
   width: 45%;
@@ -93,30 +83,23 @@ main {
   transition: opacity 0.02s 0.25s;
 }
 
-.logo {
+.login-logo {
   display: flex;
   align-items: center;
 }
 
-.logo img {
+.login-logo img {
   width: 100px;
   margin-right: 0.6rem;
 }
 
-.logo h4 {
-  font-size: 1.1rem;
-  margin: -9px;
-  letter-spacing: -0.5px;
-  color: #151111;
-}
-
-.heading h2 {
+.logo-heading h2 {
   font-size: 2rem;
   font-weight: 600;
   color: #151111;
 }
 
-.heading h6 {
+.logo-heading h6 {
   color: #535151a7;
   font-weight: 400;
   font-size: -0.75rem;
@@ -153,18 +136,6 @@ main {
   font-size: 0.95rem;
   font-weight: 300;
   transition: 0.4s ease;
-}
-
-label {
-  font-weight: 100;
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 0.95rem;
-  color: #535151a7;
-  pointer-events: none;
-  transition: 0.4s;
 }
 
 .input-field:focus {
@@ -250,6 +221,7 @@ label {
 
   .carousel {
     position: revert;
+    /* display: none; */
     height: 100px;
     width: 100%;
     padding: 1rem 2rem;
@@ -261,7 +233,7 @@ label {
     padding: 0;
     font-size: 1.5rem;
     position: relative;
-    top: 7spx;
+    top: 7px;
     margin: 0;
   }
   .carousel h3 {
@@ -276,7 +248,7 @@ label {
     transition: transform 0.8s ease-in-out, opacity 0.45s linear;
   }
 
-  .login-heading {
+  .logo-heading {
     margin: 2rem 0;
   }
 }

@@ -33,12 +33,10 @@ export default function Signup() {
         //else creating its document
         setEmail(auth.currentUser.email);
 
-        const loginRedirectionLink = document.querySelector(".signup-h3");
+        const loginRedirectionLink = document.querySelector(".toggle");
         loginRedirectionLink.style.display = "none";
 
-        const externalSignup = document.querySelectorAll(
-          ".external-signup-box"
-        );
+        const externalSignup = document.querySelectorAll(".other-links");
         for (let e of externalSignup) {
           e.style.display = "none"; // disabling external signup options
         }
@@ -60,7 +58,7 @@ export default function Signup() {
   }, []);
 
   const handleSignup = () => {
-    const signupMessage = document.querySelector(".signup-message");
+    const signupMessage = document.querySelector(".message");
     signupMessage.innerText = "Creating your account....";
     signupMessage.style.color = "green";
     signupMessage.style.display = "block";
@@ -133,23 +131,23 @@ export default function Signup() {
   return (
     <>
       <main>
-        <div class="box">
-          <div class="inner-box">
-            <div class="forms-wrap">
-              <div class="login-form">
-                <div class="logo">
+        <div className="login-box">
+          <div className="login-inner-box">
+            <div className="login-forms-wrap">
+              <div className="login-form">
+                <div className="login-logo">
                   <img src={logo} alt="image-here" />
                 </div>
 
-                <div class="heading">
+                <div className="logo-heading">
                   <h2>New Here !!</h2>
                   <h6>Already have an account?</h6>
                   <Link to="/login" className="toggle">
                     Login
                   </Link>{" "}
                 </div>
-                <div class="other-links">
-                  <div class="other-links-google">
+                <div className="other-links">
+                  <div className="other-links-google">
                     <svg
                       className="external-signup-box"
                       onClick={() => {
@@ -167,7 +165,7 @@ export default function Signup() {
                       />
                     </svg>
                   </div>
-                  <div class="other-links-microsoft">
+                  <div className="other-links-microsoft">
                     <svg
                       className="external-signup-box"
                       onClick={() => {
@@ -187,7 +185,7 @@ export default function Signup() {
                   </div>
                 </div>
 
-                <div class="actual-form">
+                <div className="actual-form">
                   {/* username field  */}
                   <div className="input-wrap">
                     <input
@@ -212,17 +210,7 @@ export default function Signup() {
                       }}
                     />
                   </div>
-                  {/* passord field  */}
-                  <div className="input-wrap">
-                    <input
-                      className="input-field"
-                      type="password"
-                      id="password"
-                      placeholder="Enter your password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                  </div>
+
                   {/* phone number  */}
                   <div className="input-wrap">
                     <input
@@ -246,13 +234,24 @@ export default function Signup() {
                           }
                         }
                         if (!foundbreak) {
-                          document.querySelector(
-                            ".signup-message"
-                          ).style.display = "none";
+                          document.querySelector(".message").style.display =
+                            "none";
                         }
                       }}
                       maxLength="10"
                       minLength="10"
+                    />
+                  </div>
+
+                  {/* passord field  */}
+                  <div className="input-wrap">
+                    <input
+                      className="input-field"
+                      type="password"
+                      id="password"
+                      placeholder="Enter your password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
                   <input
@@ -264,7 +263,7 @@ export default function Signup() {
                 </div>
 
                 <div className="error-box">
-                  <p className="login-message" style={{ display: "none" }}>
+                  <p className="message" style={{ display: "none" }}>
                     Signing you in....
                   </p>
                   <p className="error-message">{errorMessage}</p>
@@ -272,14 +271,14 @@ export default function Signup() {
               </div>
             </div>
 
-            <div class="carousel">
-              <div class="heading">
+            <div className="carousel">
+              <div className="heading">
                 <h2>Looking for keys ???</h2>
               </div>
-              <div class="body">
+              <div className="body">
                 <h3>Find out where they are</h3>
               </div>
-              <div class="key-img">{/* key img  */}</div>
+              <div className="key-img">{/* key img  */}</div>
             </div>
           </div>
         </div>

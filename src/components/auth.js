@@ -10,9 +10,9 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState("fetching...");
 
   useEffect(() => {
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        try {
+    try {
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
           const userDocRef = doc(db, "users", user.uid);
           const userDoc = await getDoc(userDocRef);
           if (userDoc.data()) {
@@ -20,13 +20,13 @@ export const AuthProvider = ({ children }) => {
           } else {
             setCurrentUser("doc upload pending...");
           }
-        } catch (error) {
-          alert(error);
+        } else {
+          setCurrentUser("null");
         }
-      } else {
-        setCurrentUser("null");
-      }
-    });
+      });
+    } catch (error) {
+      alert(error);
+    }
   }, []);
 
   return (

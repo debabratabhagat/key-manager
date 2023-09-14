@@ -1,6 +1,6 @@
 import "./components/signup/signup.css";
 import "./App.css";
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 
 import Login from "./components/login/login";

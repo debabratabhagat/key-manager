@@ -1,9 +1,10 @@
 import React, { useState, useContext } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { signInWithRedirect } from "firebase/auth";
 
 import { AuthContext } from "../auth";
-import { auth } from "../../firebase";
+import { auth, googleProvider, microsoftProvider } from "../../firebase";
 import "./login.css";
 
 function Login() {
@@ -11,15 +12,14 @@ function Login() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const currentUser = useContext(AuthContext);
-  const navigate = useNavigate(); //hook to navigate to homepage after successful login
+  console.log("         inside login component");
 
   const handleLogin = async () => {
+    document.querySelector(".login-message").style.display = "block";
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      // window.location.href = "/home";
-      // navigate("/home");
     } catch (error) {
+      document.querySelector(".login-message").style.display = "none";
       if (error.code === "auth/user-not-found") {
         setErrorMessage("User not found. Please check your email.");
       } else if (error.code === "auth/wrong-password") {
@@ -54,6 +54,23 @@ function Login() {
 
   return (
     <>
+      {/* googleSignin */}
+      <p
+        className="external-signin-box"
+        onClick={() => {
+          signInWithRedirect(auth, googleProvider);
+        }}
+      >
+        Continue with Google
+      </p>
+      <p
+        className="external-signup-box"
+        onClick={() => {
+          signInWithRedirect(auth, microsoftProvider);
+        }}
+      >
+        Sign up with Microsoft
+      </p>
       <div className="login-container">
         <div className="login-box">
           <h1>Login</h1>
@@ -82,6 +99,9 @@ function Login() {
             Don't have an account? <Link to="/signup">Signup</Link>
           </h3>
         </div>
+        <p className="login-message" style={{ display: "none" }}>
+          Signing you in....
+        </p>
         <p className="error-message">{errorMessage}</p>
       </div>
     </>

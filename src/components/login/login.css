@@ -1,104 +1,282 @@
-body{
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body,
+input {
+  font-family: "Poppins", sans-serif;
+}
+main {
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  padding: 2rem;
+  background-color: rgb(146, 214, 216);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.message {
+  font-size: 16px;
+  color: green;
+  text-align: center;
+}
+.error-message {
+  text-align: center;
+  font-size: 16px;
+}
+
+.box {
+  position: relative;
+  width: 100%;
+  max-width: 1020px;
+  height: 640px;
+  background-color: rgb(209, 228, 228);
+  border-radius: 3.3rem;
+  box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 0.5);
+}
+
+.inner-box {
+  position: absolute;
+  width: calc(100% - 4.1rem);
+  height: calc((100% - 4.1rem));
+  border-radius: 3rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(209, 228, 228);
+}
+
+.forms-wrap {
+  position: absolute;
+  height: 100%;
+  width: 45%;
+  top: 0;
+  left: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  transition: 0.5s ease-in-out;
+}
+.other-links {
+  display: flex;
+}
+.carousel {
+  position: absolute;
+  height: 100%;
+  width: 55%;
+  left: 45%;
+  top: 0;
+  background: linear-gradient(to right bottom, #52b3b7, #2f979b);
+  border-radius: 2rem;
+  transition: 0.5s ease-in-out;
+}
+
+.login-form {
+  max-width: 260px;
+  width: 100%;
+  /* background-color: red; */
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+
+  grid-column: 1/2;
+  grid-row: 1/2;
+  transition: opacity 0.02s 0.25s;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  width: 100px;
+  margin-right: 0.6rem;
+}
+
+.logo h4 {
+  font-size: 1.1rem;
+  margin: -9px;
+  letter-spacing: -0.5px;
+  color: #151111;
+}
+
+.heading h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #151111;
+}
+
+.heading h6 {
+  color: #535151a7;
+  font-weight: 400;
+  font-size: -0.75rem;
+  display: inline;
+}
+
+.toggle {
+  color: rgb(10, 60, 95);
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.toggle:hover {
+  color: rgb(10, 60, 95);
+}
+
+.input-wrap {
+  position: relative;
+  height: 37px;
+  margin-bottom: 2rem;
+  /* background-color: red; */
+}
+.input-field {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: none;
+  border: none;
+  outline: none;
+  border-bottom: 2px solid #bbb;
+  padding: 0;
+  font-size: 0.95rem;
+  font-weight: 300;
+  transition: 0.4s ease;
+}
+
+label {
+  font-weight: 100;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.95rem;
+  color: #535151a7;
+  pointer-events: none;
+  transition: 0.4s;
+}
+
+.input-field:focus {
+  border-color: #151111;
+}
+
+.input-field:focus + label {
+  font-size: 0.75rem;
+  top: -2px;
+}
+
+.sign-btn {
+  display: inline-block;
+  width: 40%;
+  height: 43px;
+  border: 2px solid rgb(33, 42, 83);
+
+  background-color: rgb(10, 60, 95);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 0.8rem;
+  font-size: 0.8rem;
+  margin-bottom: 2rem;
+  transition: 0.3s;
+}
+.carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.carousel h2 {
+  color: rgb(33, 42, 83);
+  font-weight: 600;
+  font-size: -0.75rem;
+  display: inline;
+  margin: 10px;
+  padding: 10px;
+  text-decoration: underline;
+}
+.carousel h3 {
+  margin: 10px;
+  padding: 10px;
+}
+.key-img {
+  width: 100px;
+  height: 100px;
+}
+
+.sign-btn:hover {
+  background-color: rgb(24, 137, 141);
+}
+
+@media (max-width: 850px) {
+  * {
     margin: 0;
     padding: 0;
-}
-/* Styles for the container that wraps the login form */
-.login-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background: linear-gradient(to bottom right, #1898ed, #b2dfff);  /* Aesthetic blue background color */
+    overflow: hidden;
   }
-  
-  /* Styles for the login box */
   .login-box {
-    background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent white background for glass effect */
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    text-align: center;
-    max-width: 400px;
-    width: 90%; /* Adjust width for smaller screens */
-    backdrop-filter: blur(10px); /* Apply a blur effect to create the glass effect */
-  }
-  
-  /* Styles for the input fields */
-  .login-box .input-field {
-    margin: 10px 0;
-    padding: 10px;
-    width: 85%;
-    backdrop-filter: blur(20px);
-    /* backdrop-filter: blur(10px); Apply a blur effect to create the glass effect */
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-  }
-  
-  /* Styles for the login button */
-  .login-button {
-    background-color: #3498db; /* Blue color for the button */
-    color: #fff;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    font-size: 18px;
-    cursor: pointer;
-    width: 40%; /* Make the button full width */
-  }
-  
-  /* Styles for the error message */
-  .error-message {
-    color: #e74c3c; /* Darker red color for error messages */
-    font-weight: bold;
-  }
-  
-  /* Styles for the "Don't have an account?" text */
-  .login-h3 {
-    text-align: center;
-    margin-top: 10px;
-    color: #fff; /* White color for text */
-  }
-  
-  /* Styles for the link within the "Don't have an account?" text */
-  .login-h3 a {
-    text-decoration: none;
-    color: #101111; /* Light blue color for the link */
-  }
-  
-  /* Hover effect for the link */
-  .login-h3 a:hover {
-    text-decoration: underline;
+    height: auto;
+    max-width: 450px;
+    overflow: hidden;
   }
 
-  .error-message {
-    color: red; /* Set the text color to red */
-    font-size: 20px; /* Set the font size */
-    margin-top: 5px; /* Add some top margin for spacing */
+  .login-inner-box {
+    position: static;
+    transform: none;
+    width: revert;
+    height: revert;
   }
-  
-  
-  /* Responsive styles for smaller screens */
-  @media (max-width: 768px) {
-    /* Reduce padding and increase width for smaller screens */
-    .login-box {
-      padding: 10px;
-      width: 100%;
-    }
-  
-    /* Adjust font size for smaller screens */
-    .input-field {
-      font-size: 14px;
-    }
-  
-    /* Center-align the login button text for smaller screens */
-    .login-button {
-      text-align: center;
-    }
-    .error-message {
-      font-size: 12px; /* Reduce font size for smaller screens */
-      margin-top: 3px; /* Adjust margin for smaller screens */
-    }
+  .login-forms-wrap {
+    position: revert;
+    width: 100%;
+    height: auto;
   }
-  
+  .input-field:focus + label {
+    font-size: 0rem;
+    top: -2px;
+  }
+
+  .carousel {
+    position: revert;
+    height: 100px;
+    width: 100%;
+    padding: 1rem 2rem;
+    display: flex;
+    padding-top: 0;
+  }
+
+  .carousel h2 {
+    padding: 0;
+    font-size: 1.5rem;
+    position: relative;
+    top: 7spx;
+    margin: 0;
+  }
+  .carousel h3 {
+    display: none;
+  }
+  .key-img {
+    display: none;
+  }
+  .login-form {
+    max-width: revert;
+    padding: 1.5rem 2.5rem 2rem;
+    transition: transform 0.8s ease-in-out, opacity 0.45s linear;
+  }
+
+  .login-heading {
+    margin: 2rem 0;
+  }
+}

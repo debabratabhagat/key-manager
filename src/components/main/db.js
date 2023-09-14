@@ -13,13 +13,9 @@ import "./style.css";
 import { db } from "../../firebase";
 import { AuthContext } from "../auth";
 import Signout from "../signout/signout";
-// import PhoneIcon from "./phone.svg";
-// import UserIcon from "./user.svg";
 import LoadingSign from "../loader/loader";
 
 const Name = () => {
-  console.log("inside Home page");
-
   const [keyHolder, setKeyHolder] = useState({ id: "", name: "" });
   const [userIsKeyHolder, setUserIsKeyHolder] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -44,7 +40,11 @@ const Name = () => {
       setIsLoading(false);
     };
 
-    func();
+    try {
+      func();
+    } catch (errror) {
+      alert(errror);
+    }
   }, []);
 
   useEffect(() => {
@@ -68,7 +68,11 @@ const Name = () => {
       setChangingOwner(false);
     };
     if (changingOwner) {
-      newOwner();
+      try {
+        newOwner();
+      } catch (error) {
+        alert(error);
+      }
     } else {
     }
   }, [changingOwner]);
@@ -78,11 +82,7 @@ const Name = () => {
       {isLoading ? <LoadingSign /> : null}
       <div>
         <div className="user-info">
-          <div>
-            {/* <UserIcon /> */}
-            {/* <svg  width="40" height="40" xmlns="./user.svg" alt="user"></svg> */}
-            {currentUser.name}
-          </div>
+          <div>{currentUser.name}</div>
           <h3>CYBORG</h3>
           <Signout></Signout>
         </div>
@@ -93,8 +93,6 @@ const Name = () => {
               Keys' with <span className="highlighted">{keyHolder.name}</span>{" "}
             </h2>
             <div className="phone-number">
-              {/* <PhoneIcon /> */}
-              {/* <svg width="40" height="40" xmlns="./phone.svg" alt="phone"></svg> */}
               <h3>+91 {keyHolder.phone}</h3>
             </div>
             {userIsKeyHolder ? null : (

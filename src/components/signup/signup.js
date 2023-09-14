@@ -11,7 +11,6 @@ import logo from "./cyborg-logo.png";
 
 import { doc, setDoc, getDoc } from "firebase/firestore";
 
-import { AuthContext } from "../auth";
 import { db, auth, googleProvider, microsoftProvider } from "../../firebase";
 import "./signup.css";
 
@@ -22,35 +21,41 @@ export default function Signup() {
   const phone = useRef("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  console.log("         inside signup component");
-
   /*###### GETTING REDIRECT RESULT AND UPLOADING NEW USER DOCS, if user is new to firebase #######*/
   useEffect(() => {
     const func = async function () {
-      console.log("in 1");
       const userDocRef = doc(db, "users", auth.currentUser.uid);
       const userDoc = await getDoc(userDocRef);
-      console.log(userDoc.data());
       if (userDoc.data()) {
         // if user is not new redirect to home page
-        console.log("in 2");
         window.location.href = "/home";
       } else {
         //else creating its document
-        console.log("in 3");
         setEmail(auth.currentUser.email);
+
         const loginRedirectionLink = document.querySelector(".signup-h3");
         loginRedirectionLink.style.display = "none";
-        const externalSignup = document.querySelector(".external-signup-box");
-        externalSignup.style.display = "none"; // disabling external signup options
+
+        const externalSignup = document.querySelectorAll(
+          ".external-signup-box"
+        );
+        for (let e of externalSignup) {
+          e.style.display = "none"; // disabling external signup options
+        }
+
         const emailInput = document.getElementById("email");
-        const passwordInput = document.getElementById("password");
         emailInput.disabled = true;
+
+        const passwordInput = document.getElementById("password");
         passwordInput.style.display = "none";
       }
     };
     if (auth.currentUser) {
-      func();
+      try {
+        func();
+      } catch (error) {
+        alert(error);
+      }
     }
   }, []);
 
@@ -117,7 +122,11 @@ export default function Signup() {
         });
         window.location.href = "/home";
       };
-      uploadDoc();
+      try {
+        uploadDoc();
+      } catch (error) {
+        setErrorMessage(error);
+      }
     }
   };
 
@@ -279,7 +288,11 @@ export default function Signup() {
       {/* <p
         className="external-signup-box"
         onClick={() => {
-          signInWithRedirect(auth, googleProvider);
+          try {
+            signInWithRedirect(auth, googleProvider);
+          } catch (error) {
+            setErrorMessage(error);
+          }
         }}
       >
         Sign up with Google
@@ -287,7 +300,11 @@ export default function Signup() {
       <p
         className="external-signup-box"
         onClick={() => {
-          signInWithRedirect(auth, microsoftProvider);
+          try {
+            signInWithRedirect(auth, microsoftProvider);
+          } catch (error) {
+            setErrorMessage(error);
+          }
         }}
       >
         Sign up with Microsoft

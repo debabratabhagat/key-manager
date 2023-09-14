@@ -4,8 +4,6 @@ import { Navigate } from "react-router-dom";
 function PrivateRoute(props) {
   const { currentUser, Component } = props;
 
-  console.log("inside PrivateRoute");
-
   return (
     <>
       {currentUser === "null" ? (

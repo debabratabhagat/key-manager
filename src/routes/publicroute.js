@@ -4,7 +4,6 @@ import Login from "../components/login/login";
 
 function PublicRoute(props) {
   const { currentUser, Component } = props;
-  console.log("         inside Publicroute");
 
   return (
     <>

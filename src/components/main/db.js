@@ -44,7 +44,11 @@ const Name = () => {
       setIsLoading(false);
     };
 
-    func();
+    try {
+      func();
+    } catch (errror) {
+      alert(errror);
+    }
   }, []);
 
   useEffect(() => {
@@ -68,7 +72,11 @@ const Name = () => {
       setChangingOwner(false);
     };
     if (changingOwner) {
-      newOwner();
+      try {
+        newOwner();
+      } catch (error) {
+        alert(error);
+      }
     } else {
     }
   }, [changingOwner]);

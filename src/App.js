@@ -13,10 +13,7 @@ import PublicRoute from "./routes/publicroute";
 import { AuthContext } from "./components/auth";
 
 function App() {
-  console.log("Hey Boyzzz!!!!!!");
-
   const currentUser = useContext(AuthContext);
-  console.log(currentUser);
 
   return (
     <BrowserRouter>

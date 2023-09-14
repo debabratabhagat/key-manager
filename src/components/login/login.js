@@ -1,10 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
 import { signInWithRedirect } from "firebase/auth";
 import logo from "./cyborg-logo.png";
 
-import { AuthContext } from "../auth";
 import { auth, googleProvider, microsoftProvider } from "../../firebase";
 import "./login.css";
 
@@ -13,11 +12,9 @@ function Login() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  console.log("         inside login component");
-
   const handleLogin = async () => {
-    document.querySelector(".login-message").style.display = "block";
     try {
+      document.querySelector(".login-message").style.display = "block";
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
       document.querySelector(".login-message").style.display = "none";
@@ -182,7 +179,11 @@ function Login() {
         {/* <p
         className="external-signin-box"
         onClick={() => {
-          signInWithRedirect(auth, googleProvider);
+          try {
+            signInWithRedirect(auth, googleProvider);
+          } catch (error) {
+            setErrorMessage(error);
+          }
         }}
         >
         Continue with Google
@@ -190,7 +191,11 @@ function Login() {
         <p
         className="external-signup-box"
         onClick={() => {
-          signInWithRedirect(auth, microsoftProvider);
+          try {
+            signInWithRedirect(auth, microsoftProvider);
+          } catch (error) {
+            setErrorMessage(error);
+          }
         }}
         >
         Sign up with Microsoft

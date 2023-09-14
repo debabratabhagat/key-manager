@@ -312,7 +312,7 @@ export default function Signup() {
                       onChange={(e) => {
                         phone.current = e.target.value;
                         const signupMessage =
-                          document.querySelector(".signup-message");
+                          document.querySelector(".message");
                         let foundbreak = false;
                         for (let chr of phone.current) {
                           if (isNaN(chr)) {
@@ -349,7 +349,17 @@ export default function Signup() {
                     type="submit"
                     value="Sign up"
                     className="login-button sign-btn"
-                    onClick={handleSignup}
+                    onClick={() => {
+                      const usernameRequired =
+                        document.querySelector("#username");
+                      const passwordRequired =
+                        document.querySelector("#phone-number");
+                      if (usernameRequired.value || passwordRequired.value) {
+                        handleSignup();
+                      } else {
+                        setErrorMessage("Username or Phone Number Not entered");
+                      }
+                    }}
                   />
                 </div>
 

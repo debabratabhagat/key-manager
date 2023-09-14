@@ -1,22 +1,22 @@
-import React, { useEffect }from 'react'
-import { useNavigate } from 'react-router-dom'
+import React from "react";
+import { Navigate } from "react-router-dom";
 
+function PrivateRoute(props) {
+  const { currentUser, Component } = props;
 
-function PrivateRoute( props ) {
-    const { currentUser, Component } = props;
-    const navigate = useNavigate();
+  console.log("inside PrivateRoute");
 
-    useEffect( () => {
-        if (currentUser === "null") { 
-           navigate("/") }
-    });
-
-
-
-
-    return (
+  return (
+    <>
+      {currentUser === "null" ? (
+        <Navigate to="/" />
+      ) : currentUser === "doc upload pending..." ? (
+        <Navigate to="/signup" />
+      ) : (
         <Component />
-    )
+      )}
+    </>
+  );
 }
 
 export default PrivateRoute;

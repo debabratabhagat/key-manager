@@ -34,8 +34,8 @@ main {
 
 .login-inner-box {
   position: absolute;
-  width: calc(100% - 4.1rem);
-  height: calc((100% - 4.1rem));
+  width: calc(100% - 2rem);
+  height: calc((100% - 2rem));
   border-radius: 3rem;
   top: 50%;
   left: 50%;

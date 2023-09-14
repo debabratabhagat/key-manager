@@ -7,6 +7,7 @@ import {
   GoogleAuthProvider,
 } from "firebase/auth";
 
+import key from "./key.png";
 import logo from "./cyborg-logo.png";
 
 import { doc, setDoc, getDoc } from "firebase/firestore";
@@ -14,40 +15,45 @@ import { doc, setDoc, getDoc } from "firebase/firestore";
 import { db, auth, googleProvider, microsoftProvider } from "../../firebase";
 import LoadingSign from "../loader/loader";
 import "./signup.css";
+import toast from "react-hot-toast";
 
 export default function Signup() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const phone = useRef("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
   /*###### GETTING REDIRECT RESULT AND UPLOADING NEW USER DOCS, if user is new to firebase #######*/
   useEffect(() => {
     const func = async function () {
       const userDocRef = doc(db, "users", auth.currentUser.uid);
-      const userDoc = await getDoc(userDocRef);
-      if (userDoc.data()) {
-        // if user is not new redirect to home page
-        window.location.href = "/home";
-      } else {
-        //else creating its document
-        setEmail(auth.currentUser.email);
+      try {
+        const userDoc = await getDoc(userDocRef);
+        if (userDoc.data()) {
+          // if user is not new redirect to home page
+          window.location.href = "/home";
+        } else {
+          //else creating its document
+          setEmail(auth.currentUser.email);
 
-        const loginRedirectionLink = document.querySelector(".toggle");
-        loginRedirectionLink.style.display = "none";
+          const loginRedirectionLink = document.querySelector(".toggle");
+          loginRedirectionLink.style.display = "none";
 
-        const externalSignup = document.querySelectorAll(".other-links");
-        for (let e of externalSignup) {
-          e.style.display = "none"; // disabling external signup options
+          const externalSignup = document.querySelectorAll(".other-links");
+          for (let e of externalSignup) {
+            e.style.display = "none"; // disabling external signup options
+          }
+
+          const emailInput = document.getElementById("email");
+          emailInput.disabled = true;
+
+          const passwordInput = document.getElementById("password");
+          passwordInput.style.display = "none";
         }
-
-        const emailInput = document.getElementById("email");
-        emailInput.disabled = true;
-
-        const passwordInput = document.getElementById("password");
-        passwordInput.style.display = "none";
+      } catch (error) {
+        console.log(error);
       }
     };
     if (auth.currentUser) {
@@ -60,10 +66,10 @@ export default function Signup() {
   }, []);
 
   const handleSignup = () => {
-    const signupMessage = document.querySelector(".message");
-    signupMessage.innerText = "Creating your account....";
-    signupMessage.style.color = "green";
-    signupMessage.style.display = "block";
+    // const signupMessage = document.querySelector(".message");
+    // signupMessage.innerText = "Creating your account....";
+    // signupMessage.style.color = "green";
+    // signupMessage.style.display = "block";
 
     if (!auth.currentUser) {
       createUserWithEmailAndPassword(auth, email, password)
@@ -78,52 +84,55 @@ export default function Signup() {
             window.location.href = "/home";
           } catch (error) {
             if (error.code === "permission-denied") {
-              console.error("Permission denied:", error.message);
+              toast.error("Permission denied:", error.message);
             } else if (error.code === "quota-exceeded") {
-              console.error("Quota exceeded:", error.message);
+              toast.error("Quota exceeded:", error.message);
             } else if (error.code === "timeout") {
-              console.error("Timeout:", error.message);
+              toast.error("Timeout:", error.message);
             } else if (error.code === "invalid-argument") {
-              console.error("Invalid argument:", error.message);
+              toast.error("Invalid argument:", error.message);
             } else {
-              console.error("Firestore error:", error);
+              toast.error("Database error:", error.message);
             }
           }
         })
         .catch((error) => {
+          // console.log(error.code);
           document.querySelector(".message").style.display = "none";
           if (error.code === "auth/email-already-in-use") {
-            setErrorMessage("Email is already in use.");
+            toast.error("Email is already in use.");
           } else if (error.code === "auth/invalid-email") {
-            setErrorMessage("Invalid email format.");
+            toast.error("Invalid email format.");
+          } else if (error.code === "auth/missing-password") {
+            toast.error("Oops you missed the password field");
           } else if (error.code === "auth/operation-not-allowed") {
-            setErrorMessage("Operation not allowed.");
+            toast.error("Operation not allowed.");
           } else if (error.code === "auth/weak-password") {
-            setErrorMessage("Password is too weak.");
+            toast.error("Password is too weak.");
           } else if (error.code === "auth/network-request-failed") {
-            setErrorMessage(
+            toast.error(
               "Network request failed. Check your internet connection."
             );
           } else if (error.code === "auth/too-many-requests") {
-            setErrorMessage("Too many requests. Please try again later.");
+            toast.error("Too many requests. Please try again later.");
           } else if (error.code === "auth/user-disabled") {
-            setErrorMessage("User account is disabled.");
+            toast.error("User account is disabled.");
           } else if (error.code === "auth/user-token-expired") {
-            setErrorMessage("User token has expired.");
+            toast.error("User token has expired.");
           } else if (error.code === "auth/app-not-authorized") {
-            setErrorMessage(
+            toast.error(
               "App is not authorized to use Firebase Authentication."
             );
           } else if (error.code === "auth/internal-error") {
-            setErrorMessage("Internal Firebase Authentication error.");
+            toast.error("Internal Firebase Authentication error.");
           } else if (error.code === "auth/missing-continue-uri") {
-            setErrorMessage("Missing continue URI.");
+            toast.error("Missing continue URI.");
           } else if (error.code === "auth/invalid-action-code") {
-            setErrorMessage("Invalid action code.");
+            toast.error("Invalid action code.");
           } else if (error.code === "auth/expired-action-code") {
-            setErrorMessage("Expired action code.");
+            toast.error("Expired action code.");
           } else {
-            setErrorMessage("An unknown error occurred:", error);
+            toast.error("An unknown error occurred:", error);
           }
         });
     } else {
@@ -140,15 +149,15 @@ export default function Signup() {
         uploadDoc();
       } catch (error) {
         if (error.code === "permission-denied") {
-          console.error("Permission denied:", error.message);
+          toast.error("Permission denied:", error.message);
         } else if (error.code === "quota-exceeded") {
-          console.error("Quota exceeded:", error.message);
+          toast.error("Quota exceeded:", error.message);
         } else if (error.code === "timeout") {
           console.error("Timeout:", error.message);
         } else if (error.code === "invalid-argument") {
-          console.error("Invalid argument:", error.message);
+          toast.error("Invalid argument:", error.message);
         } else {
-          console.error("Firestore error:", error);
+          toast.error("Firestore error:", error);
         }
       }
     }
@@ -156,55 +165,53 @@ export default function Signup() {
 
   const possibleErrorsOnRedirectingSign = (error) => {
     if (error.code === "auth/redirect-cancelled-by-user") {
-      setErrorMessage("Authentication cancelled by the user.");
+      toast.error("Authentication cancelled by the user.");
     } else if (error.code === "auth/popup-blocked") {
-      setErrorMessage("Popup blocked by the browser.");
+      toast.error("Popup blocked by the browser.");
     } else if (error.code === "auth/popup-closed-by-user") {
-      setErrorMessage("Popup closed by the user.");
+      toast.error("Popup closed by the user.");
     } else if (error.code === "auth/unauthorized-domain") {
-      setErrorMessage(
-        "Unauthorized domain. Add the domain to Firebase Console."
-      );
+      toast.error("Unauthorized domain. Add the domain to Firebase Console.");
     } else if (
       error.code === "auth/operation-not-supported-in-this-environment"
     ) {
-      setErrorMessage("Operation not supported in this environment.");
+      toast.error("Operation not supported in this environment.");
     } else if (error.code === "auth/credential-already-in-use") {
-      setErrorMessage(
+      toast.error(
         "Credential already in use. The account is linked to another Firebase account."
       );
     } else if (error.code === "auth/email-already-in-use") {
-      setErrorMessage("Email address is already in use.");
+      toast.error("Email address is already in use.");
     } else if (error.code === "auth/user-disabled") {
-      setErrorMessage("User account is disabled.");
+      toast.error("User account is disabled.");
     } else if (error.code === "auth/user-not-found") {
-      setErrorMessage("User not found.");
+      toast.error("User not found.");
     } else if (error.code === "auth/invalid-credential") {
-      setErrorMessage(
+      toast.error(
         "Invalid credential. The credential provided is invalid or has expired."
       );
     } else if (error.code === "auth/invalid-email") {
-      setErrorMessage("Invalid email address.");
+      toast.error("Invalid email address.");
     } else if (error.code === "auth/invalid-verification-code") {
-      setErrorMessage("Invalid verification code.");
+      toast.error("Invalid verification code.");
     } else if (error.code === "auth/invalid-verification-id") {
-      setErrorMessage("Invalid verification ID.");
+      toast.error("Invalid verification ID.");
     } else if (error.code === "auth/missing-verification-code") {
-      setErrorMessage("Missing verification code.");
+      toast.error("Missing verification code.");
     } else if (error.code === "auth/network-request-failed") {
-      setErrorMessage(
+      toast.error(
         "Network request failed. Please check your internet connection."
       );
     } else if (error.code === "auth/captcha-check-failed") {
-      setErrorMessage("CAPTCHA verification failed.");
+      toast.error("CAPTCHA verification failed.");
     } else if (error.code === "auth/too-many-requests") {
-      setErrorMessage("Too many sign-in attempts. Try again later.");
+      toast.error("Too many sign-in attempts. Try again later.");
     } else if (error.code === "auth/web-storage-unsupported") {
-      setErrorMessage("Web storage is not supported in this browser.");
+      toast.error("Web storage is not supported in this browser.");
     } else if (error.code === "auth/operation-not-allowed") {
-      setErrorMessage("Authentication operation not allowed.");
+      toast.error("Authentication operation not allowed.");
     } else {
-      console.error("An unexpected error occurred:", error);
+      toast.error("An unexpected error occurred:", error);
     }
   };
 
@@ -212,6 +219,7 @@ export default function Signup() {
     <>
       {isLoading ? <LoadingSign /> : null}
       <main>
+        <div>{/* <Toaster position="top-right" reverseOrder={false} /> */}</div>
         <div className="login-box">
           <div className="login-inner-box">
             <div className="login-forms-wrap">
@@ -311,23 +319,25 @@ export default function Signup() {
                       placeholder="Enter your mobile number"
                       onChange={(e) => {
                         phone.current = e.target.value;
-                        const signupMessage =
-                          document.querySelector(".message");
-                        let foundbreak = false;
-                        for (let chr of phone.current) {
-                          if (isNaN(chr)) {
-                            signupMessage.innerText =
-                              "Enter a valid phone number";
-                            signupMessage.style.display = "block";
-                            signupMessage.style.color = "red";
-                            foundbreak = true;
-                            break;
-                          }
-                        }
-                        if (!foundbreak) {
-                          document.querySelector(".message").style.display =
-                            "none";
-                        }
+                        const regexValid = /^[0-9]{10}/;
+                        setErrorMessage(regexValid.test(phone.current));
+
+                        // if (regex.test(phone.current)) {
+                        // setErrorMessage(false);
+                        // console.log(errorMessage);
+                        // toast.error("Enter a valid phone number");
+                        // signupMessage.innerText =
+                        //   "Enter a valid phone number";
+                        // signupMessage.style.display = "block";
+                        // signupMessage.style.color = "red";
+                        // foundbreak = true;
+                        // break;
+                        // }
+                        // }
+                        // if (!foundbreak) {
+                        //   document.querySelector(".message").style.display =
+                        //     "none";
+                        // }
                       }}
                       maxLength="10"
                       minLength="10"
@@ -354,10 +364,18 @@ export default function Signup() {
                         document.querySelector("#username");
                       const passwordRequired =
                         document.querySelector("#phone-number");
-                      if (usernameRequired.value || passwordRequired.value) {
+                      if (
+                        usernameRequired.value &&
+                        passwordRequired.value &&
+                        errorMessage
+                      ) {
+                        console.log("signing in");
                         handleSignup();
                       } else {
-                        setErrorMessage("Username or Phone Number Not entered");
+                        console.log("not signing in");
+                        toast.error(
+                          "Username or Phone Number Not entered correctly"
+                        );
                       }
                     }}
                   />
@@ -379,7 +397,9 @@ export default function Signup() {
               <div className="body">
                 <h3>Find out where they are</h3>
               </div>
-              <div className="key-img">{/* key img  */}</div>
+              <div className="key-img">
+                <img src={key}></img>
+              </div>
             </div>
           </div>
         </div>

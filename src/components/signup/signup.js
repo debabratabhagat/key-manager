@@ -75,7 +75,7 @@ export default function Signup() {
           window.location.href = "/home";
         })
         .catch((error) => {
-          document.querySelector(".signup-message").style.display = "none";
+          document.querySelector(".message").style.display = "none";
           if (error.code === "auth/email-already-in-use") {
             setErrorMessage("Email is already in use.");
           } else if (error.code === "auth/invalid-email") {
@@ -283,100 +283,6 @@ export default function Signup() {
           </div>
         </div>
       </main>
-
-      {/* <p
-        className="external-signup-box"
-        onClick={() => {
-          try {
-            signInWithRedirect(auth, googleProvider);
-          } catch (error) {
-            setErrorMessage(error);
-          }
-        }}
-      >
-        Sign up with Google
-      </p>
-      <p
-        className="external-signup-box"
-        onClick={() => {
-          try {
-            signInWithRedirect(auth, microsoftProvider);
-          } catch (error) {
-            setErrorMessage(error);
-          }
-        }}
-      >
-        Sign up with Microsoft
-      </p>
-      <div className="signup-container">
-        <div className="signup-box">
-          {" "}
-          <h1>Sign Up</h1>
-          <input
-            className="input-field"
-            type="text"
-            id="username"
-            placeholder="Enter your username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <input
-            className="input-field"
-            type="email"
-            id="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-          />
-          <input
-            className="input-field"
-            type="password"
-            id="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <input
-            className="input-field"
-            type="text"
-            id="phone-number"
-            placeholder="Enter your mobile number"
-            onChange={(e) => {
-              phone.current = e.target.value;
-              const signupMessage = document.querySelector(".signup-message");
-              let foundbreak = false;
-              for (let chr of phone.current) {
-                if (isNaN(chr)) {
-                  signupMessage.innerText = "Enter a valid phone number";
-                  signupMessage.style.display = "block";
-                  signupMessage.style.color = "red";
-                  foundbreak = true;
-                  break;
-                }
-              }
-              if (!foundbreak) {
-                document.querySelector(".signup-message").style.display =
-                  "none";
-              }
-            }}
-            maxLength="10"
-            minLength="10"
-          />
-          <button onClick={handleSignup} className="signup-button">
-            Submit
-          </button>
-        </div>
-
-        <div>
-          <h3 className="signup-h3">
-            Already have an account? <Link to="/">Login</Link>
-          </h3>
-        </div>
-        <p className="signup-message" style={{ display: "none" }}></p>
-        <p className="error-message">{errorMessage}</p>
-      </div> */}
     </>
   );
 }

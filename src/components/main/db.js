@@ -18,8 +18,6 @@ import LoadingSign from "../loader/loader";
 import Signout from "../signout/signout";
 
 const Name = () => {
-  console.log("inside Home page");
-
   const [keyHolder, setKeyHolder] = useState({ id: "", name: "", phone: "" });
   const [userIsKeyHolder, setUserIsKeyHolder] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -31,6 +29,8 @@ const Name = () => {
       const q = query(collection(db, "users"), where("haskey", "==", true)); //querying who has keys
       const keyHolderDocRef = await getDocs(q);
       const keyHolderDoc = keyHolderDocRef.docs[0];
+
+      // contact button
 
       setKeyHolder({
         name: keyHolderDoc.data().name,
@@ -83,45 +83,12 @@ const Name = () => {
 
   // styling for html body
 
-  // const contactBtn = document.querySelector(".contact-button");
-
-  // contactBtn.addEventListener("click", () => {
-  //   if (contactBtn.innerHTML === "Contact") {
-  //     contactBtn.innerHTML = keyHolder.phone;
-  //     contactBtn.classList.add("content-b");
-  //   } else {
-  //     contactBtn.innerHTML = "Contact";
-  //     contactBtn.classList.remove("content-b");
-  //   }
-  // });
-
   // styling for html body
 
   return (
     <>
       {isLoading ? <LoadingSign /> : null}
       <div>
-        {/* <div className="container">
-          <div className="container-box">
-            <h2 className="header">
-              Keys' with <span className="highlighted">{keyHolder.name}</span>{" "}
-            </h2>
-            <div className="phone-number">
-              <h3>+91 {keyHolder.phone}</h3>
-            </div>
-            {userIsKeyHolder ? null : (
-              <button
-                onClick={() => {
-                  setIsLoading(true);
-                  setChangingOwner(true);
-                }}
-              >
-                <h1>I've the Key</h1>
-              </button>
-            )}
-          </div>
-        </div> */}
-
         {/* HTml body here  */}
 
         <div className="container">
@@ -139,8 +106,6 @@ const Name = () => {
 
               <div className="btn-signout-container">
                 <Signout></Signout>
-
-                {/* <Signout class="Signout">Signout</Signout> */}
               </div>
             </div>
 
@@ -157,7 +122,23 @@ const Name = () => {
                   <span className="ownername">{keyHolder.name}</span>
                 </h3>
                 <div className="button-container">
-                  <button className="contact-button">{keyHolder.phone}</button>
+                  <button
+                    className="contact-button"
+                    onClick={() => {
+                      const contactBtn =
+                        document.querySelector(".contact-button");
+
+                      if (contactBtn.innerHTML === "Contact") {
+                        contactBtn.innerHTML = keyHolder.phone;
+                        contactBtn.classList.add("content-b");
+                      } else {
+                        contactBtn.innerHTML = "Contact";
+                        contactBtn.classList.remove("content-b");
+                      }
+                    }}
+                  >
+                    Contact
+                  </button>
 
                   {/* i have the key buttton */}
                   {userIsKeyHolder ? null : (

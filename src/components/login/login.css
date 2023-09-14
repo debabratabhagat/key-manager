@@ -195,12 +195,12 @@ main {
   * {
     margin: 0;
     padding: 0;
-    overflow: hidden;
+    overflow: auto;
   }
   .login-box {
     height: auto;
     max-width: 450px;
-    overflow: hidden;
+    overflow: auto;
   }
 
   .login-inner-box {

@@ -15,19 +15,31 @@ import { AuthContext } from "./components/auth";
 function App() {
   const currentUser = useContext(AuthContext);
 
-
   return (
     <BrowserRouter>
-      {(currentUser === "fetching...") ? <LoadingSign />
-        : <Routes>
-            <Route exact path="/" element={<PublicRoute currentUser={currentUser} Component={ Login } />} />
-            <Route path="/home" element={<PrivateRoute currentUser={currentUser} Component={ Name } />} />
-            <Route path="/signup" element={<PublicRoute currentUser={currentUser} Component={ Signup } />} />
-            <Route path="/*" element={<Navigate to="/" />} />
-            <Route path="/signout" element={<Signout />} />
-          </Routes>
-          }
-      </BrowserRouter>
+      {currentUser === "fetching..." ? (
+        <LoadingSign />
+      ) : (
+        <Routes>
+          <Route
+            exact
+            path="/"
+            element={
+              <PublicRoute currentUser={currentUser} Component={Login} />
+            }
+          />
+          <Route
+            path="/home"
+            element={
+              <PrivateRoute currentUser={currentUser} Component={Name} />
+            }
+          />
+          {/* <Route path="/signup" element={<PublicRoute currentUser={currentUser} Component={ Signup } />} /> */}
+          <Route path="/*" element={<Navigate to="/" />} />
+          <Route path="/signout" element={<Signout />} />
+        </Routes>
+      )}
+    </BrowserRouter>
   );
 }
 

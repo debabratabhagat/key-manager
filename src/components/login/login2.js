@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { signInWithEmailAndPassword, signInWithRedirect } from "firebase/auth";
-import { Link } from "react-router-dom";
-import { signInWithPopup } from "firebase/auth";
+import React, { useState, useContext } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { Link, useNavigate } from "react-router-dom";
 
-import { auth, googleProvider } from "../../firebase";
+import { AuthContext } from "../auth";
+import { auth } from "../../firebase";
 import "./login.css";
 
 function Login() {
@@ -11,34 +11,15 @@ function Login() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const googleSignin = () => {
-    signInWithRedirect(auth, googleProvider)
-      .then((data) => {
-        console.log(data.user);
-        // window.close();
-        // const isNewUser = data.additionalUserInfo.isNewUser; // checks whether a google user is new
-        // console.log("New user state");
-        // console.log(isNewUser);
-
-        // if (!isNewUser) {
-        //   window.location.href = "/home";
-        // } else {
-        //   const externalSignup = document.querySelector(".external-signup-box");
-        //   localStorage.setItem("googleSignup", JSON.stringify(externalSignup));
-        //   window.location.href = "/signup";
-        // }
-      })
-      .catch((error) => {
-        console.log(error.code);
-      });
-  };
+  const currentUser = useContext(AuthContext);
+  const navigate = useNavigate(); //hook to navigate to homepage after successful login
 
   const handleLogin = async () => {
-    document.querySelector(".login-message").style.display = "block";
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      // window.location.href = "/home";
+      // navigate("/home");
     } catch (error) {
-      document.querySelector(".login-message").style.display = "none";
       if (error.code === "auth/user-not-found") {
         setErrorMessage("User not found. Please check your email.");
       } else if (error.code === "auth/wrong-password") {
@@ -73,14 +54,6 @@ function Login() {
 
   return (
     <>
-      <p
-        className="external-signin-box"
-        onClick={() => {
-          googleSignin();
-        }}
-      >
-        Continue with Google
-      </p>
       <div className="login-container">
         <div className="login-box">
           <h1>Login</h1>
@@ -109,9 +82,6 @@ function Login() {
             Don't have an account? <Link to="/signup">Signup</Link>
           </h3>
         </div>
-        <p className="login-message" style={{ display: "none" }}>
-          Signing you in....
-        </p>
         <p className="error-message">{errorMessage}</p>
       </div>
     </>

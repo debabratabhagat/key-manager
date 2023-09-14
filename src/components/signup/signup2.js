@@ -1,73 +1,136 @@
-// import React from "react";
-// import { db, auth } from "../../firebase";
-// import { createUserWithEmailAndPassword } from "firebase/auth";
-// import { Link } from "react-router-dom";
-// import { query, collection, where, doc, setDoc } from "firebase/firestore";
-// import "./signup.css";
+import React, { useState, useRef } from "react";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { Link } from "react-router-dom";
+import { doc, setDoc } from "firebase/firestore";
 
-// const Signup = () => {
-//   //   const [checked, setChecked] = useState(false);
-//   //   function handleChange(e) { setChecked(e.target.checked); }
+import { db, auth } from "../../firebase";
+import "./signup.css";
 
-//   //   const q = await query(collection(db, "users"), where("haskey", "==", true));
-//   //   console.log(`q=${(q!= null)}`);
-//   //   const [haskey, setHaskey] = useState((q != null));
+export default function Signup() {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  // const [phone, setPhone] = useState();
+  const [errorMessage, setErrorMessage] = useState("");
+  const phone = useRef("");
 
-//   return (
-//     <>
-//       <h1 className="signup-title">Sign Up</h1>
-//       <div className="form-group">
-//         <label className="form-label" htmlFor="userName">
-//           Name:
-//         </label>
-//         <input className="form-input" type="text" id="userName" />
-//       </div>
-//       <div className="form-group">
-//         <label className="form-label" htmlFor="userEmail">
-//           Email:
-//         </label>
-//         <input className="form-input" type="text" id="userEmail" />
-//       </div>
-//       <div className="form-group">
-//         <label className="form-label" htmlFor="userPasswd">
-//           Password:
-//         </label>
-//         <input className="form-input" type="text" id="userPasswd" />
-//       </div>
+  const handleSignup = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(async (cred) => {
+        await setDoc(doc(db, "users", cred.user.uid), {
+          name: username,
+          haskey: false,
+          email: email,
+          phone: phone.current,
+        });
+        window.location.href = "/home";
+      })
+      .catch((error) => {
+        if (error.code === "auth/email-already-in-use") {
+          setErrorMessage("Email is already in use.");
+        } else if (error.code === "auth/invalid-email") {
+          setErrorMessage("Invalid email format.");
+        } else if (error.code === "auth/operation-not-allowed") {
+          setErrorMessage("Operation not allowed.");
+        } else if (error.code === "auth/weak-password") {
+          setErrorMessage("Password is too weak.");
+        } else if (error.code === "auth/network-request-failed") {
+          setErrorMessage(
+            "Network request failed. Check your internet connection."
+          );
+        } else if (error.code === "auth/too-many-requests") {
+          setErrorMessage("Too many requests. Please try again later.");
+        } else if (error.code === "auth/user-disabled") {
+          setErrorMessage("User account is disabled.");
+        } else if (error.code === "auth/user-token-expired") {
+          setErrorMessage("User token has expired.");
+        } else if (error.code === "auth/app-not-authorized") {
+          setErrorMessage(
+            "App is not authorized to use Firebase Authentication."
+          );
+        } else if (error.code === "auth/internal-error") {
+          setErrorMessage("Internal Firebase Authentication error.");
+        } else if (error.code === "auth/missing-continue-uri") {
+          setErrorMessage("Missing continue URI.");
+        } else if (error.code === "auth/invalid-action-code") {
+          setErrorMessage("Invalid action code.");
+        } else if (error.code === "auth/expired-action-code") {
+          setErrorMessage("Expired action code.");
+        } else {
+          setErrorMessage("An unknown error occurred:", error);
+        }
+      });
+  };
 
-//       {/* {haskey? null : <>
-//             <input type = "checkbox" id="checkBox" onChange = {handleChange} />
-//             <label htmlFor="checkBox">Do you have the key ?</label>
-//         </>} */}
+  return (
+    <>
+      <div className="signup-container">
+        <div className="signup-box">
+          {" "}
+          <h1>Sign Up</h1>
+          <input
+            className="input-field"
+            type="text"
+            id="username"
+            placeholder="Enter your username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <input
+            className="input-field"
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            className="input-field"
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <input
+            className="input-field"
+            type="text"
+            id="phone-number"
+            placeholder="Enter your mobile number"
+            onChange={(e) => {
+              phone.current = e.target.value;
+              const signupMessage = document.querySelector(".signup-message");
+              let foundbreak = false;
+              for (let chr of phone.current) {
+                if (isNaN(chr)) {
+                  signupMessage.innerText = "Enter a valid phone number";
+                  signupMessage.style.display = "block";
+                  signupMessage.style.color = "red";
+                  foundbreak = true;
+                  break;
+                }
+              }
+              if (!foundbreak) {
+                document.querySelector(".signup-message").style.display =
+                  "none";
+              }
+            }}
+            maxLength="10"
+            minLength="10"
+          />
+          <button onClick={handleSignup} className="signup-button">
+            Submit
+          </button>
+        </div>
 
-//       <button
-//         className="signup-button"
-//         onClick={() => {
-//           const email = document.getElementById("userEmail").value;
-//           const passwd = document.getElementById("userPasswd").value;
-//           const name = document.getElementById("userName").value;
-
-//           createUserWithEmailAndPassword(auth, email, passwd).then(
-//             async (cred) => {
-//               await setDoc(doc(db, "users", cred.user.uid), {
-//                 name: name,
-//                 haskey: false,
-//               });
-//               console.log("added succesfully");
-//             }
-//           );
-//         }}
-//       >
-//         Sign Up
-//       </button>
-
-//       <div>
-//         <h3 className="signup-login-link">
-//           Already signed in?<Link to="/Login">Login</Link>
-//         </h3>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default Signup;
+        <div>
+          <h3 className="signup-h3">
+            Already have an account? <Link to="/">Login</Link>
+          </h3>
+        </div>
+        <p className="signup-message" style={{ display: "none" }}></p>
+        <p className="error-message">{errorMessage}</p>
+      </div>
+    </>
+  );
+}

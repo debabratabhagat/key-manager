@@ -11,6 +11,7 @@ import PrivateRoute from "./routes/privateroute";
 import PublicRoute from "./routes/publicroute";
 
 import { AuthContext } from "./components/auth";
+import ExternalSignup from "./components/signup/external-signup-doc";
 
 function App() {
   const currentUser = useContext(AuthContext);
@@ -19,8 +20,9 @@ function App() {
     <BrowserRouter>
       {currentUser === "fetching..." ? (
         <LoadingSign />
+      ) : currentUser === "external signup doc upload pending..." ? (
+        <ExternalSignup />
       ) : (
-        
         <Routes>
           <Route
             exact

@@ -46,15 +46,15 @@ const Name = () => {
     };
 
     try {
-      toast.dismiss(); //###################
+      toast.dismiss();
       func();
     } catch (error) {
       if (error.code === "permission-denied") {
-        toast.error("Permission denied:", error.message); //#########################
+        toast.error("Permission denied:", error.message);
       } else if (error.code === "not-found") {
-        toast.error("Document not found:", error.message); //#########################
+        toast.error("Document not found:", error.message);
       } else {
-        toast.error("Firestore error:", error); //#########################
+        toast.error("Firestore error:", error);
       }
     }
   }, []);
@@ -84,11 +84,11 @@ const Name = () => {
         newOwner();
       } catch (error) {
         if (error.code === "permission-denied") {
-          toast.error("Permission denied:", error.message); //################
+          toast.error("Permission denied:", error.message);
         } else if (error.code === "not-found") {
-          toast.error("Document not found:", error.message); //################
+          toast.error("Document not found:", error.message);
         } else {
-          toast.error("Firestore error:", error); //################
+          toast.error("Firestore error:", error);
         }
       }
     } else {

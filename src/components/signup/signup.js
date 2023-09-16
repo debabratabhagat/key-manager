@@ -1,5 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import React, { useState, useRef, useEffect, useContext } from "react";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { Link } from "react-router-dom";
 import { signInWithRedirect } from "firebase/auth";
 
@@ -21,146 +24,93 @@ export default function Signup() {
   const [errorMessage, setErrorMessage] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
-  /*###### GETTING REDIRECT RESULT AND UPLOADING NEW USER DOCS, if user is new to firebase #######*/
-  useEffect(() => {
-    const func = async function () {
-      const userDocRef = doc(db, "users", auth.currentUser.uid);
-      try {
-        const userDoc = await getDoc(userDocRef);
-        if (userDoc.data()) {
-          // if user is not new redirect to home page
-          window.location.href = "/home";
-        } else {
-          //else creating its document
-          setEmail(auth.currentUser.email);
+  const handleSignup = async () => {
+    try {
+      await toast.promise(
+        createUserWithEmailAndPassword(auth, email, password).then(
+          async (cred) => {
+            await toast.promise(
+              setDoc(doc(db, "users", cred.user.uid), {
+                name: username,
+                haskey: false,
+                email: email,
+                phone: phone.current,
+              }),
+              {
+                loading: "uploading doc to firebase database...",
+                success: "Doc uploaded successfully",
+                error: (error) => {
+                  toast.dismiss();
+                  switch (error.code) {
+                    case "permission-denied":
+                      return "Permission Denied: Check Firestore Security Rules";
+                    case "unavailable":
+                      return "Network Error: Check your internet connection";
+                    case "invalid-argument":
+                      return "Invalid Data Format: Check your data format";
+                    case "already-exists":
+                      return "Document Already Exists: Use a unique document ID";
+                    case "resource-exhausted":
+                      return "Rate Limit Exceeded: Implement rate limiting";
+                    case "unauthenticated":
+                      return "Authentication Error: User is not authenticated";
+                    case "quota-exceeded":
+                      return "Quota Exceeded: Check your Firebase billing and quotas";
+                    default:
+                      return "An unknown error occurred: ", error;
+                  }
+                },
+              }
+            );
 
-          const loginRedirectionLink = document.querySelector(".toggle");
-          loginRedirectionLink.style.display = "none";
-
-          const externalSignup = document.querySelectorAll(".other-links");
-          for (let e of externalSignup) {
-            e.style.display = "none"; // disabling external signup options
-          }
-
-          const emailInput = document.getElementById("email");
-          emailInput.disabled = true;
-
-          const passwordInput = document.getElementById("password");
-          passwordInput.style.display = "none";
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    if (auth.currentUser) {
-      try {
-        func();
-      } catch (error) {
-        alert(error);
-      }
-    }
-  }, []);
-
-  const handleSignup = () => {
-    // const signupMessage = document.querySelector(".message");
-    // signupMessage.innerText = "Creating your account....";
-    // signupMessage.style.color = "green";
-    // signupMessage.style.display = "block";
-    toast.success("Creating your account....");
-
-    if (!auth.currentUser) {
-      createUserWithEmailAndPassword(auth, email, password)
-        .then(async (cred) => {
-          try {
-            await setDoc(doc(db, "users", cred.user.uid), {
-              name: username,
-              haskey: false,
-              email: email,
-              phone: phone.current,
-            });
             window.location.href = "/home";
-          } catch (error) {
-            if (error.code === "permission-denied") {
-              toast.error("Permission denied:", error.message);
-            } else if (error.code === "quota-exceeded") {
-              toast.error("Quota exceeded:", error.message);
-            } else if (error.code === "timeout") {
-              toast.error("Timeout:", error.message);
-            } else if (error.code === "invalid-argument") {
-              toast.error("Invalid argument:", error.message);
-            } else {
-              toast.error("Database error:", error.message);
+          }
+        ),
+        {
+          loading: "Creating your account....", // Loading message (optional)
+          success: "Successfully created your account", // Displayed on successful login
+          error: (error) => {
+            toast.dismiss();
+            // Customize error messages based on error code
+            switch (error.code) {
+              case "auth/email-already-in-use":
+                return "Email is already in use.";
+              case "auth/invalid-email":
+                return "Invalid email format.";
+              case "auth/missing-password":
+                return "Oops you missed the password field";
+              case "auth/operation-not-allowed":
+                return "Operation not allowed.";
+              case "auth/weak-password":
+                return "Password is too weak.";
+              case "auth/network-request-failed":
+                return "Network request failed. Check your internet connection.";
+              case "auth/too-many-requests":
+                return "Too many requests. Please try again later.";
+              case "auth/user-disabled":
+                return "User account is disabled.";
+              case "auth/user-token-expired":
+                return "User token has expired.";
+              case "auth/app-not-authorized":
+                return "App is not authorized to use Firebase Authentication.";
+              case "auth/internal-error":
+                return "Internal Firebase Authentication error.";
+              case "auth/missing-continue-uri":
+                return "Missing continue URI.";
+              case "auth/invalid-action-code":
+                return "Invalid action code.";
+              case "auth/expired-action-code":
+                return "Expired action code.";
+              default:
+                return "An error occurred. Please try again.";
             }
-          }
-        })
-        .catch((error) => {
-          // console.log(error.code);
-          document.querySelector(".message").style.display = "none";
-          if (error.code === "auth/email-already-in-use") {
-            toast.error("Email is already in use.");
-          } else if (error.code === "auth/invalid-email") {
-            toast.error("Invalid email format.");
-          } else if (error.code === "auth/missing-password") {
-            toast.error("Oops you missed the password field");
-          } else if (error.code === "auth/operation-not-allowed") {
-            toast.error("Operation not allowed.");
-          } else if (error.code === "auth/weak-password") {
-            toast.error("Password is too weak.");
-          } else if (error.code === "auth/network-request-failed") {
-            toast.error(
-              "Network request failed. Check your internet connection."
-            );
-          } else if (error.code === "auth/too-many-requests") {
-            toast.error("Too many requests. Please try again later.");
-          } else if (error.code === "auth/user-disabled") {
-            toast.error("User account is disabled.");
-          } else if (error.code === "auth/user-token-expired") {
-            toast.error("User token has expired.");
-          } else if (error.code === "auth/app-not-authorized") {
-            toast.error(
-              "App is not authorized to use Firebase Authentication."
-            );
-          } else if (error.code === "auth/internal-error") {
-            toast.error("Internal Firebase Authentication error.");
-          } else if (error.code === "auth/missing-continue-uri") {
-            toast.error("Missing continue URI.");
-          } else if (error.code === "auth/invalid-action-code") {
-            toast.error("Invalid action code.");
-          } else if (error.code === "auth/expired-action-code") {
-            toast.error("Expired action code.");
-          } else {
-            toast.error("An unknown error occurred:", error);
-          }
-        });
-    } else {
-      const uploadDoc = async () => {
-        await setDoc(doc(db, "users", auth.currentUser.uid), {
-          name: username,
-          haskey: false,
-          email: email,
-          phone: phone.current,
-        });
-        window.location.href = "/home";
-      };
-      try {
-        uploadDoc();
-      } catch (error) {
-        if (error.code === "permission-denied") {
-          toast.error("Permission denied:", error.message);
-        } else if (error.code === "quota-exceeded") {
-          toast.error("Quota exceeded:", error.message);
-        } else if (error.code === "timeout") {
-          console.error("Timeout:", error.message);
-        } else if (error.code === "invalid-argument") {
-          toast.error("Invalid argument:", error.message);
-        } else {
-          toast.error("Firestore error:", error);
+          },
         }
-      }
-    }
+      );
+    } catch (error) {}
   };
 
-  const possibleErrorsOnRedirectingSign = (error) => {
+  const possibleErrorsOnRedirectingSignup = (error) => {
     if (error.code === "auth/redirect-cancelled-by-user") {
       toast.error("Authentication cancelled by the user.");
     } else if (error.code === "auth/popup-blocked") {
@@ -239,9 +189,12 @@ export default function Signup() {
                       onClick={async () => {
                         try {
                           setIsLoading(true);
+                          googleProvider.addScope(
+                            "https://www.googleapis.com/auth/user.phonenumbers.read"
+                          );
                           await signInWithRedirect(auth, googleProvider);
                         } catch (error) {
-                          possibleErrorsOnRedirectingSign(error);
+                          possibleErrorsOnRedirectingSignup(error);
                         }
                       }}
                       width="42px"
@@ -264,7 +217,7 @@ export default function Signup() {
                           setIsLoading(true);
                           await signInWithRedirect(auth, microsoftProvider);
                         } catch (error) {
-                          possibleErrorsOnRedirectingSign(error);
+                          possibleErrorsOnRedirectingSignup(error);
                         }
                       }}
                       width="39px"
@@ -318,23 +271,6 @@ export default function Signup() {
                         phone.current = e.target.value;
                         const regexValid = /^[0-9]{10}/;
                         setErrorMessage(regexValid.test(phone.current));
-
-                        // if (regex.test(phone.current)) {
-                        // setErrorMessage(false);
-                        // console.log(errorMessage);
-                        // toast.error("Enter a valid phone number");
-                        // signupMessage.innerText =
-                        //   "Enter a valid phone number";
-                        // signupMessage.style.display = "block";
-                        // signupMessage.style.color = "red";
-                        // foundbreak = true;
-                        // break;
-                        // }
-                        // }
-                        // if (!foundbreak) {
-                        //   document.querySelector(".message").style.display =
-                        //     "none";
-                        // }
                       }}
                       maxLength="10"
                       minLength="10"
@@ -355,6 +291,7 @@ export default function Signup() {
                   <input
                     type="submit"
                     value="Sign up"
+                    id="normal-sign-up-btn"
                     className="login-button sign-btn"
                     onClick={() => {
                       const usernameRequired =

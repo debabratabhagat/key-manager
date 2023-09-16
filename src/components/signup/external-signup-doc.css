@@ -1,0 +1,30 @@
+body {
+  background-color: aqua;
+}
+.input-field {
+}
+
+.input-field > h3 {
+  color: white;
+  padding: 12px;
+}
+.phone-input {
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  border: 2px solid #ff6b6b; /* Vibrant red border */
+  border-radius: 8px;
+  background-color: #fff6f6; /* Light pink background */
+  color: #333;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.phone-input::placeholder {
+  color: #999; /* Placeholder text color */
+}
+
+.phone-input:focus {
+  outline: none;
+  border-color: #ff3d3d; /* Brighter red border on focus */
+  box-shadow: 0 0 8px rgba(255, 107, 107, 0.6); /* Soft red shadow on focus */
+}

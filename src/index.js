@@ -1,19 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { AuthProvider } from "./components/auth";
 import { Toaster } from "react-hot-toast";
+import NetworkError from "./network-error/networkerror";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
+function CheckConnection() {
+  const [isConnectedToInternet, setIsConnectedToInternet] = useState(
+    navigator.onLine
+  );
+
+  useEffect(() => {
+    setIsConnectedToInternet(navigator.onLine);
+  }, [navigator.onLine]);
+
+  return isConnectedToInternet;
+}
 try {
   root.render(
     <React.StrictMode>
-      <Toaster position="top-right" reverseOrder={false} />
-      <AuthProvider>
-        <App />
-      </AuthProvider>
+      {navigator.onLine ? (
+        <>
+          <Toaster position="top-right" reverseOrder={false} />
+          <AuthProvider>
+            <App />
+          </AuthProvider>
+        </>
+      ) : (
+        <NetworkError />
+      )}
     </React.StrictMode>
   );
 } catch (error) {

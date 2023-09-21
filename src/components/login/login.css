@@ -14,7 +14,7 @@ input {
 main {
   width: 100%;
   min-height: 100vh;
-  overflow: hidden;
+  overflow: auto;
   padding: 2rem;
   background-color: rgb(146, 214, 216);
   display: flex;
@@ -208,7 +208,7 @@ main {
 }
 
 @media (max-width: 850px) {
-  * {
+  * body {
     margin: 0;
     padding: 0;
     overflow: auto;

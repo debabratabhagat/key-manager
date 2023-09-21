@@ -11,14 +11,23 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     try {
-      onAuthStateChanged(auth, async (user) => {
+      const unsubscribe = onAuthStateChanged(auth, async (user) => {
         if (user) {
           const userDocRef = doc(db, "users", user.uid);
           const userDoc = await getDoc(userDocRef);
+          var authUser = auth.currentUser;
           if (userDoc.data()) {
             setCurrentUser({ id: user.uid, name: userDoc.data().name });
           } else {
-            setCurrentUser("doc upload pending...");
+            authUser.providerData.forEach(function (profile) {
+              if (profile.providerId === "password") {
+                setCurrentUser("doc upload pending...");
+              } else if (
+                profile.providerId === ("google.com" || "microsoft.com")
+              ) {
+                setCurrentUser("external signup doc upload pending...");
+              }
+            });
           }
         } else {
           setCurrentUser("null");
@@ -26,11 +35,11 @@ export const AuthProvider = ({ children }) => {
       });
     } catch (error) {
       if (error.code === "auth/network-request-failed") {
-        toast.error("Network error:", error.message); //##########
+        toast.error("Network error:", error.message);
       } else if (error.code === "auth/id-token-expired") {
-        toast.error("Firebase auth id-token-expired"); //##########
+        toast.error("Firebase auth id-token-expired");
       } else {
-        toast.error("Firebase Authentication error:", error); //##########
+        toast.error("Firebase Authentication error:", error);
       }
     }
   }, []);

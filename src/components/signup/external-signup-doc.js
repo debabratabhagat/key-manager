@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { getRedirectResult } from "firebase/auth";
 import toast from "react-hot-toast";
 import { doc, setDoc } from "firebase/firestore";
@@ -6,6 +6,9 @@ import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
 import "./external-signup-doc.css";
 const ExternalSignup = () => {
+  const [errorMessage, setErrorMessage] = useState(true);
+  const phone = useRef("");
+
   const UploadExternalSignupDoc = async () => {
     try {
       await toast.promise(
@@ -67,21 +70,42 @@ const ExternalSignup = () => {
   };
 
   return (
-    <>
-      <div className="input-field">
-        <h3>Enter phone number to continue</h3>
-        <label for="phone">Phone Number:</label>
-        <input
-          type="tel"
-          id="phone-number"
-          name="phone"
-          className="phone-input"
-          required
-        />
+    <div className="external-container">
+      <div className="external-input-field">
+        <div className="external-forms-wrap">
+          <h3 className="external-h3">Enter phone number to continue</h3>
 
-        <button onClick={UploadExternalSignupDoc}>Submit</button>
+          <input
+            type="tel"
+            id="phone-number"
+            name="phone"
+            className="phone-input"
+            required
+            placeholder="Phone Number"
+            onChange={(e) => {
+              phone.current = e.target.value;
+              const regexValid = /^[0-9]{10}/;
+              setErrorMessage(regexValid.test(phone.current));
+            }}
+            maxLength="10"
+            minLength="10"
+          />
+
+          <button
+            className="external-button"
+            onClick={() => {
+              if (errorMessage) {
+                UploadExternalSignupDoc();
+              } else {
+                toast.error("Username or Phone Number Not entered correctly");
+              }
+            }}
+          >
+            Submit
+          </button>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

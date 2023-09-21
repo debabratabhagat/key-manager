@@ -1,30 +1,140 @@
-body {
-  background-color: aqua;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
-.input-field {
+body,
+input {
+  font-family: "Poppins", sans-serif;
 }
 
-.input-field > h3 {
-  color: white;
-  padding: 12px;
+.external-container {
+  width: 100%;
+  min-height: 100vh;
+  overflow: auto;
+  padding: 2rem;
+  background-color: rgb(146, 214, 216);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.external-forms-wrap {
+  position: absolute;
+  width: calc(100% - 2rem);
+  height: calc((100% - 2rem));
+  border-radius: 3rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(to right bottom, #52b3b7, #2f979b);
+}
+.external-input-field {
+  position: relative;
+  width: 60%;
+  max-width: 1020px;
+  height: 240px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 3.3rem;
+  box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 0.5);
 }
 .phone-input {
-  width: 100%;
-  padding: 12px;
-  font-size: 18px;
-  border: 2px solid #ff6b6b; /* Vibrant red border */
-  border-radius: 8px;
-  background-color: #fff6f6; /* Light pink background */
-  color: #333;
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-.phone-input::placeholder {
-  color: #999; /* Placeholder text color */
-}
-
-.phone-input:focus {
+  position: absolute;
+  top: 150px;
+  left: 10%;
+  width: 40%;
+  /* height: 100%; */
+  background: whitesmoke;
+  border: none;
+  border-radius: 0.3rem;
   outline: none;
-  border-color: #ff3d3d; /* Brighter red border on focus */
-  box-shadow: 0 0 8px rgba(255, 107, 107, 0.6); /* Soft red shadow on focus */
+  border-bottom: 2px solid #bbb;
+  padding: 10px;
+  font-size: 0.95rem;
+  font-weight: 300;
+  transition: 0.4s ease;
+}
+
+.external-h3 {
+  position: absolute;
+  top: 37px;
+  left: 20px;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: #151111;
+}
+
+.external-button {
+  position: absolute;
+  top: 150px;
+  left: 75%;
+  display: inline-block;
+  width: 20%;
+  height: 43px;
+  border: 2px solid rgb(33, 42, 83);
+
+  background-color: rgb(10, 60, 95);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 0.8rem;
+  font-size: 0.8rem;
+  margin-bottom: 2rem;
+  transition: 0.3s;
+}
+
+@media (max-width: 650px) {
+  * body {
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+  }
+  .external-container {
+    width: 100%;
+    min-height: 100vh;
+    overflow: auto;
+    padding: 0.2rem;
+    background-color: rgb(146, 214, 216);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .external-input-field {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(255, 255, 255);
+    border-radius: 3.3rem;
+    box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 0.5);
+  }
+  .external-forms-wrap {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 3rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(to right bottom, #52b3b7, #628e8f);
+  }
+  .phone-input {
+    position: absolute;
+    top: 150px;
+    left: 10%;
+    width: 55%;
+    /* height: 100%; */
+    background: whitesmoke;
+    border: none;
+    border-radius: 0.3rem;
+    outline: none;
+    border-bottom: 2px solid #bbb;
+    padding: 10px;
+    font-size: 0.95rem;
+    font-weight: 300;
+    transition: 0.4s ease;
+  }
 }

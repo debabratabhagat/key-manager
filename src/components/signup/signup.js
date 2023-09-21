@@ -209,7 +209,7 @@ export default function Signup() {
                       />
                     </svg>
                   </div>
-                  <div className="other-links-microsoft">
+                  {/* <div className="other-links-microsoft">
                     <svg
                       className="external-signup-box microsoft"
                       onClick={async () => {
@@ -231,7 +231,7 @@ export default function Signup() {
                         fill="#000000"
                       />
                     </svg>
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="actual-form">

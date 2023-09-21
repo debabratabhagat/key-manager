@@ -62,10 +62,6 @@ export default function Signup() {
   }, []);
 
   const handleSignup = () => {
-    // const signupMessage = document.querySelector(".message");
-    // signupMessage.innerText = "Creating your account....";
-    // signupMessage.style.color = "green";
-    // signupMessage.style.display = "block";
     toast.success("Creating your account....");
 
     if (!auth.currentUser) {
@@ -222,7 +218,7 @@ export default function Signup() {
             <div className="login-forms-wrap">
               <div className="login-form">
                 <div className="login-logo">
-                  <img src={logo} alt="image-here" />
+                  <img src={logo} alt="" />
                 </div>
 
                 <div className="logo-heading">
@@ -318,23 +314,6 @@ export default function Signup() {
                         phone.current = e.target.value;
                         const regexValid = /^[0-9]{10}/;
                         setErrorMessage(regexValid.test(phone.current));
-
-                        // if (regex.test(phone.current)) {
-                        // setErrorMessage(false);
-                        // console.log(errorMessage);
-                        // toast.error("Enter a valid phone number");
-                        // signupMessage.innerText =
-                        //   "Enter a valid phone number";
-                        // signupMessage.style.display = "block";
-                        // signupMessage.style.color = "red";
-                        // foundbreak = true;
-                        // break;
-                        // }
-                        // }
-                        // if (!foundbreak) {
-                        //   document.querySelector(".message").style.display =
-                        //     "none";
-                        // }
                       }}
                       maxLength="10"
                       minLength="10"
@@ -393,7 +372,7 @@ export default function Signup() {
                 <h3>Find out where they are</h3>
               </div>
               <div className="key-img">
-                <img src={key} alt="image-here" />
+                <img src={key} alt="" />
               </div>
             </div>
           </div>

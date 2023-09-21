@@ -28,7 +28,9 @@ const Name = () => {
   useEffect(() => {
     const func = async () => {
       const q = query(collection(db, "users"), where("haskey", "==", true)); //querying who has keys
+
       const keyHolderDocRef = await getDocs(q);
+      console.log(keyHolderDocRef.docs);
       const keyHolderDoc = keyHolderDocRef.docs[0];
 
       // contact button
@@ -110,7 +112,7 @@ const Name = () => {
               <div className="logo-container">
                 <img src={cyborglogo} alt="img here" className="logo" />
                 <div className="app-name-container">
-                  <h2 className="app-name">Key-manager</h2>
+                  <h2 className="app-name">Key Manager</h2>
                 </div>
               </div>
 

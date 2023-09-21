@@ -64,46 +64,6 @@ function Login() {
     }
   };
 
-  // new toast promise here
-
-  // const handleLogin = async () => {
-  //   try {
-  //     // document.querySelector(".login-message").style.display = "block";
-  //     await signInWithEmailAndPassword(auth, email, password);
-  //   } catch (error) {
-  //     document.querySelector(".login-message").style.display = "none";
-  //     if (error.code === "auth/user-not-found") {
-  //       toast.error("User not found. Please check your email.");
-  //     } else if (error.code === "auth/wrong-password") {
-  //       toast.error("Incorrect password. Please try again.");
-  //     } else if (error.code === "auth/invalid-email") {
-  //       toast.error("Invalid email address. Please enter a valid email.");
-  //     } else if (error.code === "auth/user-disabled") {
-  //       toast.error(
-  //         "User account is disabled. Contact support for assistance."
-  //       );
-  //     } else if (error.code === "auth/user-token-expired") {
-  //       toast.error("User session has expired. Please sign in again.");
-  //     } else if (error.code === "auth/too-many-requests") {
-  //       toast.error("Too many sign-in attempts. Please try again later.");
-  //     } else if (error.code === "auth/network-request-failed") {
-  //       toast.error("Network error. Check your internet connection.");
-  //     } else if (error.code === "auth/internal-error") {
-  //       toast.error("Internal error occurred. Please try again later.");
-  //     } else if (error.code === "auth/invalid-api-key") {
-  //       toast.error("Invalid Firebase API key. Check your configuration.");
-  //     } else if (error.code === "auth/invalid-tenant-id") {
-  //       toast.error("Invalid tenant ID. Check your setup.");
-  //     } else if (
-  //       error.code === "auth/operation-not-supported-in-this-environment"
-  //     ) {
-  //       toast.error("Sign-in not supported in this environment.");
-  //     } else {
-  //       toast.error("An error occurred. Please try again.");
-  //     }
-  //   }
-  // };
-
   const possibleErrorsOnRedirectingSign = (error) => {
     if (error.code === "auth/redirect-cancelled-by-user") {
       toast.error("Authentication cancelled by the user.");
@@ -260,13 +220,6 @@ function Login() {
                     onClick={handleLogin}
                   />
                 </div>
-
-                {/* <div className="error-box">
-                  <p className="login-message" style={{ display: "none" }}>
-                    Signing you in....
-                  </p>
-                  <p className="error-message">{errorMessage}</p>
-                </div> */}
               </div>
             </div>
 
@@ -286,74 +239,6 @@ function Login() {
           </div>
         </div>
       </main>
-      {/* <p className="login-message" style={{ display: "none" }}>
-        Signing you in....
-      </p>
-      <p className="error-message">{errorMessage}</p> */}
-      {/* html for login  */}
-
-      {/* test login */}
-      <>
-        {/* <p
-        className="external-signin-box"
-        onClick={async () => {
-          try {
-            setIsLoading(true);
-            await signInWithRedirect(auth, googleProvider);
-          } catch (error) {
-            possibleErrorsOnRedirectingSign(error);
-          }
-        }}
-        >
-        Continue with Google
-        </p>
-        <p
-        className="external-signup-box"
-        onClick={async () => {
-          try {
-            setIsLoading(true);
-            await signInWithRedirect(auth, microsoftProvider);
-          } catch (error) {
-            possibleErrorsOnRedirectingSign(error);
-          }
-        }}
-        >
-        Sign up with Microsoft
-        </p>
-      <div className="login-container">
-        <div className="login-box">
-          <h1>Login</h1>
-
-          <input
-            className="input-field"
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            className="input-field"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button className="login-button" onClick={handleLogin}>
-            Login
-          </button>
-        </div>
-
-        <div>
-          <h3 className="login-h3">
-            Don't have an account? <Link to="/signup">Signup</Link>
-          </h3>
-        </div>
-        <p className="login-message" style={{ display: "none" }}>
-          Signing you in....
-        </p>
-        <p className="error-message">{errorMessage}</p>
-      </div> */}
-      </>
     </>
   );
 }

@@ -178,7 +178,7 @@ main {
   display: inline;
   margin: 10px;
   padding: 10px;
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 .carousel h3 {
   font-style: "poppins";
@@ -229,10 +229,6 @@ main {
     position: revert;
     width: 100%;
     height: auto;
-  }
-  .input-field:focus + label {
-    font-size: 0rem;
-    top: -2px;
   }
 
   .carousel {

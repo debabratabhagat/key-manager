@@ -51,7 +51,8 @@ input {
 }
 .app-name-container {
   width: max-content;
-  padding: 2px;
+  /* padding: 3px;
+  padding-left: 2px; */
 }
 .app-name-container h2 {
   border: 2px solid rgb(255, 255, 255);
@@ -62,9 +63,10 @@ input {
   position: relative;
   padding: 5px;
   top: 47%;
-  left: -1%;
+  left: 0%;
   font-size: 16px;
   text-align: center;
+  padding: 5px;
 }
 .logo-container img {
   top: 0%;
@@ -131,11 +133,14 @@ input {
 }
 .user-name h2 {
   /* padding: 5px; */
-  color: rgb(255, 255, 255);
+  color: rgb(4, 4, 4);
   font-style: "poppins";
   font-weight: 500;
   font-size: 16px;
   pointer-events: none;
+}
+.user-name .user-img {
+  margin-left: 5px;
 }
 
 /* Contact Button */
@@ -148,6 +153,7 @@ input {
 .contact-button {
   background-color: rgb(10, 60, 95);
   color: #fff;
+  margin-right: 5px;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;

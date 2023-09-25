@@ -105,8 +105,8 @@ const Name = () => {
 
         <div className="container">
           <div className="box">
-            <div className="circle2"></div>
-            <div className="circle1"></div>
+            {/* <div className="circle2"></div>
+            <div className="circle1"></div> */}
 
             <div className="side-aisle" id="side-aisle-mobile">
               <div className="logo-container">
@@ -156,8 +156,14 @@ const Name = () => {
                   {userIsKeyHolder ? null : (
                     <button
                       onClick={() => {
-                        setIsLoading(true);
-                        setChangingOwner(true);
+                        if (
+                          window.confirm("are you sure you have the key ?") ==
+                          true
+                        ) {
+                          setIsLoading(true);
+                          setChangingOwner(true);
+                        } else {
+                        }
                       }}
                       className="change-owner"
                     >

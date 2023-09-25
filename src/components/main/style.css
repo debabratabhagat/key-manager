@@ -66,7 +66,7 @@ input {
   left: 0%;
   font-size: 16px;
   text-align: center;
-  padding: 5px;
+  padding: 8px;
 }
 .logo-container img {
   top: 0%;
@@ -81,7 +81,8 @@ input {
   margin-top: 20px;
   position: relative;
   top: -2%;
-  left: 25%;
+  left: 50%;
+  transform: translateX(-50%);
   max-width: 40%;
   width: 35%;
   height: 10%;
@@ -234,7 +235,7 @@ input {
   .container {
     padding: 0;
   }
-
+  /* 
   .circle1 {
     position: absolute;
     top: -80%;
@@ -252,11 +253,11 @@ input {
     width: 600px;
     height: 600px;
     border-radius: 50%;
-  }
+  } */
   .box {
     box-shadow: none;
-    width: 90%;
-    height: 95vh;
+    width: 93%;
+    height: 97vh;
     border-radius: 2rem;
     background: rgba(
       255,
@@ -288,6 +289,7 @@ input {
   }
   .logo {
     position: absolute;
+    left: 10px;
     width: 100px;
     height: 100px;
   }
@@ -309,14 +311,15 @@ input {
   }
   .user-name {
     /* background: rgb(255, 0, 0); */
-    padding: 5px;
+    padding: 6px;
     position: absolute;
-    left: 55px;
-    top: 40px;
+    left: 50%;
+    transform: translateX(-40%);
+    top: 38px;
     background-color: rgb(125, 205, 208);
     border: 2px solid rgb(33, 42, 83);
     min-width: fit-content;
-    width: 200px;
+    width: 150px;
     height: fit-content;
     /* justify-content: center; */
   }
@@ -330,7 +333,7 @@ input {
   .key-owner-container {
     /* background: blue; */
     position: absolute;
-    top: 30px;
+    top: 60px;
     width: 100%;
   }
   .btn-signout-container {
@@ -340,7 +343,8 @@ input {
     border-radius: 0.55rem;
     top: 80%;
     border: 2px solid rgb(253, 210, 71);
-    left: 20px;
+    left: 50%;
+    transform: translateX(-100%);
   }
   .Signout {
     border-radius: 0.5rem;

@@ -177,7 +177,7 @@ export default function Signup() {
 
                 <div className="logo-heading">
                   <h2>New Here !!</h2>
-                  <h6>Already have an account?</h6>
+                  <h6>Already have an account? </h6>
                   <Link to="/login" className="toggle">
                     Login
                   </Link>{" "}
@@ -241,7 +241,7 @@ export default function Signup() {
                       className="input-field"
                       type="text"
                       id="username"
-                      placeholder="Enter your username"
+                      placeholder="Enter your full name"
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                     />

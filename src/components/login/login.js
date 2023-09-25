@@ -132,7 +132,7 @@ function Login() {
 
                 <div className="logo-heading">
                   <h2>WELCOME BACK</h2>
-                  <h6>Not registered yet?</h6>
+                  <h6>Not registered yet? </h6>
                   <Link to="/signup" className="toggle">
                     Signup
                   </Link>

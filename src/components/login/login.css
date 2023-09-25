@@ -216,7 +216,7 @@ main {
   }
   .login-box {
     height: auto;
-    max-width: 450px;
+    max-width: 100%;
     overflow: auto;
   }
 
@@ -233,16 +233,15 @@ main {
   }
 
   .carousel {
-    position: revert;
-    /* display: none; */
+    /* position: revert; */
+    display: none;
     height: 100px;
     width: 100%;
     padding: 1rem 2rem;
-    display: flex;
     padding-top: 0;
   }
 
-  .carousel h2 {
+  /* .carousel h2 {
     padding: 0;
     font-size: 1.5rem;
     position: relative;
@@ -251,7 +250,7 @@ main {
   }
   .carousel h3 {
     display: none;
-  }
+  } */
   .key-img {
     display: none;
   }

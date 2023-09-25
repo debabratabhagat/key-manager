@@ -66,6 +66,7 @@ main {
   left: 45%;
   top: 0;
   background: linear-gradient(to right bottom, #52b3b7, #2f979b);
+  background: linear-gradient(to right bottom, #52b3b7, #2f979b);
   border-radius: 2rem;
   transition: 0.5s ease-in-out;
 }

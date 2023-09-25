@@ -164,7 +164,7 @@ function Login() {
                   </div>
 
                   {/* microsoft login  */}
-                  <div className="other-links-microsoft">
+                  {/* <div className="other-links-microsoft">
                     <svg
                       className="external-signup-box microsoft"
                       onClick={async () => {
@@ -186,7 +186,7 @@ function Login() {
                         fill="#000000"
                       />
                     </svg>
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="actual-form">

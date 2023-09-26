@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/key-manager/static/css/main.a2f9a1d4.css",
+    "main.js": "/key-manager/static/js/main.6db86f7f.js",
+    "static/js/787.85361664.chunk.js": "/key-manager/static/js/787.85361664.chunk.js",
+    "static/media/key.png": "/key-manager/static/media/key.9082bdd67b064c1a570b.png",
+    "index.html": "/key-manager/index.html",
+    "main.a2f9a1d4.css.map": "/key-manager/static/css/main.a2f9a1d4.css.map",
+    "main.6db86f7f.js.map": "/key-manager/static/js/main.6db86f7f.js.map",
+    "787.85361664.chunk.js.map": "/key-manager/static/js/787.85361664.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a2f9a1d4.css",
+    "static/js/main.6db86f7f.js"
+  ]
+}

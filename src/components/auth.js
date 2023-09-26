@@ -10,8 +10,8 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState("fetching...");
 
   useEffect(() => {
-    try {
       const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    try {
         if (user) {
           const userDocRef = doc(db, "users", user.uid);
           const userDoc = await getDoc(userDocRef);
@@ -32,7 +32,6 @@ export const AuthProvider = ({ children }) => {
         } else {
           setCurrentUser("null");
         }
-      });
     } catch (error) {
       if (error.code === "auth/network-request-failed") {
         toast.error("Network error:", error.message);
@@ -42,6 +41,7 @@ export const AuthProvider = ({ children }) => {
         toast.error("Firebase Authentication error:", error);
       }
     }
+      });
   }, []);
 
   return (

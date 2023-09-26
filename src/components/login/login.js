@@ -139,17 +139,19 @@ function Login() {
                 </div>
                 <div className="other-links">
                   {/* google login  */}
-                  <div className="other-links-google">
+                  <div
+                    className="other-links-google"
+                    onClick={async () => {
+                      try {
+                        setIsLoading(true);
+                        await signInWithRedirect(auth, googleProvider);
+                      } catch (error) {
+                        possibleErrorsOnRedirectingSign(error);
+                      }
+                    }}
+                  >
                     <svg
                       className="external-signin-box google "
-                      onClick={async () => {
-                        try {
-                          setIsLoading(true);
-                          await signInWithRedirect(auth, googleProvider);
-                        } catch (error) {
-                          possibleErrorsOnRedirectingSign(error);
-                        }
-                      }}
                       width="42px"
                       height="42px"
                       viewBox="0 -0.5 25 25"
@@ -161,6 +163,7 @@ function Login() {
                         fill="#000000"
                       />
                     </svg>
+                    <p className="continue-google"> google-login </p>
                   </div>
 
                   {/* microsoft login  */}

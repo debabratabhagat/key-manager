@@ -183,20 +183,22 @@ export default function Signup() {
                   </Link>{" "}
                 </div>
                 <div className="other-links">
-                  <div className="other-links-google">
+                  <div
+                    className="other-links-google"
+                    onClick={async () => {
+                      try {
+                        setIsLoading(true);
+                        googleProvider.addScope(
+                          "https://www.googleapis.com/auth/user.phonenumbers.read"
+                        );
+                        await signInWithRedirect(auth, googleProvider);
+                      } catch (error) {
+                        possibleErrorsOnRedirectingSignup(error);
+                      }
+                    }}
+                  >
                     <svg
                       className="external-signup-box google"
-                      onClick={async () => {
-                        try {
-                          setIsLoading(true);
-                          googleProvider.addScope(
-                            "https://www.googleapis.com/auth/user.phonenumbers.read"
-                          );
-                          await signInWithRedirect(auth, googleProvider);
-                        } catch (error) {
-                          possibleErrorsOnRedirectingSignup(error);
-                        }
-                      }}
                       width="42px"
                       height="42px"
                       viewBox="0 -0.5 25 25"
@@ -208,6 +210,7 @@ export default function Signup() {
                         fill="#000000"
                       />
                     </svg>
+                    <p className="continue-google"> google-login </p>
                   </div>
                   {/* <div className="other-links-microsoft">
                     <svg

@@ -15,6 +15,7 @@ import ExternalSignup from "./components/signup/external-signup-doc";
 
 function App() {
   const currentUser = useContext(AuthContext);
+  // console.log("hola");
   // window.confirm("whatcha doin");
 
   return (

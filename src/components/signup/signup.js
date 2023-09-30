@@ -1,8 +1,5 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-} from "firebase/auth";
+import React, { useState, useRef } from "react";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
 import { signInWithRedirect } from "firebase/auth";
 
@@ -212,29 +209,6 @@ export default function Signup() {
                     </svg>
                     <p className="continue-google"> google-login </p>
                   </div>
-                  {/* <div className="other-links-microsoft">
-                    <svg
-                      className="external-signup-box microsoft"
-                      onClick={async () => {
-                        try {
-                          setIsLoading(true);
-                          await signInWithRedirect(auth, microsoftProvider);
-                        } catch (error) {
-                          possibleErrorsOnRedirectingSignup(error);
-                        }
-                      }}
-                      width="39px"
-                      height="39px"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M4 4H11.5V11.5H4V4ZM12.5 4H20V11.5H12.5V4ZM4 12.5H11.5V20H4V12.5ZM12.5 12.5H20V20H12.5V12.5Z"
-                        fill="#000000"
-                      />
-                    </svg>
-                  </div> */}
                 </div>
 
                 <div className="actual-form">

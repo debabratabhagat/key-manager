@@ -30,7 +30,7 @@ const Name = () => {
       const q = query(collection(db, "users"), where("haskey", "==", true)); //querying who has keys
 
       const keyHolderDocRef = await getDocs(q);
-      console.log(keyHolderDocRef.docs);
+
       const keyHolderDoc = keyHolderDocRef.docs[0];
 
       // contact button

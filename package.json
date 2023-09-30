@@ -1,4 +1,5 @@
 {
+  "homepage":"./",
   "name": "key-manager",
   "version": "0.1.0",
   "private": true,
@@ -40,5 +41,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "a web app to track the keys and students holding them at the point.",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC"
 }

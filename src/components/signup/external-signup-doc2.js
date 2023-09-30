@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { getRedirectResult } from "firebase/auth";
 import toast from "react-hot-toast";
 import { doc, setDoc } from "firebase/firestore";

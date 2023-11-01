@@ -1,5 +1,5 @@
 import React from "react";
-import "./networkerror.css";
+// import "./networkerror.css";
 
 const NetworkError = () => {
   return (

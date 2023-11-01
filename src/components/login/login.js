@@ -1,66 +1,62 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
 import { signInWithRedirect } from "firebase/auth";
 import logo from "./cyborg-logo.png";
 import key from "../signup/key.png";
 import toast from "react-hot-toast";
-import { auth, googleProvider, microsoftProvider } from "../../firebase";
+import { auth, googleProvider } from "../../firebase";
 import LoadingSign from "../loader/loader";
 import "./login.css";
 
 function Login() {
+  const rollNo = useRef("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [errorTrigger, setErrorTrigger] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("Enter valid details");
 
   // new toast promise here
 
   const handleLogin = async () => {
-    try {
-      // Display a loading toast while waiting for authentication
-      // const loadingToast = toast.loading("Logging in...");
+    // console.log(email);
+    const userLogin = signInWithEmailAndPassword(auth, email, password);
 
-      await toast.promise(signInWithEmailAndPassword(auth, email, password), {
-        loading: "Logging in...", // Loading message (optional)
-        success: "Logged in successfully!", // Displayed on successful login
-        error: (error) => {
-          toast.dismiss();
-          // Customize error messages based on error code
-          switch (error.code) {
-            case "auth/user-not-found":
-              return "User not found. Please check your email.";
-            case "auth/wrong-password":
-              return "Incorrect password. Please try again.";
-            case "auth/invalid-email":
-              return "Invalid email address. Please enter a valid email.";
-            case "auth/user-disabled":
-              return "User account is disabled. Contact support for assistance.";
-            case "auth/user-token-expired":
-              return "User session has expired. Please sign in again.";
-            case "auth/too-many-requests":
-              return "Too many sign-in attempts. Please try again later.";
-            case "auth/network-request-failed":
-              return "Network error. Check your internet connection.";
-            case "auth/internal-error":
-              return "Internal error occurred. Please try again later.";
-            case "auth/invalid-api-key":
-              return "Invalid Firebase API key. Check your configuration.";
-            case "auth/invalid-tenant-id":
-              return "Invalid tenant ID. Check your setup.";
-            case "auth/operation-not-supported-in-this-environment":
-              return "Sign-in not supported in this environment.";
-            default:
-              return "An error occurred. Please try again.";
-          }
-        },
-      });
-
-      // If the promise resolves successfully, hide the loading toast
-      toast.dismiss();
-    } catch (error) {
-      // toast.error("An unexpected error occurred:", error);
-    }
+    toast.promise(userLogin, {
+      loading: "Logging in...", // Loading message (optional)
+      success: "Logged in successfully!", // Displayed on successful login
+      error: (error) => {
+        toast.dismiss();
+        // Customize error messages based on error code
+        switch (error.code) {
+          case "auth/user-not-found":
+            return "User not found. Please check your Roll No.";
+          case "auth/wrong-password":
+            return "Incorrect password. Please try again.";
+          case "auth/invalid-email":
+            return "Invalid Roll No. Please enter a valid Roll No.";
+          case "auth/user-disabled":
+            return "User account is disabled. Contact support for assistance.";
+          case "auth/user-token-expired":
+            return "User session has expired. Please sign in again.";
+          case "auth/too-many-requests":
+            return "Too many sign-in attempts. Please try again later.";
+          case "auth/network-request-failed":
+            return "Network error. Check your internet connection.";
+          case "auth/internal-error":
+            return "Internal error occurred. Please try again later.";
+          case "auth/invalid-api-key":
+            return "Invalid Firebase API key. Check your configuration.";
+          case "auth/invalid-tenant-id":
+            return "Invalid tenant ID. Check your setup.";
+          case "auth/operation-not-supported-in-this-environment":
+            return "Sign-in not supported in this environment.";
+          default:
+            return "An error occurred. Please try again.";
+        }
+      },
+    });
   };
 
   const possibleErrorsOnRedirectingSign = (error) => {
@@ -111,7 +107,7 @@ function Login() {
     } else if (error.code === "auth/operation-not-allowed") {
       toast.error("Authentication operation not allowed.");
     } else {
-      console.error("An unexpected error occurred:", error);
+      toast.error("An unexpected error occurred:", error);
     }
   };
 
@@ -136,8 +132,8 @@ function Login() {
                     Signup
                   </Link>
                 </div>
-                <div className="other-links">
-                  {/* google login  */}
+                {/* <div className="other-links">
+                  google login 
                   <div
                     className="other-links-google"
                     onClick={async () => {
@@ -164,43 +160,32 @@ function Login() {
                     </svg>
                     <p className="continue-google"> google-login </p>
                   </div>
-
-                  {/* microsoft login  */}
-                  {/* <div className="other-links-microsoft">
-                    <svg
-                      className="external-signup-box microsoft"
-                      onClick={async () => {
-                        try {
-                          setIsLoading(true);
-                          await signInWithRedirect(auth, microsoftProvider);
-                        } catch (error) {
-                          possibleErrorsOnRedirectingSign(error);
-                        }
-                      }}
-                      width="39px"
-                      height="39px"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M4 4H11.5V11.5H4V4ZM12.5 4H20V11.5H12.5V4ZM4 12.5H11.5V20H4V12.5ZM12.5 12.5H20V20H12.5V12.5Z"
-                        fill="#000000"
-                      />
-                    </svg>
-                  </div> */}
-                </div>
+                </div> */}
 
                 <div className="actual-form">
                   <div className="input-wrap">
                     {/* email input for login  */}
-                    <input
-                      className="input-field"
-                      placeholder="email"
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
+                    <div className="input-wrap">
+                      <input
+                        className="input-field"
+                        type="text"
+                        id="email"
+                        placeholder="Enter your Roll No"
+                        onChange={(e) => {
+                          // console.log(rollNo + "nitrkl.ac.in");
+                          // phone.current = e.target.value;
+                          rollNo.current = e.target.value;
+                          const regexValid = /^\d{3}[a-zA-Z]{2}\d{4}$/;
+                          setEmail(rollNo.current + "@nitrkl.ac.in");
+                          setErrorTrigger(regexValid.test(rollNo.current));
+                          if (regexValid.test(rollNo.current) == false) {
+                            setErrorMessage("Enter valid Roll no");
+                          } else {
+                            setErrorMessage("Please check all fields");
+                          }
+                        }}
+                      />
+                    </div>
                     {/* <label className="email">email</label> */}
                   </div>
 
@@ -209,9 +194,12 @@ function Login() {
                     <input
                       className="input-field"
                       type="password"
+                      id="password"
                       placeholder="password"
                       value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                      }}
                     />
                     {/* <label className="pass">password</label> */}
                   </div>
@@ -219,7 +207,13 @@ function Login() {
                     type="submit"
                     value="Sign IN"
                     className="login-button sign-btn"
-                    onClick={handleLogin}
+                    onClick={() => {
+                      if (errorTrigger && document.querySelector("#password")) {
+                        handleLogin();
+                      } else {
+                        toast.error(errorMessage);
+                      }
+                    }}
                   />
                 </div>
               </div>

@@ -7,6 +7,9 @@
   margin: 0;
   box-sizing: border-box;
 }
+button {
+  cursor: pointer;
+}
 
 /* Fonts */
 body,
@@ -74,19 +77,51 @@ input {
   max-width: 100%;
   max-height: 150px;
 }
+
+.side-aisle-btn-container {
+  /* background-color: red; */
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding-bottom: 10px;
+  /* flex-direction: column; */
+}
+
 .btn-signout-container {
   /* background-color: blue; */
   border: 2px solid rgb(33, 42, 83);
-  border-radius: 5rem;
+  border-radius: 0.6rem;
   margin-top: 20px;
-  position: relative;
-  top: -2%;
-  left: 50%;
-  transform: translateX(-50%);
   max-width: 40%;
   width: 35%;
-  height: 10%;
+  height: 60px;
   padding: 2px;
+}
+
+.admin-path {
+  max-width: 40%;
+  width: 35%;
+  height: 55px;
+  margin-top: 20px;
+  display: flex;
+  justify-self: center;
+  align-items: center;
+  border-radius: 0.55rem;
+  background-color: yellow;
+  justify-content: space-around;
+}
+
+.admin-path:hover {
+  background-color: rgb(10, 60, 95);
+
+  cursor: pointer;
+}
+.admin-path:hover .admin-heading {
+  cursor: pointer;
+  color: whitesmoke;
+}
+.admin-heading {
+  color: black;
 }
 
 .Signout {
@@ -94,7 +129,7 @@ input {
   color: #fff;
   padding: 10px 20px;
   border: none;
-  border-radius: 5rem;
+  border-radius: 0.6rem;
   cursor: pointer;
   width: 100%;
   height: 100%;
@@ -102,6 +137,7 @@ input {
   font-size: 16px;
   font-style: "poppins";
   font-weight: 100;
+  text-align: center;
 }
 
 .Signout:hover {
@@ -167,6 +203,7 @@ input {
 }
 
 .contact-button:hover {
+  box-sizing: border-box;
   border: 2px solid rgb(33, 42, 83);
   background-color: rgb(233, 233, 233); /* Contrasting color for hover */
   color: rgb(33, 42, 83);
@@ -216,6 +253,28 @@ input {
   font-weight: 800;
 }
 
+/********************************************/
+.alert-messages {
+  position: absolute;
+  inset: 58% 10%;
+}
+.keys-possesion-claimers {
+  display: flex;
+  overflow-x: auto;
+}
+.individual-keys-possesion-claimers {
+  display: flex;
+  justify-content: space-around;
+  padding: 0% 2%;
+}
+
+.sent-message-status-box {
+  position: relative;
+  top: -8%;
+  left: 8%;
+}
+/********************************************/
+
 @media (max-width: 1250px) {
   .box {
     width: 85%;
@@ -235,36 +294,13 @@ input {
   .container {
     padding: 0;
   }
-  /* 
-  .circle1 {
-    position: absolute;
-    top: -80%;
-    left: -110%;
-    background-color: rgb(24, 137, 141);
-    width: 800px;
-    height: 800px;
-    border-radius: 50%;
-  }
-  .circle2 {
-    position: absolute;
-    top: -65%;
-    left: -25%;
-    background-color: rgb(98, 193, 197);
-    width: 600px;
-    height: 600px;
-    border-radius: 50%;
-  } */
+
   .box {
     box-shadow: none;
     width: 93%;
     height: 97vh;
     border-radius: 2rem;
-    background: rgba(
-      255,
-      255,
-      255,
-      0.5
-    ); /* Semi-transparent white background */
+    background: rgb(255, 255, 255); /* Semi-transparent white background */
     backdrop-filter: blur(9px);
     margin: 0;
   }
@@ -336,14 +372,18 @@ input {
     top: 60px;
     width: 100%;
   }
+  /* 
+  .side-aisle-btn-container {
+    background-color: red;
+  } */
   .btn-signout-container {
     position: absolute;
-    min-width: fit-content;
-    height: fit-content;
+    width: 130px;
+    height: 50px;
     border-radius: 0.55rem;
-    top: 80%;
+    top: 75%;
     border: 2px solid rgb(253, 210, 71);
-    left: 50%;
+    left: 41%;
     transform: translateX(-100%);
   }
   .Signout {
@@ -351,7 +391,28 @@ input {
     font-weight: 400;
     background-color: rgb(253, 210, 71);
   }
+
+  .admin-path {
+    position: absolute;
+    background-color: rgb(10, 60, 95);
+    width: 130px;
+    height: 50px;
+    border-radius: 0.55rem;
+    top: 85%;
+    border: 2px solid rgb(33, 42, 83);
+    left: 41%;
+    transform: translateX(-100%);
+  }
+
+  .admin-heading {
+    color: whitesmoke;
+  }
   .key-owner-name {
     font-weight: 400;
+  }
+  /********************************************/
+  .sent-message-status-box {
+    position: relative;
+    top: 62%;
   }
 }

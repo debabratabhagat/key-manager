@@ -234,6 +234,7 @@ main {
     height: auto;
     max-width: 100%;
     overflow: auto;
+    /* padding: 0; */
   }
 
   .login-inner-box {

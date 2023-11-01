@@ -1,28 +1,113 @@
-import React, { useState, useRef } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import React, { useState, useRef, useContext } from "react";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  signOut,
+} from "firebase/auth";
 import { Link } from "react-router-dom";
-import { signInWithRedirect } from "firebase/auth";
 
 import key from "./key.png";
 import logo from "./cyborg-logo.png";
-
-import { doc, setDoc, getDoc } from "firebase/firestore";
-
-import { db, auth, googleProvider, microsoftProvider } from "../../firebase";
+import { doc, setDoc } from "firebase/firestore";
+import { db, auth } from "../../firebase";
 import LoadingSign from "../loader/loader";
 import "./signup.css";
 import toast from "react-hot-toast";
+import { AuthContext } from "../auth";
 
 export default function Signup() {
   const [username, setUsername] = useState("");
+  const rollNo = useRef("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const phone = useRef("");
-  const [errorMessage, setErrorMessage] = useState(true);
+  const [errorTrigger, setErrorTrigger] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("Enter valid details");
   const [isLoading, setIsLoading] = useState(false);
 
+  const [currentUser, unsubscribe] = useContext(AuthContext);
+
   const handleSignup = async () => {
-    try {
+    // console.log(email);
+    // console.log(typeof email);
+    console.log("inside handlesignup function...");
+    unsubscribe();
+    console.log("unsubscribed from listening...");
+    const createUser = createUserWithEmailAndPassword(auth, email, password)
+      .then(async (cred) => {})
+       /* try {
+          const uploadingDoc = setDoc(doc(db, "admin", cred.user.uid), {
+            name: username,
+            haskey: false,
+            email: email,
+            rollNo: rollNo.current,
+            phone: phone.current,
+          });
+
+          // console.log("setdoc started");
+          await uploadingDoc();
+          // console.log("setDoc ended");
+
+          toast.promise(uploadingDoc, {
+            loading: "uploading doc to firebase database...",
+            success: "Doc uploaded successfully",
+            error: (error) => {
+              toast.dismiss();
+              switch (error.code) {
+                case "permission-denied":
+                  return "Permission Denied: Check Firestore Security Rules";
+                case "unavailable":
+                  return "Network Error: Check your internet connection";
+                case "invalid-argument":
+                  return "Invalid Data Format: Check your data format";
+                case "already-exists":
+                  return "Document Already Exists: Use a unique document ID";
+                case "resource-exhausted":
+                  return "Rate Limit Exceeded: Implement rate limiting";
+                case "unauthenticated":
+                  return "Authentication Error: User is not authenticated";
+                case "quota-exceeded":
+                  return "Quota Exceeded: Check your Firebase billing and quotas";
+                default:
+                  return "An unknown error occurred: ";
+              }
+            },
+          });
+
+          const verifyEmail = Promise.all([
+            uploadingDoc(),
+            sendEmailVerification(auth.currentUser),
+            signOut(auth),
+          ]);
+          await verifyEmail();
+          toast.promise(verifyEmail, {
+            loading: "Wait for a moment",
+            success:
+              "A verification email has been sent to your mail id , verify your mail within 1 hour to access the app",
+            error: (error) => {
+              return error;
+            },
+          });
+        } catch (error) {
+          // console.log(error);
+        }
+      })
+      .catch((error) => {
+        // console.log(`error in creating user: ${error}`);
+      });
+    // createUser();
+    toast.promise(createUser, {
+      loading: "creating user.....",
+      success: "a user has been created",
+      error: (error) => {
+        return `error in creating user: ${error}`;
+      },
+    });
+    const inputBoxes = document.querySelectorAll("input");
+    for (let inputBox of inputBoxes) {
+      inputBox.value = "";
+    }*/
+    /*try {
       await toast.promise(
         createUserWithEmailAndPassword(auth, email, password).then(
           async (cred) => {
@@ -104,7 +189,7 @@ export default function Signup() {
           },
         }
       );
-    } catch (error) {}
+    } catch (error) {}*/
   };
 
   const possibleErrorsOnRedirectingSignup = (error) => {
@@ -179,7 +264,7 @@ export default function Signup() {
                     Login
                   </Link>{" "}
                 </div>
-                <div className="other-links">
+                {/* <div className="other-links">
                   <div
                     className="other-links-google"
                     onClick={async () => {
@@ -209,7 +294,7 @@ export default function Signup() {
                     </svg>
                     <p className="continue-google"> google-login </p>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="actual-form">
                   {/* username field  */}
@@ -220,11 +305,16 @@ export default function Signup() {
                       id="username"
                       placeholder="Enter your full name"
                       value={username}
-                      onChange={(e) => setUsername(e.target.value)}
+                      onChange={(e) => {
+                        setUsername(e.target.value);
+                        if (e.target.value === "") {
+                          setErrorMessage("Enter a valid username");
+                        }
+                      }}
                     />
                   </div>
                   {/* email field  */}
-                  <div className="input-wrap">
+                  {/* <div className="input-wrap">
                     <input
                       className="input-field"
                       type="email"
@@ -234,6 +324,27 @@ export default function Signup() {
                       onChange={(e) => {
                         setEmail(e.target.value);
                       }}
+                    />
+                  </div> */}
+                  <div className="input-wrap">
+                    <input
+                      className="input-field"
+                      type="text"
+                      id="email"
+                      placeholder="Enter your Roll No"
+                      onChange={(e) => {
+                        rollNo.current = e.target.value;
+                        const regexValid = /^\d{3}[a-zA-Z]{2}\d{4}$/;
+                        setEmail(rollNo.current + "@nitrkl.ac.in");
+                        setErrorTrigger(regexValid.test(rollNo.current));
+                        if (regexValid.test(rollNo.current) == false) {
+                          setErrorMessage("Enter valid Roll no");
+                        } else {
+                          setErrorMessage("Please check all fields");
+                        }
+                      }}
+                      maxLength="9"
+                      minLength="9"
                     />
                   </div>
 
@@ -247,7 +358,12 @@ export default function Signup() {
                       onChange={(e) => {
                         phone.current = e.target.value;
                         const regexValid = /^[0-9]{10}/;
-                        setErrorMessage(regexValid.test(phone.current));
+                        setErrorTrigger(regexValid.test(phone.current));
+                        if (regexValid.test(phone.current) == false) {
+                          setErrorMessage("Enter valid phone no");
+                        } else {
+                          setErrorMessage("Please check all fields");
+                        }
                       }}
                       maxLength="10"
                       minLength="10"
@@ -274,28 +390,27 @@ export default function Signup() {
                       const usernameRequired =
                         document.querySelector("#username");
                       const passwordRequired =
-                        document.querySelector("#phone-number");
+                        document.querySelector("#password");
                       if (
                         usernameRequired.value &&
                         passwordRequired.value &&
-                        errorMessage
+                        errorTrigger
                       ) {
+                        // console.log(email);
                         handleSignup();
                       } else {
-                        toast.error(
-                          "Username or Phone Number Not entered correctly"
-                        );
+                        toast.error(errorMessage);
                       }
                     }}
                   />
                 </div>
 
-                <div className="error-box">
+                {/* <div className="error-box">
                   <p className="message" style={{ display: "none" }}>
                     Signing you in....
                   </p>
                   <p className="error-message">{errorMessage}</p>
-                </div>
+                </div> */}
               </div>
             </div>
 

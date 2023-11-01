@@ -1,0 +1,138 @@
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background: rgba(0, 0, 0, 0.7); */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+  /* padding: 20px; */
+}
+
+.popup-content {
+  /* background: rgba(125, 205, 208, 0.8); */
+  background: linear-gradient(
+    to right bottom,
+    rgba(125, 205, 208, 1),
+    rgba(125, 205, 208, 0.9)
+  );
+
+  /* background-color: whitesmoke; */
+  width: 60%;
+  height: 80vh;
+  border-radius: 1.2rem;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+  z-index: -1;
+}
+
+.request-close-button {
+  /* background-color: whitesmoke; */
+  padding: 5px;
+  position: absolute;
+  top: 11%;
+  right: 21%;
+  width: 40px;
+  /* background: none; */
+  border: none;
+  border-radius: 5px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.request-info {
+  position: relative;
+  top: 5%;
+  left: 5%;
+  /* background-color: red; */
+  width: 80%;
+  text-align: center;
+  font-weight: 600;
+  font-size: 18px;
+  color: rgb(10, 60, 95);
+}
+
+.key-claimers-list {
+  /* background-color: red; */
+  background: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 0.8)
+  );
+  position: relative;
+  top: 12%;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 0.8rem;
+}
+
+.key-claimers-button {
+  background-color: rgb(10, 60, 95);
+  color: #fff;
+  margin-right: 5px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: opacity 1.3s ease-in-out;
+}
+
+.request-delete-btn {
+  position: absolute;
+  top: 80%;
+  left: 23%;
+  background-color: red;
+  /* background-color: rgb(10, 60, 95); */
+  color: #fff;
+  margin-right: 5px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: opacity 1.3s ease-in-out;
+}
+
+@media (max-width: 1250px) {
+  .popup-content {
+    width: 85%;
+  }
+  .request-close-button {
+    right: 8%;
+  }
+  .request-delete-btn {
+    left: 13%;
+  }
+}
+
+@media (max-width: 1000px) {
+  .popup-content {
+    width: 90%;
+  }
+  .request-close-button {
+    right: 6%;
+  }
+}
+
+@media (max-width: 680px) {
+  .popup-content {
+    box-shadow: none;
+    width: 100%;
+    height: 97vh;
+  }
+  .request-close-button {
+    right: 4%;
+    top: 1%;
+  }
+  .request-delete-btn {
+    top: 90%;
+    left: 2%;
+  }
+}

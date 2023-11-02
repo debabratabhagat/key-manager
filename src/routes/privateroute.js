@@ -8,7 +8,7 @@ function PrivateRoute(props) {
   const { currentUser, Component } = props;
   const [userIsAdmin, setUserIsAdmin] = useState(false);
   useEffect(() => {
-    if (currentUser !== ("null" || "doc upload pending...")) {
+    if (typeof currentUser === Object) {
       const adminDocRef = doc(db, "admin-users", currentUser.id);
       getDoc(adminDocRef).then((adminDoc) => {
         //checking whether the user is admin or not
@@ -27,6 +27,9 @@ function PrivateRoute(props) {
         <Navigate to="/" />
       ) : currentUser === "doc upload pending..." ? (
         <Navigate to="/signup" />
+      ) : currentUser === ("App access denied..." || "App access pending...") ||
+        currentUser.includes("Email verification pending...") ? (
+        <Navigate to="/" />
       ) : userIsAdmin ? (
         <Component />
       ) : (

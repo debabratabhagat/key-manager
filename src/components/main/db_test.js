@@ -8,7 +8,6 @@ import {
   doc,
   getDoc,
   deleteDoc,
-  getDocs,
 } from "firebase/firestore";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import "./style.css";
@@ -21,14 +20,13 @@ import LoadingSign from "../loader/loader";
 import Signout from "../signout/signout";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-
 import Requests from "./requests";
 
 const Name = () => {
   const [keyHolder, setKeyHolder] = useState({ id: "", name: "", phone: "" });
   const [userIsKeyHolder, setUserIsKeyHolder] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [currentUser, unsubscribe] = useContext(AuthContext);
+  const currentUser = useContext(AuthContext);
   const [claimingPersonsArr, setClaimingPersonsArr] = useState([]); //************
   const [userHasSentMsg, setUserHasSentMsg] = useState(false); //************
   const userIsAdmin = useRef(false);
@@ -36,19 +34,12 @@ const Name = () => {
 
   //************* popup
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-
   //************* popup ends
 
   useEffect(() => {
     const q = query(collection(db, "users"), where("haskey", "==", true)); //querying who has keys
     const adminDocRef = doc(db, "admin-users", currentUser.id);
 
-    // const keyClaimersCollection = collection(db, "key-claimers");
-    // getDocs(keyClaimersCollection).then((collection) => {
-    //   collection.forEach((doc) => {
-    //     console.log(doc);
-    //   });
-    // });
     getDoc(adminDocRef).then((adminDoc) => {
       //checking whether the user is admin or not
       if (adminDoc.exists()) {
@@ -57,7 +48,6 @@ const Name = () => {
         userIsAdmin.current = false;
       }
     });
-    // console.log(userIsAdmin);
     //snaphot of query(who is having the keys)//
     const queryListener = onSnapshot(q, (keyHolderSnapshot) => {
       try {
@@ -89,7 +79,6 @@ const Name = () => {
           onSnapshot(keyClaimersCollection, async (collecSnapshot) => {
             try {
               //checking whether user is keyHolder or not
-              console.log("curreny user doc");
               if (keyHolder.id === currentUser.id) {
                 const arr = [];
                 collecSnapshot.forEach((doc) => {
@@ -227,7 +216,7 @@ const Name = () => {
                     Contact
                   </button>
                   {/* i have the key buttton */}
-                  {console.log(userHasSentMsg)}
+                  {/* {console.log(userHasSentMsg)} */}
                   {userIsKeyHolder ? (
                     <>
                       <button

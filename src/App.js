@@ -1,34 +1,36 @@
 import "./components/signup/signup.css";
 import "./App.css";
-import React, { useContext, useEffect } from "react";
+import React, {
+  useContext,
+  useRef,
+  useState,
+  useEffect,
+  useNavigate,
+} from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { getDoc, doc } from "firebase/firestore";
+import { auth, db } from "../src/firebase";
+import toast from "react-hot-toast";
 
 import Login from "./components/login/login";
 import Signup from "./components/signup/signup";
 import Name from "./components/main/db_test";
 import LoadingSign from "./components/loader/loader";
-import PrivateRoute from "./routes/privateroute";
-import PublicRoute from "./routes/publicroute";
-import firebase from "firebase/app";
+
 import { AuthContext } from "./components/auth";
-import ExternalSignup from "./components/signup/external-signup-doc";
+import AdminPanel from "./components/admin/admin-panel";
+
 import { getToken } from "firebase/messaging";
 import { messaging } from "./firebase";
-import AdminPanel from "./components/admin/admin-panel";
 
 import push from "./components/notification";
 
-//message trial
-
-//messasge trial ends
-
 function App() {
-  // const currentUser = useContext(AuthContext);
-  const [currentUser, unsubscribe] = useContext(AuthContext);
+  const currentUser = useContext(AuthContext);
+  const docIn = useRef(null);
+  const [userIsAdmin, setUserIsAdmin] = useState(null);
 
-  // Notification permission
-
-  // console.log(typeof currentUser);
+  // ***************Notification permission*********************//
   async function notificationPermission() {
     const permission = await Notification.requestPermission();
 
@@ -46,45 +48,131 @@ function App() {
   }
 
   useEffect(() => {
-    // requesting user to give permission
-    notificationPermission();
+    // notificationPermission();
+    const func0 = async () => {
+      console.log("inside func0");
+      if (
+        ![
+          "App access pending...",
+          "App access declined...",
+          "Email verification pending in signup...",
+          "Email verification pending...",
+          "null",
+          "fetching...",
+        ].includes(currentUser)
+      ) {
+        const adminDocRef = doc(db, "admin-users", currentUser.id);
+        const adminDoc = await getDoc(adminDocRef);
+        toast.promise(getDoc(adminDocRef), {
+          loading: "setting user is admin or not....",
+          success: "resolved... user is admin...",
+          error: (error) => {
+            toast.dismiss();
+            return error.code;
+          },
+        });
+        //checking whether the user is admin or not
+
+        if (adminDoc.exists()) {
+          setUserIsAdmin(true);
+        } else {
+          setUserIsAdmin(false);
+        }
+      }
+      console.log(userIsAdmin);
+
+      if (currentUser === "Email verification pending...") {
+        const func1 = async () => {
+          const adminUserDocRef = doc(db, "admin", auth.currentUser.uid);
+          const adminUserDoc = await getDoc(adminUserDocRef);
+          if (adminUserDoc.data()) {
+            docIn.current = "admin";
+          } else {
+            docIn.current = "nowhere";
+          }
+        };
+        func1();
+      }
+    };
+    func0();
   }, []);
 
-  // Notification permission
+  const getComponentToRenderLogin = () => {
+    if (
+      currentUser === "App access pending..." ||
+      currentUser === "App access declined..." ||
+      currentUser === "Email verification pending..." ||
+      currentUser === "null"
+    ) {
+      return <Login />;
+    } else if (currentUser === "Email verification pending in signup...") {
+      return <Navigate to="/signup" />;
+    } else {
+      return <Navigate to="/home" />;
+    }
+  };
+  const getComponentToRenderSignup = () => {
+    if (
+      currentUser === "null" ||
+      currentUser === "Email verification pending in signup..."
+    ) {
+      return <Signup />;
+    } else if (
+      currentUser === "App access pending..." ||
+      currentUser === "App access declined..." ||
+      currentUser === "Email verification pending..."
+    ) {
+      return <Navigate to="/" />;
+    } else {
+      return <Navigate to="/home" />;
+    }
+  };
+  const getComponentToRenderAdmin = () => {
+    if (
+      currentUser === "App access pending..." ||
+      currentUser === "App access declined..." ||
+      currentUser === "Email verification pending..." ||
+      currentUser === "null"
+    ) {
+      return <Navigate to="/" />;
+    } else if (currentUser === "Email verification pending in signup...") {
+      return <Navigate to="/signup" />;
+    } else {
+      console.log(userIsAdmin);
+      if (userIsAdmin) {
+        return <AdminPanel />;
+      } else {
+        return <Navigate to="/home" />;
+      }
+    }
+  };
+  const getComponentToRenderHome = () => {
+    if (
+      currentUser === "App access pending..." ||
+      currentUser === "App access declined..." ||
+      currentUser === "Email verification pending..." ||
+      currentUser === "null"
+    ) {
+      return <Navigate to="/" />;
+    } else if (currentUser === "Email verification pending in signup...") {
+      return <Navigate to="/signup" />;
+    } else {
+      return <Name />;
+    }
+  };
+
+  //***************** use effect block ends ********************//
 
   return (
     <BrowserRouter>
       {currentUser === "fetching..." ? (
         <LoadingSign />
-      ) : currentUser === "external signup doc upload pending..." ? (
-        <ExternalSignup />
       ) : (
         <Routes>
-          <Route
-            exact
-            path="/"
-            element={
-              <PublicRoute currentUser={currentUser} Component={Login} />
-            }
-          />
-          <Route
-            path="/home"
-            element={
-              <PrivateRoute currentUser={currentUser} Component={Name} />
-            }
-          />
-          <Route
-            path="/admin"
-            element={
-              <PrivateRoute currentUser={currentUser} Component={AdminPanel} />
-            }
-          />
-          <Route
-            path="/signup"
-            element={
-              <PublicRoute currentUser={currentUser} Component={Signup} />
-            }
-          />
+          <Route exact path="/" element={getComponentToRenderLogin()} />
+          <Route path="/signup" element={getComponentToRenderSignup()} />
+          <Route path="/admin" element={getComponentToRenderAdmin()} />
+          <Route path="/home" element={getComponentToRenderHome()} />
           <Route path="/*" element={<Navigate to="/" />} />
         </Routes>
       )}

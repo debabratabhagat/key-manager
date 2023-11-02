@@ -1,12 +1,6 @@
 import "./components/signup/signup.css";
 import "./App.css";
-import React, {
-  useContext,
-  useRef,
-  useState,
-  useEffect,
-  useNavigate,
-} from "react";
+import React, { useContext, useRef, useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { getDoc, doc } from "firebase/firestore";
 import { auth, db } from "../src/firebase";
@@ -30,6 +24,7 @@ function App() {
   const docIn = useRef(null);
   const [userIsAdmin, setUserIsAdmin] = useState(null);
 
+  console.log(currentUser);
   // ***************Notification permission*********************//
   async function notificationPermission() {
     const permission = await Notification.requestPermission();
@@ -48,53 +43,22 @@ function App() {
   }
 
   useEffect(() => {
-    // notificationPermission();
-    const func0 = async () => {
-      console.log("inside func0");
-      if (
-        ![
-          "App access pending...",
-          "App access declined...",
-          "Email verification pending in signup...",
-          "Email verification pending...",
-          "null",
-          "fetching...",
-        ].includes(currentUser)
-      ) {
-        const adminDocRef = doc(db, "admin-users", currentUser.id);
-        const adminDoc = await getDoc(adminDocRef);
-        toast.promise(getDoc(adminDocRef), {
-          loading: "setting user is admin or not....",
-          success: "resolved... user is admin...",
-          error: (error) => {
-            toast.dismiss();
-            return error.code;
-          },
-        });
-        //checking whether the user is admin or not
-
-        if (adminDoc.exists()) {
-          setUserIsAdmin(true);
-        } else {
-          setUserIsAdmin(false);
-        }
-      }
-      console.log(userIsAdmin);
-
-      if (currentUser === "Email verification pending...") {
-        const func1 = async () => {
-          const adminUserDocRef = doc(db, "admin", auth.currentUser.uid);
-          const adminUserDoc = await getDoc(adminUserDocRef);
-          if (adminUserDoc.data()) {
-            docIn.current = "admin";
-          } else {
-            docIn.current = "nowhere";
-          }
-        };
-        func1();
-      }
-    };
-    func0();
+    notificationPermission();
+    // const func0 = async () => {
+    // console.log("inside func0");
+    // console.log(userIsAdmin);
+    // if (currentUser === "Email verification pending...") {
+    //   const func1 = async () => {
+    //     const adminUserDocRef = doc(db, "admin", auth.currentUser.uid);
+    //     const adminUserDoc = await getDoc(adminUserDocRef);
+    //     if (adminUserDoc.data()) {
+    //       docIn.current = "admin";
+    //     } else {
+    //       docIn.current = "nowhere";
+    //     }
+    //   };
+    //   func1();
+    // }
   }, []);
 
   const getComponentToRenderLogin = () => {
@@ -138,8 +102,8 @@ function App() {
     } else if (currentUser === "Email verification pending in signup...") {
       return <Navigate to="/signup" />;
     } else {
-      console.log(userIsAdmin);
-      if (userIsAdmin) {
+      console.log(currentUser.isAdmin);
+      if (currentUser.isAdmin) {
         return <AdminPanel />;
       } else {
         return <Navigate to="/home" />;

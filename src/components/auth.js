@@ -24,7 +24,29 @@ export const AuthProvider = ({ children }) => {
             const userDoc = await getDoc(userDocRef);
             // var authUser = auth.currentUser;
             if (userDoc.data()) {
-              setCurrentUser({ id: user.uid, name: userDoc.data().name });
+              const userDocRef = doc(db, "users", user.uid);
+              const userDoc = await getDoc(userDocRef);
+              // var authUser = auth.currentUser;
+              if (userDoc.data()) {
+                const adminDocRef = doc(db, "admin-users", user.uid);
+                const adminDoc = await getDoc(adminDocRef);
+
+                //checking whether the user is admin or not
+
+                if (adminDoc.exists()) {
+                  setCurrentUser({
+                    id: user.uid,
+                    name: userDoc.data().name,
+                    isAdmin: true,
+                  });
+                } else {
+                  setCurrentUser({
+                    id: user.uid,
+                    name: userDoc.data().name,
+                    isAdmin: false,
+                  });
+                }
+              }
             } else {
               const adminUserDocRef = doc(db, "admin", user.uid);
               const declinedUserDocRef = doc(db, "declined-requests", user.uid);

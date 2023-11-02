@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef } from "react";
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
@@ -14,7 +14,7 @@ import { db, auth } from "../../firebase";
 import LoadingSign from "../loader/loader";
 import "./signup.css";
 import toast from "react-hot-toast";
-import { AuthContext } from "../auth";
+// import { AuthContext } from "../auth";
 
 export default function Signup() {
   const [username, setUsername] = useState("");
@@ -26,7 +26,7 @@ export default function Signup() {
   const [errorMessage, setErrorMessage] = useState("Enter valid details");
   const [isLoading, setIsLoading] = useState(false);
 
-  const [currentUser, unsubscribe] = useContext(AuthContext);
+  // const [currentUser, unsubscribe] = useContext(AuthContext);
 
   const handleSignup = async () => {
     toast("Creating a user...");

@@ -1,0 +1,80 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.main-gear {
+  width: 100%;
+  height: 60%;
+  display: flex;
+  /* background-color: red; */
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 75%;
+  left: 32%;
+}
+.main-gear .container-gear {
+  /* background-color: brown; */
+  /* position: relative; */
+  height: 100%;
+  width: 100%;
+}
+.medium-gear {
+  position: absolute;
+  max-width: 25%;
+  min-width: 70px;
+  top: 1%;
+  left: 28%;
+  color: rgb(33, 42, 82);
+  animation: rotate-left 6s linear infinite;
+}
+.large-gear {
+  position: absolute;
+  min-width: 40px;
+  max-width: 39%;
+  top: 8%;
+  left: 50%;
+  animation: rotate-right 6s linear infinite;
+}
+
+/* All values of top and left values are experimental
+  you may change those values to see different results. */
+
+@keyframes rotate-right {
+  from {
+    transform: rotateZ(0);
+  }
+  to {
+    transform: rotateZ(360deg);
+  }
+}
+
+@keyframes rotate-left {
+  from {
+    transform: rotateZ(0);
+  }
+  to {
+    transform: rotateZ(-360deg);
+  }
+}
+
+@media (max-width: 680px) {
+  .medium-gear {
+    position: absolute;
+    max-width: 25%;
+    min-width: 100px;
+    top: 2px;
+    left: 25px;
+    color: rgb(33, 42, 82);
+    animation: rotate-left 6s linear infinite;
+  }
+  .large-gear {
+    position: absolute;
+    max-width: 40%;
+    min-width: 150px;
+    top: 50px;
+    left: 100px;
+    animation: rotate-right 6s linear infinite;
+  }
+}

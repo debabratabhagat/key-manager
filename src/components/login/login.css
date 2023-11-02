@@ -1,0 +1,326 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body,
+input {
+  font-family: "Poppins", sans-serif;
+}
+main {
+  width: 100%;
+  min-height: 100vh;
+  overflow: auto;
+  padding: 2rem;
+  background-color: rgb(146, 214, 216);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-box {
+  position: relative;
+  width: 100%;
+  max-width: 1020px;
+  height: 640px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 3.3rem;
+  box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 0.5);
+}
+
+.login-inner-box {
+  position: absolute;
+  width: calc(100% - 2rem);
+  height: calc((100% - 2rem));
+  border-radius: 3rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(209, 228, 228);
+}
+
+.login-forms-wrap {
+  position: absolute;
+  height: 100%;
+  width: 45%;
+  top: 0;
+  left: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  transition: 0.5s ease-in-out;
+}
+.other-links-google {
+  width: 70%;
+  height: 40px;
+  display: flex;
+  /* padding-bottom: 5px; */
+  justify-content: space-around;
+  /* flex-direction: column; */
+  border: 2px solid #3a3838a7;
+  border-radius: 2rem;
+  cursor: pointer;
+  justify-content: space-evenly;
+}
+.continue-google {
+  width: 60%;
+  /* cursor: pointer; */
+  /* background: red; */
+  padding-top: 6px;
+}
+.carousel {
+  position: absolute;
+  height: 100%;
+  width: 55%;
+  left: 45%;
+  top: 0;
+  background: linear-gradient(to right bottom, #52b3b7, #2f979b);
+  background: linear-gradient(to right bottom, #52b3b7, #2f979b);
+  border-radius: 2rem;
+  transition: 0.5s ease-in-out;
+}
+
+.login-form {
+  max-width: 260px;
+  width: 100%;
+  /* background-color: red; */
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+
+  grid-column: 1/2;
+  grid-row: 1/2;
+  transition: opacity 0.02s 0.25s;
+}
+
+.login-logo {
+  display: flex;
+  align-items: center;
+}
+
+.login-logo img {
+  width: 100px;
+  margin-right: 0.6rem;
+}
+
+.logo-heading h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #151111;
+}
+
+.logo-heading h6 {
+  color: #535151a7;
+  font-weight: 400;
+  font-size: -0.75rem;
+  display: inline;
+}
+
+.toggle {
+  color: rgb(10, 60, 95);
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.toggle:hover {
+  color: rgb(10, 60, 95);
+}
+
+.input-wrap {
+  position: relative;
+  height: 37px;
+  margin-bottom: 2rem;
+  /* background-color: red; */
+}
+.input-field {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: none;
+  border: none;
+  outline: none;
+  border-bottom: 2px solid #bbb;
+  padding: 0;
+  font-size: 0.95rem;
+  font-weight: 300;
+  transition: 0.4s ease;
+}
+
+.input-field:focus {
+  border-color: #151111;
+}
+
+.input-field:focus + label {
+  font-size: 0.75rem;
+  top: -2px;
+}
+
+.sign-btn {
+  display: inline-block;
+  width: 40%;
+  height: 43px;
+  border: 2px solid rgb(33, 42, 83);
+
+  background-color: rgb(10, 60, 95);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 0.8rem;
+  font-size: 0.8rem;
+  margin-bottom: 2rem;
+  transition: 0.3s;
+}
+.carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.carousel h2 {
+  color: rgb(33, 42, 83);
+  font-weight: 600;
+  font-size: -0.75rem;
+  display: inline;
+  margin: 10px;
+  padding: 10px;
+  /* text-decoration: underline; */
+}
+.carousel h3 {
+  font-style: "poppins";
+  font-weight: 400;
+
+  margin: 10px;
+  padding: 10px;
+}
+.key-img img {
+  width: 100px;
+  height: 100px;
+}
+
+.sign-btn:hover {
+  background-color: rgb(24, 137, 141);
+}
+
+/* microsoft login icon hover */
+.other-links-google:hover {
+  /* border: 3px solid #151111; */
+  /* border-radius: 50%; */
+  border: 2px solid #050505a7;
+
+  box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 0.5);
+}
+.microsoft:hover {
+  border: 3px solid #151111;
+  /* width: 50px;
+  height: 50px; */
+}
+
+@media (max-width: 850px) {
+  * body {
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+  }
+  .login-box {
+    height: auto;
+    max-width: 100%;
+    overflow: auto;
+    /* padding: 0; */
+  }
+
+  .login-inner-box {
+    position: static;
+    transform: none;
+    width: revert;
+    height: revert;
+  }
+  .login-forms-wrap {
+    position: revert;
+    width: 100%;
+    height: auto;
+  }
+  .google {
+    position: relative;
+    top: -10%;
+  }
+
+  .other-links-google {
+    position: relative;
+    top: -48%;
+    width: 80%;
+    height: 38px;
+    border: 2px solid #050505a7;
+  }
+  .continue-google {
+    width: 60%;
+    position: relative;
+    top: 10%;
+    /* background: red; */
+    /* font-size: 0.8rem; */
+    padding: 0;
+  }
+
+  .carousel {
+    /* position: revert; */
+    display: none;
+    height: 100px;
+    width: 100%;
+    padding: 1rem 2rem;
+    padding-top: 0;
+  }
+
+  /* .carousel h2 {
+    padding: 0;
+    font-size: 1.5rem;
+    position: relative;
+    top: 7px;
+    margin: 0;
+  }
+  .carousel h3 {
+    display: none;
+  } */
+  .key-img {
+    display: none;
+  }
+  .login-form {
+    max-width: revert;
+    padding: 1.5rem 2.5rem 2rem;
+    transition: transform 0.8s ease-in-out, opacity 0.45s linear;
+  }
+
+  .logo-heading {
+    margin: 2rem 0;
+  }
+}
+
+@media (max-width: 850px) {
+  .google {
+    position: relative;
+    top: -10%;
+  }
+
+  .other-links-google {
+    position: relative;
+    top: -48%;
+    width: 100%;
+    height: 38px;
+    border: 2px solid #050505a7;
+  }
+  .continue-google {
+    width: 80%;
+    position: relative;
+    top: 10%;
+    /* background: red; */
+    /* font-size: 0.8rem; */
+    padding: 0;
+  }
+}

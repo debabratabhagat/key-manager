@@ -43,7 +43,7 @@ function App() {
   }
 
   useEffect(() => {
-    notificationPermission();
+    // notificationPermission();
     // const func0 = async () => {
     // console.log("inside func0");
     // console.log(userIsAdmin);

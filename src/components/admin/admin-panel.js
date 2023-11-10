@@ -15,11 +15,27 @@ import "./admin-panel.css";
 
 const AdminPanel = () => {
   const [option, setOption] = useState("Logs");
+  const [logs, setLogs] = useState({});
+  const [arrLogs, setArrLogs] = useState([]);
   const [usersDocs, setUsersDocs] = useState({});
   const [memberRequestsDocs, setMemberRequestsDocs] = useState({});
 
   useEffect(() => {
     const usersCollection = collection(db, "users");
+    const logsCollectionRef = collection(db, "Logs");
+    // const logsArr = [];
+
+    getDocs(logsCollectionRef).then((collection) => {
+      const object = {};
+      collection.docs.forEach((doc) => {
+        object[doc.id] = doc.data();
+      });
+      const logsArr = Object.entries(object);
+      logsArr.sort((a, b) => new Date(b[1].time) - new Date(a[1].time));
+      setLogs(logsArr);
+      // console.log(Object.entries(logs));
+    });
+
     getDocs(usersCollection).then((collection) => {
       const object = {};
       collection.docs.forEach((doc) => {
@@ -27,6 +43,7 @@ const AdminPanel = () => {
       });
       setUsersDocs(object);
     });
+
     const usersCollectionSnapshot = onSnapshot(
       collection(db, "users"),
       (collecSnapshot) => {
@@ -100,7 +117,7 @@ const AdminPanel = () => {
     };
   }, []);
 
-  ///////////// Accepting a user //////////////
+  /////// Accepting a user //////////////
   const handleAcceptbtn = async (id) => {
     const docRef = doc(db, "admin", id);
     const document = await getDoc(docRef);
@@ -155,6 +172,19 @@ const AdminPanel = () => {
         <div className="nav-bar">
           <ul className="nav-bar-list">
             <li
+              id="logs"
+              className={
+                option === "Logs"
+                  ? "selected-nav-bar-li-element"
+                  : "unselected-nav-bar-li-element"
+              }
+              onClick={() => {
+                setOption("Logs");
+              }}
+            >
+              <p className="admin-p">Logs </p>
+            </li>
+            <li
               className={
                 option === "Member Requests"
                   ? "selected-nav-bar-li-element"
@@ -164,7 +194,7 @@ const AdminPanel = () => {
                 setOption("Member Requests");
               }}
             >
-              <p className="admin-p">Member Requests </p>
+              <p className="admin-p">Requests </p>
             </li>
             <li
               id="registered-members"
@@ -177,7 +207,7 @@ const AdminPanel = () => {
                 setOption("Registered Members");
               }}
             >
-              <p className="admin-p">Registered members</p>
+              <p className="admin-p">Members</p>
             </li>
           </ul>
         </div>
@@ -237,14 +267,14 @@ const AdminPanel = () => {
                       >
                         <li key="1">{`Email: ${memberRequestsDocs[docKey]["email"]}`}</li>
                         <li key="2">{`Phone: ${memberRequestsDocs[docKey]["phone"]}`}</li>
-                        <li key="3">{`RollNo.: `}</li>
+                        <li key="3">{`RollNo: ${memberRequestsDocs[docKey]["rollNo"]}`}</li>
                       </ul>
                     </>
                   );
                 })}
               </ul>
             </div>
-          ) : (
+          ) : option === "Registered Members" ? (
             <>
               <ul>
                 {Object.keys(usersDocs).map((docKey) => {
@@ -282,9 +312,24 @@ const AdminPanel = () => {
                       >
                         <li key="1">{`Email: ${usersDocs[docKey]["email"]}`}</li>
                         <li key="2">{`Phone: ${usersDocs[docKey]["phone"]}`}</li>
-                        <li key="3">{`RollNo.: `}</li>
+                        <li key="3">{`RollNo: ${usersDocs[docKey]["rollNo"]}`}</li>
                       </ul>
                     </>
+                  );
+                })}
+              </ul>
+            </>
+          ) : (
+            <>
+              {/* {console.log(logs)} */}
+              <ul className="logs-list-ul">
+                {Object.keys(logs).map((element) => {
+                  console.log(logs[element][1]);
+                  return (
+                    <li key={element} className="logs-list-li">
+                      <p>{`${logs[element][1].name}`}</p>
+                      <p>{`${logs[element][1].time}`}</p>
+                    </li>
                   );
                 })}
               </ul>

@@ -32,6 +32,9 @@ const Name = () => {
   const userIsAdmin = useRef(false);
   const navigate = useNavigate();
 
+  const date = new Date();
+  const currentDate = date.toLocaleString();
+
   //************* popup
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   //************* popup ends
@@ -95,8 +98,6 @@ const Name = () => {
 
                 const currentUserDoc = await getDoc(currentUserDocRef);
 
-                console.log(currentUserDoc);
-
                 if (currentUserDoc.exists()) {
                   setUserHasSentMsg(true);
                 } else {
@@ -131,13 +132,33 @@ const Name = () => {
     //setIsLoading(false);
   };
   /************************************************************************************/
-
+  /*****************************unique id  for logs***********************************/
+  function generateRandomString(length) {
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let randomString = "";
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      randomString += characters.charAt(randomIndex);
+    }
+    return randomString;
+  }
+  /************************************************************************************/
   /***********************KEY HOLDER PASSES THE KEY TO SOMEONE ELSE*******************/
   const changeOwner = async (id) => {
     const newKeyHolderDocRef = doc(db, "users", id);
     const currentKeyHolderDocRef = doc(db, "users", currentUser.id);
+    const newKeyHolderDoc = await getDoc(newKeyHolderDocRef);
 
+    const uidLogs = generateRandomString(28);
+    // console.log(newKeyHolderDoc.data());
+
+    const logId = Math.random();
     await Promise.all([
+      setDoc(doc(db, "Logs", uidLogs), {
+        name: newKeyHolderDoc.data().name,
+        time: currentDate,
+      }),
       updateDoc(currentKeyHolderDocRef, { haskey: false }),
       updateDoc(newKeyHolderDocRef, { haskey: true }),
     ]);

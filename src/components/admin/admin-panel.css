@@ -70,14 +70,17 @@ input {
 .nav-bar .admin-p {
   font-style: "Poppins";
   font-weight: 500;
-  font-size: 23px;
+  font-size: 20px;
 }
 #Member-Requests {
   /* margin-left: 10px; */
-  width: 50%;
+  width: 30%;
 }
 #Registered-Members {
-  width: 50%;
+  width: 30%;
+}
+#logs {
+  width: 30%;
 }
 
 .unselected-nav-bar-li-element {
@@ -85,12 +88,14 @@ input {
   width: 45%;
   padding: 2%;
   background-color: rgb(98, 193, 197);
-  transition: 0.1s;
+  transition: 0.5s;
+  border-radius: 10px;
 }
 .selected-nav-bar-li-element {
   display: inline-block;
   width: 45%;
   padding: 2%;
+  border-radius: 10px;
   border: 2px solid rgb(10, 60, 83);
   background-color: rgb(10, 60, 83);
   color: white;
@@ -108,29 +113,32 @@ input {
   height: 85%;
   background-color: rgb(98, 193, 197);
   padding: 10px;
-  border-radius: 1.2rem;
-
   /* background-color: red; */
+  border-radius: 1.2rem;
 }
 
 .new-mem-req-li-element,
-.reg-mem-li-element {
+.reg-mem-li-element,
+.logs-list-li {
   display: flex;
-  padding-right: 10px;
+  justify-content: space-between;
+  /* padding-right: 10px; */
   /* background-color: rgba(255, 255, 255, 0.684); */
 }
 
 .new-mem-req-div-element,
-.reg-mem-div-element {
+.reg-mem-div-element,
+.logs-list-li {
   display: flex;
   position: relative;
   justify-content: space-between;
-  width: 90%;
+  width: 100%;
   height: 20%;
   background-color: rgba(255, 255, 255, 0.684);
   padding: 10px;
   margin: 5px 0;
   transition: 0.1s;
+  border-radius: 10px;
   /* border: 2px solid green; */
 }
 .new-mem-req-div-element:hover,
@@ -171,13 +179,26 @@ input {
   color: rgb(33, 42, 83);
 }
 
+.logs-list-ul {
+  list-style: none;
+}
+
 @media (max-width: 680px) {
+  .nav-bar .admin-p {
+    font-weight: 400;
+    font-size: 20px;
+  }
+  p {
+    /* background-color: red; */
+    font-weight: 200;
+    font-size: 10px;
+  }
   .admin-main-body p {
     font-size: 15.2px;
     font-weight: 600;
   }
   .admin-main-body li {
-    font-size: 14px;
+    font-size: 15px;
   }
   .admin-main-body {
     width: 93%;
@@ -185,6 +206,7 @@ input {
   }
   .nav-bar li {
     margin-right: 5px;
+    /* padding: 7px; */
   }
   .unselected-nav-bar-li-element {
     display: inline-block;
@@ -195,5 +217,21 @@ input {
   }
   .selected-nav-bar-li-element {
     width: 50%;
+  }
+  .admin-btn {
+    background-color: rgb(10, 60, 95);
+    border: 2px solid rgb(33, 42, 83);
+    color: #fff;
+    /* margin-right: 5px; */
+    padding: 10px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: opacity 1.3s ease-in-out;
+  }
+  .new-mem-req-li-element {
+    display: flex;
+    flex-direction: column;
   }
 }

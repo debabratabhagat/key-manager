@@ -1,7 +1,9 @@
 import React, { useRef, useState, useContext, useEffect } from "react";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { Link } from "react-router-dom";
+// import { collection, query, where, getDocs, getDoc } from "firebase/firestore";
 
+// import { db } from "../../firebase";
 import logo from "./cyborg-logo.png";
 import key from "../signup/key.png";
 import toast from "react-hot-toast";
@@ -117,6 +119,35 @@ function Login() {
     }
   };
 
+  // const handleLogin = async () => {
+  //   const inUsersCollec = query(
+  //     collection(db, "users"),
+  //     where("rollno", "==", rollNo.current)
+  //   );
+  //   const inRequestsDeclinedCollec = query(
+  //     collection(db, "users"),
+  //     where("rollno", "==", rollNo.current)
+  //   );
+  //   const inAdminCollec = query(
+  //     collection(db, "admin"),
+  //     where("rollno", "==", rollNo.current)
+  //   );
+  //   const inUsersDoc = await getDocs(inUsersCollec);
+  //   const inAdminDoc = await getDocs(inAdminCollec);
+  //   const inRequestsDeclinedDoc = await getDocs(inRequestsDeclinedCollec);
+  //   // console.log("inUsersCollec: ", inUsersDoc.data());
+  //   // console.log("inAdminCollec: ", inAdminDoc);
+  //   // console.log("inRequestsDeclinedCollec: ", inRequestsDeclinedDoc);
+
+  //   // if (inUsersDoc) {
+  //   //   console.log("inUsersDoc: ", inUsersDoc);
+  //   // } else if (inAdminDoc) {
+  //   //   console.log("inAdminDoc: ", inAdminDoc);
+  //   // } else if (inRequestsDeclinedDoc) {
+  //   //   console.log("inRequestsDeclinedDoc: ", inRequestsDeclinedDoc);
+  //   // }
+  // };
+
   return (
     <>
       <main>
@@ -156,6 +187,8 @@ function Login() {
                             setErrorMessage("Please check all fields");
                           }
                         }}
+                        maxLength="9"
+                        minLength="9"
                       />
                     </div>
                     {/* <label className="email">email</label> */}
@@ -174,6 +207,11 @@ function Login() {
                       }}
                     />
                     {/* <label className="pass">password</label> */}
+                  </div>
+                  <div className="login-page-forgot-password-container">
+                    <a className="login-page-forgot-password" href="/">
+                      forgot password ?
+                    </a>
                   </div>
                   <input
                     type="submit"

@@ -14,12 +14,13 @@ import { db } from "../../firebase";
 import "./admin-panel.css";
 
 const AdminPanel = () => {
-  const [option, setOption] = useState("Logs");
+  const [option, setOption] = useState("Member Requests");
   const [logs, setLogs] = useState({});
   const [arrLogs, setArrLogs] = useState([]);
   const [usersDocs, setUsersDocs] = useState({});
   const [memberRequestsDocs, setMemberRequestsDocs] = useState({});
 
+  // console.log(Object.keys(memberRequestsDocs).length);
   useEffect(() => {
     const usersCollection = collection(db, "users");
     const logsCollectionRef = collection(db, "Logs");
@@ -172,6 +173,23 @@ const AdminPanel = () => {
         <div className="nav-bar">
           <ul className="nav-bar-list">
             <li
+              className={
+                option === "Member Requests"
+                  ? "selected-nav-bar-li-element"
+                  : "unselected-nav-bar-li-element"
+              }
+              onClick={() => {
+                setOption("Member Requests");
+              }}
+            >
+              <p className="admin-panel-p">
+                Requests
+                <span id="admin-panel-number-of-requests">
+                  {Object.keys(memberRequestsDocs).length}
+                </span>
+              </p>
+            </li>
+            <li
               id="logs"
               className={
                 option === "Logs"
@@ -182,20 +200,9 @@ const AdminPanel = () => {
                 setOption("Logs");
               }}
             >
-              <p className="admin-p">Logs </p>
+              <p className="admin-panel-p">Logs </p>
             </li>
-            <li
-              className={
-                option === "Member Requests"
-                  ? "selected-nav-bar-li-element"
-                  : "unselected-nav-bar-li-element"
-              }
-              onClick={() => {
-                setOption("Member Requests");
-              }}
-            >
-              <p className="admin-p">Requests </p>
-            </li>
+
             <li
               id="registered-members"
               className={
@@ -207,7 +214,7 @@ const AdminPanel = () => {
                 setOption("Registered Members");
               }}
             >
-              <p className="admin-p">Members</p>
+              <p className="admin-panel-p">Members</p>
             </li>
           </ul>
         </div>
@@ -324,7 +331,7 @@ const AdminPanel = () => {
               {/* {console.log(logs)} */}
               <ul className="logs-list-ul">
                 {Object.keys(logs).map((element) => {
-                  console.log(logs[element][1]);
+                  console.log(logs);
                   return (
                     <li key={element} className="logs-list-li">
                       <p>{`${logs[element][1].name}`}</p>

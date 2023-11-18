@@ -1,22 +1,18 @@
 import "./components/signup/signup.css";
 import "./App.css";
-import React, { useContext, useRef, useState, useEffect } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import { getDoc, doc } from "firebase/firestore";
-import { auth, db } from "../src/firebase";
-import toast from "react-hot-toast";
 
 import Login from "./components/login/login";
 import Signup from "./components/signup/signup";
 import Name from "./components/main/db_test";
 import LoadingSign from "./components/loader/loader";
-
+import PasswordReset from "./components/login/resetpassword";
 import { AuthContext } from "./components/auth";
 import AdminPanel from "./components/admin/admin-panel";
-
+import Logs from "./components/logs/User-logs";
 import { getToken } from "firebase/messaging";
 import { messaging } from "./firebase";
-
 import push from "./components/notification";
 
 function App() {
@@ -41,25 +37,6 @@ function App() {
       alert("notification access was not given");
     }
   }
-
-  useEffect(() => {
-    // notificationPermission();
-    // const func0 = async () => {
-    // console.log("inside func0");
-    // console.log(userIsAdmin);
-    // if (currentUser === "Email verification pending...") {
-    //   const func1 = async () => {
-    //     const adminUserDocRef = doc(db, "admin", auth.currentUser.uid);
-    //     const adminUserDoc = await getDoc(adminUserDocRef);
-    //     if (adminUserDoc.data()) {
-    //       docIn.current = "admin";
-    //     } else {
-    //       docIn.current = "nowhere";
-    //     }
-    //   };
-    //   func1();
-    // }
-  }, []);
 
   const getComponentToRenderLogin = () => {
     if (
@@ -110,6 +87,25 @@ function App() {
       }
     }
   };
+  const getComponentToRenderLogs = () => {
+    if (
+      currentUser === "App access pending..." ||
+      currentUser === "App access declined..." ||
+      currentUser === "Email verification pending..." ||
+      currentUser === "null"
+    ) {
+      return <Navigate to="/" />;
+    } else if (currentUser === "Email verification pending in signup...") {
+      return <Navigate to="/signup" />;
+    } else {
+      console.log(currentUser.isAdmin);
+      if (currentUser) {
+        return <Logs />;
+      } else {
+        return <Navigate to="/home" />;
+      }
+    }
+  };
   const getComponentToRenderHome = () => {
     if (
       currentUser === "App access pending..." ||
@@ -136,8 +132,10 @@ function App() {
           <Route exact path="/" element={getComponentToRenderLogin()} />
           <Route path="/signup" element={getComponentToRenderSignup()} />
           <Route path="/admin" element={getComponentToRenderAdmin()} />
+          <Route path="/logs" element={getComponentToRenderLogs()} />
           <Route path="/home" element={getComponentToRenderHome()} />
           <Route path="/*" element={<Navigate to="/" />} />
+          <Route path="/resetPassword" element={<PasswordReset />} />
         </Routes>
       )}
     </BrowserRouter>

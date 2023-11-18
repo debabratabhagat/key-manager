@@ -25,8 +25,7 @@ export default function Signup() {
   const [errorTrigger, setErrorTrigger] = useState(true);
   const [errorMessage, setErrorMessage] = useState("Enter valid details");
   const [isLoading, setIsLoading] = useState(false);
-
-  // const [currentUser, unsubscribe] = useContext(AuthContext);
+  const [fcmToken, setFcmToken] = useState("");
 
   const handleSignup = async () => {
     toast("Creating a user...");

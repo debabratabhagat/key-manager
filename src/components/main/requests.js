@@ -4,10 +4,7 @@ import { db } from "../../firebase";
 import { writeBatch, doc } from "firebase/firestore";
 
 const Requests = (props) => {
-  // props.keyClaimersCollection.map((doc) => {
-  //   console.log(doc);
-  // });
-
+  
   return props.trigger ? (
     <div className="popup-container">
       <div className="popup">

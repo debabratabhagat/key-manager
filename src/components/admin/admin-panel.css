@@ -40,6 +40,7 @@ input {
   flex-direction: column;
   /* align-items: center; */
   padding: 10px;
+  overflow: auto;
   /* justify-content: center; */
 }
 
@@ -48,29 +49,53 @@ input {
   width: 100%;
   height: 13%;
   padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .nav-bar ul {
+  /* background: red; */
   list-style: none;
   position: relative;
   width: 100%;
   padding: 5px;
   display: flex;
+  align-items: center;
   justify-content: space-evenly;
 }
 
 .nav-bar li {
-  /* background-color: red; */
   height: 100%;
   margin-right: 10px;
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: center;
+  position: relative;
+  /* background-color: blue; */
 }
 
-.nav-bar .admin-p {
+.nav-bar .admin-panel-p {
   font-style: "Poppins";
   font-weight: 500;
   font-size: 20px;
+}
+#admin-panel-number-of-requests {
+  position: relative;
+  position: absolute;
+  margin: 5px;
+  right: 0;
+  top: 0;
+  padding: 5px;
+  width: 10%;
+  height: 50%;
+  border-radius: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: red;
 }
 #Member-Requests {
   /* margin-left: 10px; */
@@ -115,8 +140,12 @@ input {
   padding: 10px;
   /* background-color: red; */
   border-radius: 1.2rem;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
-
+.members-list::-webkit-scrollbar {
+  display: none;
+}
 .new-mem-req-li-element,
 .reg-mem-li-element,
 .logs-list-li {
@@ -184,9 +213,9 @@ input {
 }
 
 @media (max-width: 680px) {
-  .nav-bar .admin-p {
+  .nav-bar .admin-panel-p {
     font-weight: 400;
-    font-size: 20px;
+    font-size: 16px;
   }
   p {
     /* background-color: red; */
@@ -203,6 +232,9 @@ input {
   .admin-main-body {
     width: 93%;
     height: 97vh;
+  }
+  .nav-bar {
+    height: fit-content;
   }
   .nav-bar li {
     margin-right: 5px;

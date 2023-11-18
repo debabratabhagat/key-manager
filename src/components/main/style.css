@@ -175,6 +175,10 @@ input {
   font-weight: 500;
   font-size: 16px;
   pointer-events: none;
+  margin-right: 5px;
+}
+.react-icons {
+  size: 100rem;
 }
 .user-name .user-img {
   margin-left: 5px;
@@ -406,6 +410,7 @@ input {
 
   .admin-heading {
     color: whitesmoke;
+    font-size: 0.9rem;
   }
   .key-owner-name {
     font-weight: 400;

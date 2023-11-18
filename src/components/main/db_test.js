@@ -13,7 +13,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import "./style.css";
 import "./gears.css";
 import cyborglogo from "./cyborg-logo.png";
-
+import { MdAccountCircle } from "react-icons/md";
 import { db } from "../../firebase";
 import { AuthContext } from "../auth";
 import LoadingSign from "../loader/loader";
@@ -21,6 +21,7 @@ import Signout from "../signout/signout";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import Requests from "./requests";
+// import Logs from "./User-logs";
 
 const Name = () => {
   const [keyHolder, setKeyHolder] = useState({ id: "", name: "", phone: "" });
@@ -36,7 +37,11 @@ const Name = () => {
   const currentDate = date.toLocaleString();
 
   //************* popup
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isRequestPopupOpen, setIsRequestPopupOpen] = useState(false);
+  //************* popup ends
+
+  //************* popup
+  const [isLogsPopupOpen, setIsLogsPopupOpen] = useState(false);
   //************* popup ends
 
   useEffect(() => {
@@ -193,12 +198,18 @@ const Name = () => {
                       navigate("/admin");
                     }}
                   >
-                    {/*<div>
-                    <img src="" alt="admin" />
-                </div>*/}
                     <p className="admin-heading">Admin</p>
                   </div>
-                ) : null}
+                ) : (
+                  <div
+                    className="admin-path"
+                    onClick={() => {
+                      navigate("/logs");
+                    }}
+                  >
+                    <p className="admin-heading">Logs</p>
+                  </div>
+                )}
 
                 <div className="btn-signout-container">
                   <Signout></Signout>
@@ -208,10 +219,12 @@ const Name = () => {
 
             <div className="main-box">
               <div className="user-name">
-                <h2>{currentUser.name}</h2>
-                <span className="material-symbols-outlined user-img">
+                <h2>{currentUser.name.split(" ")[0]}</h2>
+                <MdAccountCircle />
+
+                {/* <span className="material-symbols-outlined user-img">
                   account_circle
-                </span>
+                </span> */}
               </div>
               <div className="key-owner-container">
                 <h3 className="text key-owner-name">
@@ -242,15 +255,15 @@ const Name = () => {
                     <>
                       <button
                         onClick={() => {
-                          setIsPopupOpen(true);
+                          setIsRequestPopupOpen(true);
                         }}
                         className="change-owner"
                       >
                         Requests
                       </button>
                       <Requests
-                        trigger={isPopupOpen}
-                        setTrigger={setIsPopupOpen}
+                        trigger={isRequestPopupOpen}
+                        setTrigger={setIsRequestPopupOpen}
                         keyClaimersCollection={claimingPersonsArr}
                         newOwner={changeOwner}
                       ></Requests>

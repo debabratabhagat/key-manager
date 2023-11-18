@@ -9,7 +9,7 @@ import key from "../signup/key.png";
 import toast from "react-hot-toast";
 import { auth } from "../../firebase";
 import { AuthContext } from "../auth";
-import PasswordReset from "./resetpassword";
+// import PasswordReset from "./resetpassword";f
 import "./login.css";
 
 function Login() {
@@ -88,11 +88,11 @@ function Login() {
           // Customize error messages based on error code
           switch (error.code) {
             case "auth/user-not-found":
-              return "User not found. Please check your email.";
+              return "User not found. Please check your RollNo.";
             case "auth/wrong-password":
               return "Incorrect password. Please try again.";
             case "auth/invalid-email":
-              return "Invalid email address. Please enter a valid email.";
+              return "Invalid RollNo. Please enter a RollNo.";
             case "auth/user-disabled":
               return "User account is disabled. Contact support for assistance.";
             case "auth/user-token-expired":
@@ -118,35 +118,6 @@ function Login() {
       // console.log(error);
     }
   };
-
-  // const handleLogin = async () => {
-  //   const inUsersCollec = query(
-  //     collection(db, "users"),
-  //     where("rollno", "==", rollNo.current)
-  //   );
-  //   const inRequestsDeclinedCollec = query(
-  //     collection(db, "users"),
-  //     where("rollno", "==", rollNo.current)
-  //   );
-  //   const inAdminCollec = query(
-  //     collection(db, "admin"),
-  //     where("rollno", "==", rollNo.current)
-  //   );
-  //   const inUsersDoc = await getDocs(inUsersCollec);
-  //   const inAdminDoc = await getDocs(inAdminCollec);
-  //   const inRequestsDeclinedDoc = await getDocs(inRequestsDeclinedCollec);
-  //   // console.log("inUsersCollec: ", inUsersDoc.data());
-  //   // console.log("inAdminCollec: ", inAdminDoc);
-  //   // console.log("inRequestsDeclinedCollec: ", inRequestsDeclinedDoc);
-
-  //   // if (inUsersDoc) {
-  //   //   console.log("inUsersDoc: ", inUsersDoc);
-  //   // } else if (inAdminDoc) {
-  //   //   console.log("inAdminDoc: ", inAdminDoc);
-  //   // } else if (inRequestsDeclinedDoc) {
-  //   //   console.log("inRequestsDeclinedDoc: ", inRequestsDeclinedDoc);
-  //   // }
-  // };
 
   return (
     <>

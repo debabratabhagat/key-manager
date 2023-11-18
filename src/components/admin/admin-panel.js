@@ -20,7 +20,31 @@ const AdminPanel = () => {
   const [usersDocs, setUsersDocs] = useState({});
   const [memberRequestsDocs, setMemberRequestsDocs] = useState({});
 
-  // console.log(Object.keys(memberRequestsDocs).length);
+  /******toggle logs****** */
+  const showLogsDetail = (key) => {
+    // console.log(key);
+
+    // console.log(document.getElementById(`logs${key}`));
+    const element = document.getElementById(`logs${key}`);
+    // console.log(element.classList);
+    element.classList.toggle("reg-mem-hidden");
+  };
+
+  /**********toggle reg mem******** */
+  const showRegMemDetails = (key) => {
+    // console.log(key);
+
+    const element = document.getElementById(`reg-mem-${key}-drop-down`);
+    element.classList.toggle("reg-mem-hidden");
+  };
+
+  /**********toggle new mem******** */
+  const showNewMemDetails = (key) => {
+    // console.log(key);
+
+    const element = document.getElementById(`new-mem-req-${key}-drop-down`);
+    element.classList.toggle("reg-mem-hidden");
+  };
   useEffect(() => {
     const usersCollection = collection(db, "users");
     const logsCollectionRef = collection(db, "Logs");
@@ -31,6 +55,7 @@ const AdminPanel = () => {
       collection.docs.forEach((doc) => {
         object[doc.id] = doc.data();
       });
+      // console.log(object);
       const logsArr = Object.entries(object);
       logsArr.sort((a, b) => new Date(b[1].time) - new Date(a[1].time));
       setLogs(logsArr);
@@ -231,19 +256,7 @@ const AdminPanel = () => {
                           className="new-mem-req-div-element"
                           object={memberRequestsDocs}
                           onClick={(e) => {
-                            const elements = document.querySelectorAll(
-                              ".new-mem-req-drop-down-ul-element"
-                            );
-
-                            const visibleElements = Array.from(elements).filter(
-                              (element) => !element.hidden
-                            );
-                            if (visibleElements.length) {
-                              visibleElements[0].hidden = true;
-                            }
-                            document.getElementById(
-                              `${e.target.id}-drop-down`
-                            ).hidden = false;
+                            showNewMemDetails(docKey);
                           }}
                         >
                           {memberRequestsDocs[docKey]["name"]}
@@ -269,8 +282,8 @@ const AdminPanel = () => {
                       </li>
                       <ul
                         id={`new-mem-req-${docKey}-drop-down`}
-                        className="new-mem-req-drop-down-ul-element drop-down-ul-element"
-                        hidden={true}
+                        className="new-mem-req-drop-down-ul-element drop-down-ul-element reg-mem-hidden"
+                        // hidden={true}
                       >
                         <li key="1">{`Email: ${memberRequestsDocs[docKey]["email"]}`}</li>
                         <li key="2">{`Phone: ${memberRequestsDocs[docKey]["phone"]}`}</li>
@@ -287,26 +300,13 @@ const AdminPanel = () => {
                 {Object.keys(usersDocs).map((docKey) => {
                   return (
                     <>
-                      <li className="reg-mem-li-element">
+                      <li className="reg-mem-li-element" key={`${docKey}-mem`}>
                         <div
                           id={`reg-mem-${docKey}`}
                           className="reg-mem-div-element"
                           object={usersDocs}
                           onClick={(e) => {
-                            const elements = document.querySelectorAll(
-                              ".reg-mem-drop-down-ul-element"
-                            );
-
-                            const visibleElements = Array.from(elements).filter(
-                              (element) => !element.hidden
-                            );
-                            if (visibleElements.length) {
-                              visibleElements[0].hidden = true;
-                            }
-                            const element = document.getElementById(
-                              `${e.target.id}-drop-down`
-                            );
-                            element.hidden = false;
+                            showRegMemDetails(docKey);
                           }}
                         >
                           {usersDocs[docKey]["name"]}
@@ -314,8 +314,9 @@ const AdminPanel = () => {
                       </li>
                       <ul
                         id={`reg-mem-${docKey}-drop-down`}
-                        className="reg-mem-drop-down-ul-element drop-down-ul-element"
-                        hidden={true}
+                        className="reg-mem-drop-down-ul-element drop-down-ul-element reg-mem-hidden"
+
+                        // hidden={true}
                       >
                         <li key="1">{`Email: ${usersDocs[docKey]["email"]}`}</li>
                         <li key="2">{`Phone: ${usersDocs[docKey]["phone"]}`}</li>
@@ -329,22 +330,42 @@ const AdminPanel = () => {
           ) : (
             <>
               <ul className="logs-list-ul">
+                {/* {console.log(logs)} */}
                 {Object.keys(logs).map((element) => {
+                  // console.log(logs[element][0]);
                   return (
-                    <li key={element} className="logs-list-li">
-                      <p>{`${logs[element][1].name}`}</p>
-                      <p>{`${new Date(logs[element][1].time).toLocaleString(
-                        undefined,
-                        {
-                          hour12: true,
-                          year: "numeric",
-                          month: "2-digit",
-                          day: "2-digit",
-                          hour: "numeric",
-                          minute: "numeric",
-                        }
-                      )}`}</p>
-                    </li>
+                    <>
+                      <li
+                        key={element}
+                        className="logs-list-li"
+                        onClick={() => {
+                          showLogsDetail(logs[element][0]);
+                        }}
+                      >
+                        <p>{`${logs[element][1].name}`}</p>
+                        <p>{`${new Date(logs[element][1].time).toLocaleString(
+                          undefined,
+                          {
+                            hour12: true,
+                            year: "numeric",
+                            month: "2-digit",
+                            day: "2-digit",
+                            hour: "numeric",
+                            minute: "numeric",
+                          }
+                        )}`}</p>
+                      </li>
+                      <ul
+                        // id={`reg-mem-${docKey}-drop-down`}
+                        className="reg-mem-drop-down-ul-element drop-down-ul-element reg-mem-hidden"
+                        id={`logs${logs[element][0]}`}
+                        // hidden={true}
+                      >
+                        <li key="1">{`Last Owner: ${logs[element][1].name}`}</li>
+                        <li key="2">{`Phone: ${logs[element][1].phone}`}</li>
+                        <li key="3">{`RollNo: ${logs[element][1].rollNo}`}</li>
+                      </ul>
+                    </>
                   );
                 })}
               </ul>

@@ -94,8 +94,7 @@ input {
   display: flex;
   justify-content: center;
   align-items: center;
-
-  background-color: red;
+  background-color: #fff;
 }
 #Member-Requests {
   /* margin-left: 10px; */
@@ -123,6 +122,9 @@ input {
   border-radius: 10px;
   border: 2px solid rgb(10, 60, 83);
   background-color: rgb(10, 60, 83);
+  /* color: white; */
+}
+.selected-nav-bar-li-element .admin-panel-p {
   color: white;
 }
 
@@ -131,6 +133,10 @@ input {
   background-color: rgb(10, 60, 83);
   color: white;
   /* border-radius: 5%; */
+}
+
+#admin-panel-number-of-requests {
+  color: black;
 }
 .members-list {
   position: relative;
@@ -143,6 +149,10 @@ input {
   overflow-y: auto;
   overflow-x: hidden;
 }
+.reg-mem-hidden {
+  display: none;
+}
+
 .members-list::-webkit-scrollbar {
   display: none;
 }
@@ -171,7 +181,8 @@ input {
   /* border: 2px solid green; */
 }
 .new-mem-req-div-element:hover,
-.reg-mem-div-element:hover {
+.reg-mem-div-element:hover,
+.logs-list-li:hover {
   background-color: rgb(10, 60, 83);
   color: whitesmoke;
 
@@ -232,6 +243,10 @@ input {
   .admin-main-body {
     width: 93%;
     height: 97vh;
+    padding: 0;
+  }
+  .members-list {
+    height: 100%;
   }
   .nav-bar {
     height: fit-content;
@@ -265,5 +280,21 @@ input {
   .new-mem-req-li-element {
     display: flex;
     flex-direction: column;
+  }
+  #admin-panel-number-of-requests {
+    /* position: relative; */
+    position: absolute;
+    margin: 5px;
+    right: -6px;
+    top: -6px;
+    padding: 5px;
+    width: 10%;
+    height: 50%;
+    border-radius: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    /* background-color: rgb(98, 193, 197); */
   }
 }

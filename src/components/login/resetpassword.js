@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { auth } from "../../firebase";
 import { sendPasswordResetEmail } from "firebase/auth";
 import toast from "react-hot-toast";
@@ -6,6 +6,10 @@ import toast from "react-hot-toast";
 const PasswordReset = () => {
   const [email, setEmail] = useState("");
   const [resetSent, setResetSent] = useState(false);
+  const rollNo = useRef("");
+  // const [email, setEmail] = useState("");
+  const [errorTrigger, setErrorTrigger] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("Enter valid details");
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -19,10 +23,10 @@ const PasswordReset = () => {
     } catch (error) {
       switch (error.code) {
         case "auth/invalid-email":
-          toast.error("Invalid email address. Please check and try again.");
+          toast.error("Invalid Roll No. Please check and try again.");
           break;
         case "auth/user-not-found":
-          toast.error("User not found. Please check the email address.");
+          toast.error("User not found. Please check the roll no.");
           break;
         case "auth/user-disabled":
           toast.error("This user account has been disabled.");
@@ -42,16 +46,47 @@ const PasswordReset = () => {
       {!resetSent ? (
         <div>
           <p style={styles.description}>
-            Enter your email to receive a password reset link:
+            Enter your rollNo to receive a password reset link:
           </p>
-          <input
+          {/* <input
             type="email"
             placeholder="Email"
             value={email}
             onChange={handleEmailChange}
             style={styles.input}
+          /> */}
+
+          <input
+            type="text"
+            style={styles.input}
+            placeholder="Enter your Roll No"
+            onChange={(e) => {
+              rollNo.current = e.target.value;
+              const regexValid = /^\d{3}[a-zA-Z]{2}\d{4}$/;
+              setEmail(rollNo.current + "@nitrkl.ac.in");
+              setErrorTrigger(regexValid.test(rollNo.current));
+              if (regexValid.test(rollNo.current) == false) {
+                setErrorMessage("Enter valid Roll no");
+              } else {
+                setErrorMessage("Please check all fields");
+              }
+            }}
+            maxLength="9"
+            minLength="9"
           />
-          <button onClick={handleResetPassword} style={styles.button}>
+          {/* </div> */}
+
+          <button
+            // onClick={handleResetPassword}
+            style={styles.button}
+            onClick={() => {
+              if (errorTrigger) {
+                handleResetPassword();
+              } else {
+                toast.error(errorMessage);
+              }
+            }}
+          >
             Send Reset Email
           </button>
         </div>

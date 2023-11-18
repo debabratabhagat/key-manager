@@ -11,9 +11,9 @@ import PasswordReset from "./components/login/resetpassword";
 import { AuthContext } from "./components/auth";
 import AdminPanel from "./components/admin/admin-panel";
 import Logs from "./components/logs/User-logs";
-import { getToken } from "firebase/messaging";
-import { messaging } from "./firebase";
-import push from "./components/notification";
+// import { getToken } from "firebase/messaging";
+// import { messaging } from "./firebase";
+// import push from "./components/notification";
 
 function App() {
   const currentUser = useContext(AuthContext);
@@ -22,21 +22,21 @@ function App() {
 
   // console.log(currentUser);
   // ***************Notification permission*********************//
-  async function notificationPermission() {
-    const permission = await Notification.requestPermission();
+  // async function notificationPermission() {
+  //   const permission = await Notification.requestPermission();
 
-    if (permission === "granted") {
-      //generate token
-      const token = await getToken(messaging, {
-        vapidKey:
-          "BFMPBroQEd4Bl5PV-VbCAaBlClizBohZrR-Nkr_G6odIU6jqkMhtyCLZssViUsk5TWtBtNWMoZ2sDAS73HNPy6w",
-      });
-      // console.log("token == ", token);
-      push();
-    } else if (permission === "denied") {
-      alert("notification access was not given");
-    }
-  }
+  //   if (permission === "granted") {
+  //     //generate token
+  //     const token = await getToken(messaging, {
+  //       vapidKey:
+  //         "BFMPBroQEd4Bl5PV-VbCAaBlClizBohZrR-Nkr_G6odIU6jqkMhtyCLZssViUsk5TWtBtNWMoZ2sDAS73HNPy6w",
+  //     });
+  //     // console.log("token == ", token);
+  //     push();
+  //   } else if (permission === "denied") {
+  //     alert("notification access was not given");
+  //   }
+  // }
 
   const getComponentToRenderLogin = () => {
     if (

@@ -34,7 +34,15 @@ const Name = () => {
   const navigate = useNavigate();
 
   const date = new Date();
-  const currentDate = date.toLocaleString();
+  const currentDate = date.toLocaleString(undefined, {
+    hour12: true,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  });
 
   //************* popup
   const [isRequestPopupOpen, setIsRequestPopupOpen] = useState(false);
@@ -156,13 +164,15 @@ const Name = () => {
     const newKeyHolderDoc = await getDoc(newKeyHolderDocRef);
 
     const uidLogs = generateRandomString(28);
-    // console.log(newKeyHolderDoc.data());
+    console.log(newKeyHolderDoc.data());
 
     const logId = Math.random();
     await Promise.all([
       setDoc(doc(db, "Logs", uidLogs), {
         name: newKeyHolderDoc.data().name,
         time: currentDate,
+        phone: newKeyHolderDoc.data().phone,
+        rollNo: newKeyHolderDoc.data().rollNo,
       }),
       updateDoc(currentKeyHolderDocRef, { haskey: false }),
       updateDoc(newKeyHolderDocRef, { haskey: true }),

@@ -105,6 +105,7 @@ const styles = {
     margin: "auto",
     textAlign: "center",
     marginTop: "100px",
+    padding: "1rem",
   },
   title: {
     fontSize: "24px",

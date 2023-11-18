@@ -13,12 +13,12 @@
 }
 
 .popup-content {
-  /* background: rgba(125, 205, 208, 0.8); */
-  background: linear-gradient(
+  background: #fff;
+  /* background: linear-gradient(
     to right bottom,
     rgba(125, 205, 208, 1),
     rgba(125, 205, 208, 0.9)
-  );
+  ); */
 
   /* background-color: whitesmoke; */
   width: 60%;
@@ -58,17 +58,17 @@
 
 .key-claimers-list {
   /* background-color: red; */
-  background: linear-gradient(
-    to right bottom,
-    rgba(255, 255, 255, 1),
-    rgba(255, 255, 255, 0.8)
-  );
+  /* background-color: rgb(10, 60, 95); */
+  background-color: rgb(98, 193, 197);
+
   position: relative;
   top: 12%;
   display: flex;
   justify-content: space-between;
   padding: 5px;
   margin: 5px;
+  padding-left: 10px;
+  padding-top: 10px;
   border-radius: 0.8rem;
 }
 
@@ -88,7 +88,9 @@
   position: absolute;
   top: 80%;
   left: 23%;
-  background-color: red;
+  /* background-color: red; */
+  background-color: rgb(10, 60, 95);
+
   /* background-color: rgb(10, 60, 95); */
   color: #fff;
   margin-right: 5px;
@@ -110,6 +112,9 @@
   .request-delete-btn {
     left: 13%;
   }
+  .key-claimers-list {
+    padding: auto;
+  }
 }
 
 @media (max-width: 1000px) {
@@ -119,9 +124,18 @@
   .request-close-button {
     right: 6%;
   }
+  .key-claimers-list {
+    padding: 10px;
+  }
+  .key-claimers-name {
+    padding-top: 5px;
+  }
 }
 
 @media (max-width: 680px) {
+  .popup {
+    font-size: 14px;
+  }
   .popup-content {
     box-shadow: none;
     width: 100%;
@@ -134,5 +148,11 @@
   .request-delete-btn {
     top: 90%;
     left: 2%;
+  }
+  .key-claimers-list {
+    padding: 5px;
+  }
+  .key-claimers-button {
+    padding: 5px 15px;
   }
 }

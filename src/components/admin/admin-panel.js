@@ -328,14 +328,22 @@ const AdminPanel = () => {
             </>
           ) : (
             <>
-              {/* {console.log(logs)} */}
               <ul className="logs-list-ul">
                 {Object.keys(logs).map((element) => {
-                  console.log(logs);
                   return (
                     <li key={element} className="logs-list-li">
                       <p>{`${logs[element][1].name}`}</p>
-                      <p>{`${logs[element][1].time}`}</p>
+                      <p>{`${new Date(logs[element][1].time).toLocaleString(
+                        undefined,
+                        {
+                          hour12: true,
+                          year: "numeric",
+                          month: "2-digit",
+                          day: "2-digit",
+                          hour: "numeric",
+                          minute: "numeric",
+                        }
+                      )}`}</p>
                     </li>
                   );
                 })}

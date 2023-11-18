@@ -20,7 +20,7 @@ function App() {
   const docIn = useRef(null);
   const [userIsAdmin, setUserIsAdmin] = useState(null);
 
-  console.log(currentUser);
+  // console.log(currentUser);
   // ***************Notification permission*********************//
   async function notificationPermission() {
     const permission = await Notification.requestPermission();
@@ -31,7 +31,7 @@ function App() {
         vapidKey:
           "BFMPBroQEd4Bl5PV-VbCAaBlClizBohZrR-Nkr_G6odIU6jqkMhtyCLZssViUsk5TWtBtNWMoZ2sDAS73HNPy6w",
       });
-      console.log("token == ", token);
+      // console.log("token == ", token);
       push();
     } else if (permission === "denied") {
       alert("notification access was not given");
@@ -79,7 +79,7 @@ function App() {
     } else if (currentUser === "Email verification pending in signup...") {
       return <Navigate to="/signup" />;
     } else {
-      console.log(currentUser.isAdmin);
+      // console.log(currentUser.isAdmin);
       if (currentUser.isAdmin) {
         return <AdminPanel />;
       } else {
@@ -98,7 +98,7 @@ function App() {
     } else if (currentUser === "Email verification pending in signup...") {
       return <Navigate to="/signup" />;
     } else {
-      console.log(currentUser.isAdmin);
+      // console.log(currentUser.isAdmin);
       if (currentUser) {
         return <Logs />;
       } else {

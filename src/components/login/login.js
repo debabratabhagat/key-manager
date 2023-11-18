@@ -9,7 +9,7 @@ import key from "../signup/key.png";
 import toast from "react-hot-toast";
 import { auth } from "../../firebase";
 import { AuthContext } from "../auth";
-
+import PasswordReset from "./resetpassword";
 import "./login.css";
 
 function Login() {
@@ -209,9 +209,15 @@ function Login() {
                     {/* <label className="pass">password</label> */}
                   </div>
                   <div className="login-page-forgot-password-container">
-                    <a className="login-page-forgot-password" href="/">
+                    {/* <a className="login-page-forgot-password">
                       forgot password ?
-                    </a>
+                    </a> */}
+                    <Link
+                      to="/resetPassword"
+                      className="login-page-forgot-password"
+                    >
+                      forgot password ?
+                    </Link>
                   </div>
                   <input
                     type="submit"

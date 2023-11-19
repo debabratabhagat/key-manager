@@ -9,10 +9,10 @@ const Logs = () => {
   const showLogsDetail = (key) => {
     // console.log(key);
 
-    // console.log(document.getElementById(`logs${key}`));
-    const element = document.getElementById(`logs${key}`);
-    // console.log(element.classList);
-    element.classList.toggle("reg-mem-hidden");
+    try {
+      const element = document.getElementById(`logs${key}`);
+      element.classList.toggle("reg-mem-hidden");
+    } catch (e) {}
   };
   useEffect(() => {
     const logsCollectionRef = collection(db, "Logs");
@@ -58,7 +58,7 @@ const Logs = () => {
                           <p>{`${new Date(logs[element][1].time).toLocaleString(
                             undefined,
                             {
-                              hour12: true,
+                              hour24: true,
                               year: "numeric",
                               month: "2-digit",
                               day: "2-digit",
@@ -67,16 +67,26 @@ const Logs = () => {
                             }
                           )}`}</p>
                         </li>
-                        <ul
-                          // id={`reg-mem-${docKey}-drop-down`}
-                          className="reg-mem-drop-down-ul-element drop-down-ul-element reg-mem-hidden"
-                          id={`logs${logs[element][0]}`}
-                          // hidden={true}
-                        >
-                          <li key="1">{`Last Owner: ${logs[element][1].name}`}</li>
-                          <li key="2">{`Phone: ${logs[element][1].phone}`}</li>
-                          <li key="3">{`RollNo: ${logs[element][1].rollNo}`}</li>
-                        </ul>
+                        {Number(element) + 1 < logs.length ? (
+                          <>
+                            <ul
+                              // id={`reg-mem-${docKey}-drop-down`}
+                              className="reg-mem-drop-down-ul-element drop-down-ul-element reg-mem-hidden"
+                              id={`logs${logs[element][0]}`}
+                              // hidden={true}
+                            >
+                              <li key="1">{`Last Owner: ${
+                                logs[Number(element) + 1][1].name
+                              }`}</li>
+                              <li key="2">{`Phone: ${
+                                logs[Number(element) + 1][1].phone
+                              }`}</li>
+                              <li key="3">{`RollNo: ${
+                                logs[Number(element) + 1][1].rollNo
+                              }`}</li>
+                            </ul>
+                          </>
+                        ) : null}
                       </>
                     );
                   })}

@@ -189,6 +189,7 @@ input {
   text-align: center;
   margin-top: 20px;
   transition: opacity 0.3s ease-in-out;
+  /* background-color: red; */
 }
 
 .contact-button {
@@ -307,12 +308,14 @@ input {
     background: rgb(255, 255, 255); /* Semi-transparent white background */
     backdrop-filter: blur(9px);
     margin: 0;
+    position: relative;
   }
 
   .side-aisle {
     border-radius: 2rem;
     border-radius: 0;
     background: transparent;
+    height: 0px;
   }
   .main-box {
     /* display: none; */
@@ -348,6 +351,13 @@ input {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    align-items: center;
+    padding: 2px;
+  }
+  .contact-button,
+  .change-owner {
+    width: 100%;
+    margin: 0;
   }
   .user-name {
     /* background: rgb(255, 0, 0); */
@@ -372,13 +382,13 @@ input {
   }
   .key-owner-container {
     /* background: blue; */
-    position: absolute;
+    position: fixed;
     top: 60px;
-    left: 0;
-    width: 100%;
+    left: 0px;
+    width: 90%;
   }
-  /* 
-  .side-aisle-btn-container {
+
+  /* .side-aisle-btn-container {
     background-color: red;
   } */
   .btn-signout-container {
@@ -386,10 +396,11 @@ input {
     width: 130px;
     height: 50px;
     border-radius: 0.55rem;
-    top: 75%;
+    top: 76%;
     border: 2px solid rgb(253, 210, 71);
     left: 41%;
     transform: translateX(-100%);
+    /* background-color: red; */
   }
   .Signout {
     border-radius: 0.5rem;
@@ -418,7 +429,10 @@ input {
   }
   /********************************************/
   .sent-message-status-box {
-    position: relative;
+    /* background-color: red; */
+    width: 80%;
+    text-align: center;
+    position: fixed;
     top: 62%;
   }
 }

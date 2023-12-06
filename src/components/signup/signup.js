@@ -14,6 +14,10 @@ import { db, auth } from "../../firebase";
 import LoadingSign from "../loader/loader";
 import "./signup.css";
 import toast from "react-hot-toast";
+
+import { getToken } from "firebase/messaging";
+import { messaging } from "../../firebase";
+
 // import { AuthContext } from "../auth";
 
 export default function Signup() {
@@ -25,7 +29,7 @@ export default function Signup() {
   const [errorTrigger, setErrorTrigger] = useState(true);
   const [errorMessage, setErrorMessage] = useState("Enter valid details");
   const [isLoading, setIsLoading] = useState(false);
-  const [fcmToken, setFcmToken] = useState("");
+  // const token = useRef("");
 
   const handleSignup = async () => {
     toast("Creating a user...");
@@ -167,6 +171,7 @@ export default function Signup() {
                         phone.current = e.target.value;
                         const regexValid = /^[0-9]{10}/;
                         setErrorTrigger(regexValid.test(phone.current));
+
                         if (regexValid.test(phone.current) == false) {
                           setErrorMessage("Enter valid phone no");
                         } else {
@@ -199,9 +204,14 @@ export default function Signup() {
                         document.querySelector("#username");
                       const passwordRequired =
                         document.querySelector("#password");
+                      const phonenumberrequired =
+                        document.querySelector("#phone-number");
+                      // console.log(phonenumberrequired.value);
+
                       if (
                         usernameRequired.value &&
                         passwordRequired.value &&
+                        phonenumberrequired.value &&
                         errorTrigger
                       ) {
                         // console.log(email);

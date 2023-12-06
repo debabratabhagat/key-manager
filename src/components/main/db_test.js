@@ -21,7 +21,8 @@ import Signout from "../signout/signout";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import Requests from "./requests";
-// import Logs from "./User-logs";
+import { getToken } from "firebase/messaging";
+import { messaging } from "../../firebase";
 
 const Name = () => {
   const [keyHolder, setKeyHolder] = useState({ id: "", name: "", phone: "" });
@@ -31,12 +32,32 @@ const Name = () => {
   const [claimingPersonsArr, setClaimingPersonsArr] = useState([]); //************
   const [userHasSentMsg, setUserHasSentMsg] = useState(false); //************
   const userIsAdmin = useRef(false);
+  const token = useRef("");
   const navigate = useNavigate();
-
   const date = new Date();
   const currentDate = date.toISOString();
 
-  // console.log(currentDate);
+  /***********notification testing *********/
+
+  const tokenGeneration = async () => {
+    try {
+      token.current = await getToken(messaging, {
+        vapidKey:
+          "BFMPBroQEd4Bl5PV-VbCAaBlClizBohZrR-Nkr_G6odIU6jqkMhtyCLZssViUsk5TWtBtNWMoZ2sDAS73HNPy6w",
+      });
+
+      // console.log(token.current); +++++++++++++++++++ required for testing
+      await updateDoc(doc(db, "users", currentUser.id), {
+        fcmToken: token.current,
+      });
+    } catch (error) {
+      // console.log("Generating token"); +++++++++++++++++++ required for testing
+    }
+  };
+
+  // console.log("key holder "); +++++++++++++++++++ required for testing
+  // console.log(keyHolder); +++++++++++++++++++ required for testing
+  /***********notification testing*********/
 
   //************* popup
   const [isRequestPopupOpen, setIsRequestPopupOpen] = useState(false);
@@ -73,6 +94,7 @@ const Name = () => {
               name: keyHolder.data().name,
               id: keyHolder.id,
               phone: keyHolder.data().phone,
+              fcmToken: keyHolder.data().fcmToken || "null",
             }
           );
           if (keyHolder.id === currentUser.id) {
@@ -136,7 +158,40 @@ const Name = () => {
       name: currentUser.name,
     });
     setUserHasSentMsg(true);
+
     //setIsLoading(false);
+
+    /************notification testing************ */
+
+    tokenGeneration();
+    const requestData = {
+      fcmToken: keyHolder.fcmToken,
+      dataTitle: "Key change request",
+      dataBody: `${currentUser.name} is requesting for the key `,
+    };
+
+    // console.log(requestData); +++++++++++++++++++++++++++++++++++REquired for testing
+    try {
+      fetch("https://cyborgkeys-backend.onrender.com/send", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // mode: "no-cors",
+        body: JSON.stringify({ requestData }),
+      })
+        .then((response) => {
+          // console.log(response); +++++++++++++++++++++++required for testing
+        })
+        .catch((error) => {
+          console.log("Fetch error:", error);
+        });
+    } catch (error) {
+      // console.log(error); +++++++++++++++++++++++required for testing
+    }
+
+    /************notification testing************ */
+    /************notification testing************ */
   };
   /************************************************************************************/
   /*****************************unique id  for logs***********************************/
@@ -158,7 +213,7 @@ const Name = () => {
     const newKeyHolderDoc = await getDoc(newKeyHolderDocRef);
 
     const uidLogs = generateRandomString(28);
-    console.log(newKeyHolderDoc.data());
+    // console.log(newKeyHolderDoc.data()); +++++++++++++required for testing
 
     const logId = Math.random();
     await Promise.all([
@@ -173,6 +228,29 @@ const Name = () => {
     ]);
     //deleting new key-holder's request message
     await deleteDoc(doc(db, "key-claimers", id));
+
+    const requestData = {
+      datatitle: "Key Owner changed",
+      dataBody: `${newKeyHolderDoc.data().name} now has the keys`,
+    };
+
+    try {
+      fetch("https://cyborgkeys-backend.onrender.com/sendAll", {
+        method: "POSt",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ requestData }),
+      })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
   /*********************************************************/
 
@@ -288,7 +366,7 @@ const Name = () => {
                       }}
                       className="change-owner"
                     >
-                      i have the key
+                      I have the key
                     </button>
                   )}
                   {/* i have the key buttton */}

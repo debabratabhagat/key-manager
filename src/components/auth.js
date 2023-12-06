@@ -27,6 +27,7 @@ export const AuthProvider = ({ children }) => {
               const userDocRef = doc(db, "users", user.uid);
               const userDoc = await getDoc(userDocRef);
               // var authUser = auth.currentUser;
+              // console.log(userDoc.data().fcmToken);
               if (userDoc.data()) {
                 const adminDocRef = doc(db, "admin-users", user.uid);
                 const adminDoc = await getDoc(adminDocRef);
@@ -38,12 +39,14 @@ export const AuthProvider = ({ children }) => {
                     id: user.uid,
                     name: userDoc.data().name,
                     isAdmin: true,
+                    fcmToken: userDoc.data().fcmToken || "null",
                   });
                 } else {
                   setCurrentUser({
                     id: user.uid,
                     name: userDoc.data().name,
                     isAdmin: false,
+                    fcmToken: userDoc.data().fcmToken || "null",
                   });
                 }
               }

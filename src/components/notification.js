@@ -1,36 +1,29 @@
-// // const axios = require("axios");
-// import axios from "axios";
+// const axios = require("axios");
+import axios from "axios";
 
-// const push = (props) => {
-//   fcmToken = props.fcmToken;
-//   KeyHolderName = props.name;
+const push = (props) => {
+  fcmToken = props.fcmToken;
+  KeyHolderName = props.name;
+};
 
-  
+const payload = {
+  to: recipientToken,
+  notification,
+  data,
+};
 
-// };
-
-// const data = {
-//   // custom data fields, if needed
-// };
-
-// const payload = {
-//   to: recipientToken,
-//   notification,
-//   data,
-// };
-
-// export default function post() {
-//   axios
-//     .post("https://fcm.googleapis.com/fcm/send", payload, {
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: `Bearer ${serverKey}`,
-//       },
-//     })
-//     .then((response) => {
-//       console.log("Message sent successfully:", response.data);
-//     })
-//     .catch((error) => {
-//       console.error("Error sending message:", error);
-//     });
-// }
+export default function post() {
+  axios
+    .post("https://fcm.googleapis.com/fcm/send", payload, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${serverKey}`,
+      },
+    })
+    .then((response) => {
+      console.log("Message sent successfully:", response.data);
+    })
+    .catch((error) => {
+      console.error("Error sending message:", error);
+    });
+}

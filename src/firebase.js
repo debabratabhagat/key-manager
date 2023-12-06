@@ -2,7 +2,8 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth, GoogleAuthProvider, OAuthProvider } from "firebase/auth";
-import { getMessaging } from "firebase/messaging";
+import { getMessaging, onMessage } from "firebase/messaging";
+// import { Messaging } from "firebase/messaging";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBVhpqjCB1HmBkAoLQWyhQ0zy1J3q3S0E0",
@@ -16,16 +17,6 @@ const firebaseConfig = {
   measurementId: "G-K3H2ZE1J84",
 };
 
-// const firebaseConfig = {
-//   apiKey: "AIzaSyBPihN5uihyRpg_5oA0r7cYNJEIslCxCOs",
-//   authDomain: "cyborg-keys-app.firebaseapp.com",
-//   projectId: "cyborg-keys-app",
-//   storageBucket: "cyborg-keys-app.appspot.com",
-//   messagingSenderId: "141212332429",
-//   appId: "1:141212332429:web:bea396a7faed1536ba8dc4",
-//   measurementId: "G-YDQL9KJGNL",
-// };
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -37,3 +28,26 @@ const microsoftProvider = new OAuthProvider("microsoft.com");
 const messaging = getMessaging(app);
 
 export { db, app, auth, googleProvider, microsoftProvider, messaging };
+
+// onMessage(messaging, (payload) => {
+//   console.log(
+//     "[firebase-messaging-sw.js] Received background message ",
+//     payload
+//   );
+//   const notificationTitle = payload.notification.title;
+//   const notificationOptions = {
+//     body: payload.notification.body,
+//     icon: payload.notification.image,
+//   };
+//   if (Notification.permission === "granted") {
+//     new Notification(notificationTitle, notificationOptions);
+
+//   } else {
+//     // You might want to request permission here
+//     // or handle the case where permission is not granted
+//   }
+// });
+
+// runtime.register().then((registration) => {
+// registration.showNotification(notificationTitle, notificationOptions);
+// });

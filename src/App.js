@@ -1,7 +1,9 @@
 import "./components/signup/signup.css";
 import "./App.css";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { updateDoc, doc } from "firebase/firestore";
+import { db } from "./firebase";
 
 import Login from "./components/login/login";
 import Signup from "./components/signup/signup";
@@ -11,32 +13,51 @@ import PasswordReset from "./components/login/resetpassword";
 import { AuthContext } from "./components/auth";
 import AdminPanel from "./components/admin/admin-panel";
 import Logs from "./components/logs/User-logs";
-// import { getToken } from "firebase/messaging";
-// import { messaging } from "./firebase";
+import { getToken } from "firebase/messaging";
+import { messaging } from "./firebase";
 // import push from "./components/notification";
 
 function App() {
   const currentUser = useContext(AuthContext);
   const docIn = useRef(null);
-  const [userIsAdmin, setUserIsAdmin] = useState(null);
+  const token = useRef(null);
+  // const [userIsAdmin, setUserIsAdmin] = useState(null);
 
-  // console.log(currentUser);
+  // console.log(currentUser); ++++++++++++++++++ required for testing
+  async function notificationPermission() {
+    const permission = await Notification.requestPermission();
+
+    // console.log(permission); ++++++++++++++++++ required for testing
+    if (permission === "granted") {
+      // tokenGeneration();
+      console.log("notification access given");
+    } else if (permission === "denied") {
+      console.log("notification access was not given");
+    }
+  }
+
+  const tokenGeneration = async () => {
+    try {
+      token.current = await getToken(messaging, {
+        vapidKey:
+          "BFMPBroQEd4Bl5PV-VbCAaBlClizBohZrR-Nkr_G6odIU6jqkMhtyCLZssViUsk5TWtBtNWMoZ2sDAS73HNPy6w",
+      });
+
+      await updateDoc(doc(db, "users", currentUser.id), {
+        fcmToken: token.current,
+      });
+    } catch (error) {
+      // console.log("token generating"); ++++++++++++++++++ required for testing
+    }
+  };
+  try {
+    notificationPermission();
+    tokenGeneration();
+  } catch (error) {
+    console.log("error from notification section", error);
+  }
+
   // ***************Notification permission*********************//
-  // async function notificationPermission() {
-  //   const permission = await Notification.requestPermission();
-
-  //   if (permission === "granted") {
-  //     //generate token
-  //     const token = await getToken(messaging, {
-  //       vapidKey:
-  //         "BFMPBroQEd4Bl5PV-VbCAaBlClizBohZrR-Nkr_G6odIU6jqkMhtyCLZssViUsk5TWtBtNWMoZ2sDAS73HNPy6w",
-  //     });
-  //     // console.log("token == ", token);
-  //     push();
-  //   } else if (permission === "denied") {
-  //     alert("notification access was not given");
-  //   }
-  // }
 
   const getComponentToRenderLogin = () => {
     if (

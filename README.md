@@ -41,3 +41,7 @@ Start the server
 ```
 
 To change the login system from roll no to email modify "signup.js" and "login.js" files under "components" section of "src" directory
+
+# Feedback
+We value your feedback! If you encounter any issues or have suggestions for improvement, please open an issue on our GitHub repository.
+

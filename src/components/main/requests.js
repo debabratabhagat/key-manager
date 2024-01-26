@@ -4,7 +4,6 @@ import { db } from "../../firebase";
 import { writeBatch, doc } from "firebase/firestore";
 
 const Requests = (props) => {
-  
   return props.trigger ? (
     <div className="popup-container">
       <div className="popup">

@@ -28,6 +28,7 @@ const Name = () => {
   const [keyHolder, setKeyHolder] = useState({ id: "", name: "", phone: "" });
   const [userIsKeyHolder, setUserIsKeyHolder] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [roomStatus, setRoomStatus] = useState("closed");
   const currentUser = useContext(AuthContext);
   const [claimingPersonsArr, setClaimingPersonsArr] = useState([]); //************
   const [userHasSentMsg, setUserHasSentMsg] = useState(false); //************
@@ -36,6 +37,7 @@ const Name = () => {
   const navigate = useNavigate();
   const date = new Date();
   const currentDate = date.toISOString();
+  let label = "Room status";
 
   /***********notification testing *********/
 
@@ -171,6 +173,7 @@ const Name = () => {
     };
 
     // console.log(requestData); +++++++++++++++++++++++++++++++++++REquired for testing
+    // https://cyborgkeys-backend.onrender.com/send
     try {
       fetch("https://cyborgkeys-backend.onrender.com/send", {
         method: "POST",
@@ -234,6 +237,7 @@ const Name = () => {
       dataBody: `${newKeyHolderDoc.data().name} now has the keys`,
     };
 
+    // not needed in testing
     try {
       fetch("https://cyborgkeys-backend.onrender.com/sendAll", {
         method: "POSt",
@@ -309,10 +313,16 @@ const Name = () => {
                 </span> */}
               </div>
               <div className="key-owner-container">
-                <h3 className="text key-owner-name">
-                  Keys Are Currently with{" "}
-                  <span className="ownername">{keyHolder.name}</span>
-                </h3>
+                <div className="text-container">
+                  <h3 className="text key-owner-name">
+                    Keys Are Currently with{" "}
+                    <span className="ownername">{keyHolder.name}</span>
+                  </h3>
+                  <h3 className="text key-owner-name">
+                    The room is <span className="ownername">{roomStatus}</span>
+                  </h3>
+                </div>
+
                 <div className="button-container">
                   <button
                     className="contact-button"
@@ -355,7 +365,7 @@ const Name = () => {
                     /*************/ <button
                       onClick={() => {
                         if (
-                          window.confirm("are you sure you have the key ?") ===
+                          window.confirm("Are you sure you have the key ?") ===
                           true
                         ) {
                           //   setIsLoading(true);
@@ -370,6 +380,76 @@ const Name = () => {
                     </button>
                   )}
                   {/* i have the key buttton */}
+
+                  {userIsKeyHolder ? (
+                    <div className="toggle-container">
+                      <input
+                        type="checkbox"
+                        id="toggle"
+                        className="toggleCheckbox"
+                        onChange={() => {
+                          if (
+                            document.getElementById("toggle").checked == true
+                          ) {
+                            if (
+                              window.confirm(
+                                "Are you sure the cyborg room is open ?"
+                              ) === true
+                            ) {
+                              // console.log("room is open");
+                              setRoomStatus("open");
+                            }
+                          } else {
+                            if (
+                              window.confirm(
+                                "Are you sure the cyborg room is closed ?"
+                              ) === true
+                            ) {
+                              // console.log("room is closed");
+                              setRoomStatus("closed");
+                            }
+                          }
+                        }}
+                      />
+                      <label htmlFor="toggle" className="toggleContainer">
+                        <div>Close</div>
+                        <div>Open</div>
+                      </label>
+                    </div>
+                  ) : null}
+
+                  <div className="toggle-container">
+                    <input
+                      type="checkbox"
+                      id="toggle"
+                      className="toggleCheckbox"
+                      onChange={() => {
+                        if (document.getElementById("toggle").checked == true) {
+                          if (
+                            window.confirm(
+                              "Are you sure the cyborg room is open ?"
+                            ) === true
+                          ) {
+                            // console.log("room is open");
+                            setRoomStatus("open");
+                          }
+                        } else {
+                          if (
+                            window.confirm(
+                              "Are you sure the cyborg room is closed ?"
+                            ) === true
+                          ) {
+                            // console.log("room is closed");
+                            setRoomStatus("closed");
+                          }
+                        }
+                      }}
+                    />
+                    <label htmlFor="toggle" className="toggleContainer">
+                      <div>Close</div>
+                      <div>Open</div>
+                    </label>
+                  </div>
                 </div>
               </div>
               {/*if user has sent a message to the owner of the key claiming the ownership of the key */}
@@ -423,14 +503,20 @@ const Name = () => {
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                   >
-                    <path d="M24 13.306v-2.612l-2.452-.614c-.081-.407-.188-.805-.318-1.192l1.815-1.756-1.306-2.263-2.432.695c-.272-.309-.562-.599-.871-.871l.695-2.432-2.263-1.306-1.756 1.815c-.387-.13-.785-.237-1.192-.318l-.614-2.452h-2.612l-.614 2.452c-.407.081-.805.188-1.192.319l-1.757-1.816-2.262 1.306.695 2.433c-.309.271-.599.562-.871.87l-2.432-.695-1.306 2.262 1.815 1.757c-.13.387-.237.785-.318 1.192l-2.452.614v2.612l2.452.614c.082.407.188.805.318 1.192l-1.815 1.756 1.306 2.263 2.432-.695c.272.308.562.599.871.871l-.695 2.432 2.263 1.306 1.756-1.816c.387.131.785.237 1.192.319l.614 2.452h2.612l.614-2.452c.407-.082.805-.188 1.192-.319l1.756 1.816 2.263-1.306-.695-2.432c.309-.272.599-.563.871-.871l2.432.695 1.306-2.263-1.815-1.756c.131-.387.237-.785.318-1.192l2.452-.614zm-12 2.694c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4z" />
+                    <path
+                      // fill="#082e49"
+                      d="M24 13.306v-2.612l-2.452-.614c-.081-.407-.188-.805-.318-1.192l1.815-1.756-1.306-2.263-2.432.695c-.272-.309-.562-.599-.871-.871l.695-2.432-2.263-1.306-1.756 1.815c-.387-.13-.785-.237-1.192-.318l-.614-2.452h-2.612l-.614 2.452c-.407.081-.805.188-1.192.319l-1.757-1.816-2.262 1.306.695 2.433c-.309.271-.599.562-.871.87l-2.432-.695-1.306 2.262 1.815 1.757c-.13.387-.237.785-.318 1.192l-2.452.614v2.612l2.452.614c.082.407.188.805.318 1.192l-1.815 1.756 1.306 2.263 2.432-.695c.272.308.562.599.871.871l-.695 2.432 2.263 1.306 1.756-1.816c.387.131.785.237 1.192.319l.614 2.452h2.612l.614-2.452c.407-.082.805-.188 1.192-.319l1.756 1.816 2.263-1.306-.695-2.432c.309-.272.599-.563.871-.871l2.432.695 1.306-2.263-1.815-1.756c.131-.387.237-.785.318-1.192l2.452-.614zm-12 2.694c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4z"
+                    />
                   </svg>
                   <svg
                     className="medium-gear"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                   >
-                    <path d="M24 13.306v-2.612l-2.452-.614c-.081-.407-.188-.805-.318-1.192l1.815-1.756-1.306-2.263-2.432.695c-.272-.309-.562-.599-.871-.871l.695-2.432-2.263-1.306-1.756 1.815c-.387-.13-.785-.237-1.192-.318l-.614-2.452h-2.612l-.614 2.452c-.407.081-.805.188-1.192.319l-1.757-1.816-2.262 1.306.695 2.433c-.309.271-.599.562-.871.87l-2.432-.695-1.306 2.262 1.815 1.757c-.13.387-.237.785-.318 1.192l-2.452.614v2.612l2.452.614c.082.407.188.805.318 1.192l-1.815 1.756 1.306 2.263 2.432-.695c.272.308.562.599.871.871l-.695 2.432 2.263 1.306 1.756-1.816c.387.131.785.237 1.192.319l.614 2.452h2.612l.614-2.452c.407-.082.805-.188 1.192-.319l1.756 1.816 2.263-1.306-.695-2.432c.309-.272.599-.563.871-.871l2.432.695 1.306-2.263-1.815-1.756c.131-.387.237-.785.318-1.192l2.452-.614zm-12 2.694c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4z" />
+                    <path
+                      // fill="#082e49"
+                      d="M24 13.306v-2.612l-2.452-.614c-.081-.407-.188-.805-.318-1.192l1.815-1.756-1.306-2.263-2.432.695c-.272-.309-.562-.599-.871-.871l.695-2.432-2.263-1.306-1.756 1.815c-.387-.13-.785-.237-1.192-.318l-.614-2.452h-2.612l-.614 2.452c-.407.081-.805.188-1.192.319l-1.757-1.816-2.262 1.306.695 2.433c-.309.271-.599.562-.871.87l-2.432-.695-1.306 2.262 1.815 1.757c-.13.387-.237.785-.318 1.192l-2.452.614v2.612l2.452.614c.082.407.188.805.318 1.192l-1.815 1.756 1.306 2.263 2.432-.695c.272.308.562.599.871.871l-.695 2.432 2.263 1.306 1.756-1.816c.387.131.785.237 1.192.319l.614 2.452h2.612l.614-2.452c.407-.082.805-.188 1.192-.319l1.756 1.816 2.263-1.306-.695-2.432c.309-.272.599-.563.871-.871l2.432.695 1.306-2.263-1.815-1.756c.131-.387.237-.785.318-1.192l2.452-.614zm-12 2.694c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4z"
+                    />
                   </svg>
                 </div>
               </div>

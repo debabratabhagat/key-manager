@@ -184,6 +184,18 @@ input {
   margin-left: 5px;
 }
 
+.button-container {
+  /* background: red; */
+  /* min-height: 150px; */
+  width: fit-content;
+  display: flex;
+  flex-wrap: wrap;
+  /* flex-direction: column; */
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+}
+
 /* Contact Button */
 .contact-button-container {
   text-align: center;
@@ -195,12 +207,13 @@ input {
 .contact-button {
   background-color: rgb(10, 60, 95);
   color: #fff;
-  margin-right: 5px;
+  margin: 3px;
   padding: 10px 20px;
-  border: none;
+  border: 1px solid rgb(33, 42, 83);
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
+  /* margin: 0 2px; */
   transition: opacity 1.3s ease-in-out;
 }
 .contact-button .content-b {
@@ -209,22 +222,26 @@ input {
 
 .contact-button:hover {
   box-sizing: border-box;
-  border: 2px solid rgb(33, 42, 83);
+  border: 1px solid rgb(33, 42, 83);
   background-color: rgb(233, 233, 233); /* Contrasting color for hover */
   color: rgb(33, 42, 83);
 }
 
 /* Change Owner Button */
-.change-owner-button-container {
+/* .change-owner-button-container {
   text-align: center;
-  margin-top: 20px;
-}
+  margin-top: 200px;
+  margin-left: 2px;
+  margin-right: 2px;
+} */
 
 .change-owner {
+  margin: 3px;
   background-color: rgb(98, 193, 197);
   color: #fff;
+  width: fit-content;
   padding: 10px 20px;
-  border: none;
+  border: 1px solid rgb(98, 193, 197);
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
@@ -234,6 +251,65 @@ input {
 .change-owner button:hover {
   background-color: rgb(24, 137, 141); /* Contrasting color for hover */
 }
+
+/********************************************/
+.toggleCheckbox {
+  display: none;
+}
+
+.toggleContainer {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: fit-content;
+  border: 1px solid rgb(10, 60, 95);
+  border-radius: 5px;
+  background: rgb(10, 60, 95);
+  font-weight: 400;
+  color: rgb(10, 60, 95);
+  cursor: pointer;
+  margin: 3px;
+}
+
+.toggleContainer::before {
+  content: "";
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  left: 0%;
+  border-radius: 5px;
+  background: white;
+  transition: all 0.3s;
+}
+
+.toggleContainer div {
+  padding: 6px;
+  text-align: center;
+  z-index: 1;
+}
+
+.toggleCheckbox:checked + .toggleContainer::before {
+  left: 50%;
+}
+
+.toggleCheckbox:checked + .toggleContainer div:first-child {
+  color: white;
+  transition: color 0.3s;
+}
+.toggleCheckbox:checked + .toggleContainer div:last-child {
+  color: #343434;
+  transition: color 0.3s;
+}
+.toggleCheckbox + .toggleContainer div:first-child {
+  color: #343434;
+  transition: color 0.3s;
+}
+.toggleCheckbox + .toggleContainer div:last-child {
+  color: white;
+  transition: color 0.3s;
+}
+
+/*******************************************/
 
 .key-owner-container {
   /* background-color: red; */
@@ -257,7 +333,10 @@ input {
   color: rgb(33, 42, 83);
   font-weight: 800;
 }
-
+.text-container {
+  /* background: red; */
+  padding: 10px;
+}
 /********************************************/
 .alert-messages {
   position: absolute;
@@ -278,8 +357,6 @@ input {
   top: -8%;
   left: 8%;
 }
-/********************************************/
-
 @media (max-width: 1250px) {
   .box {
     width: 85%;
@@ -347,17 +424,18 @@ input {
   }
   .button-container {
     /* background-color: red; */
-    min-height: 100px;
+    min-height: 150px;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
     padding: 2px;
   }
   .contact-button,
   .change-owner {
     width: 100%;
-    margin: 0;
+    /* margin: 0; */
   }
   .user-name {
     /* background: rgb(255, 0, 0); */

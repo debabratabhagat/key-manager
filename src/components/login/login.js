@@ -146,7 +146,7 @@ function Login() {
                         className="input-field"
                         type="text"
                         id="email"
-                        placeholder="Enter your Roll No"
+                        placeholder="Roll no"
                         onChange={(e) => {
                           rollNo.current = e.target.value;
                           const regexValid = /^\d{3}[a-zA-Z]{2}\d{4}$/;
@@ -171,7 +171,7 @@ function Login() {
                       className="input-field"
                       type="password"
                       id="password"
-                      placeholder="password"
+                      placeholder="Password"
                       value={password}
                       onChange={(e) => {
                         setPassword(e.target.value);
@@ -187,12 +187,12 @@ function Login() {
                       to="/resetPassword"
                       className="login-page-forgot-password"
                     >
-                      forgot password ?
+                      Forgot password ?
                     </Link>
                   </div>
                   <input
                     type="submit"
-                    value="Sign IN"
+                    value="Login"
                     className="login-button sign-btn"
                     onClick={() => {
                       if (errorTrigger && document.querySelector("#password")) {
@@ -210,7 +210,7 @@ function Login() {
 
             <div className="carousel">
               <div className="heading">
-                <h2>Looking for keys ???</h2>
+                <h2>Looking for keys ?</h2>
               </div>
               <div className="body">
                 <h3>Find out where they are</h3>

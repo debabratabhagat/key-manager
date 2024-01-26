@@ -101,7 +101,7 @@ export default function Signup() {
                 </div>
 
                 <div className="logo-heading">
-                  <h2>New Here !!</h2>
+                  <h1>New here !</h1>
                   <h6>Already have an account? </h6>
                   <Link to="/login" className="toggle">
                     Login
@@ -115,7 +115,7 @@ export default function Signup() {
                       className="input-field"
                       type="text"
                       id="username"
-                      placeholder="Enter your full name"
+                      placeholder="Name"
                       value={username}
                       onChange={(e) => {
                         setUsername(e.target.value);
@@ -143,7 +143,7 @@ export default function Signup() {
                       className="input-field"
                       type="text"
                       id="email"
-                      placeholder="Enter your Roll No"
+                      placeholder="Roll no"
                       onChange={(e) => {
                         rollNo.current = e.target.value;
                         const regexValid = /^\d{3}[a-zA-Z]{2}\d{4}$/;
@@ -166,7 +166,7 @@ export default function Signup() {
                       className="input-field"
                       type="text"
                       id="phone-number"
-                      placeholder="Enter your mobile number"
+                      placeholder="Mobile number"
                       onChange={(e) => {
                         phone.current = e.target.value;
                         const regexValid = /^[0-9]{10}/;
@@ -189,7 +189,7 @@ export default function Signup() {
                       className="input-field"
                       type="password"
                       id="password"
-                      placeholder="Enter your password"
+                      placeholder="Password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
@@ -234,7 +234,7 @@ export default function Signup() {
 
             <div className="carousel">
               <div className="heading">
-                <h2>Looking for keys ???</h2>
+                <h2>Looking for keys ?</h2>
               </div>
               <div className="body">
                 <h3>Find out where they are</h3>

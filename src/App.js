@@ -23,7 +23,7 @@ function App() {
   const token = useRef(null);
   // const [userIsAdmin, setUserIsAdmin] = useState(null);
 
-  // console.log(currentUser); ++++++++++++++++++ required for testing
+  // console.log(currentUser);
   async function notificationPermission() {
     const permission = await Notification.requestPermission();
 
@@ -46,6 +46,7 @@ function App() {
       await updateDoc(doc(db, "users", currentUser.id), {
         fcmToken: token.current,
       });
+      // console.log(token.current);
     } catch (error) {
       // console.log("token generating"); ++++++++++++++++++ required for testing
     }

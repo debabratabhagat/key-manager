@@ -32,58 +32,54 @@ export default function Signup() {
   // const token = useRef("");
 
   const handleSignup = async () => {
-    toast("Creating a user...");
-    const createUser = createUserWithEmailAndPassword(auth, email, password)
+    toast("Creating a user...",{
+      duration: Infinity, style: {background: "black", color: "white",},
+    });
+    createUserWithEmailAndPassword(auth, email, password)
       .then(async (cred) => {
-        toast.dismiss();
-        toast.success("User has been created.");
+        const uid = cred.user.uid;
+        
         try {
-          const uid = cred.user.uid;
-          await toast.promise(
-            setDoc(doc(db, "admin", uid), {
+          await setDoc(doc(db, "admin", uid), {
               name: username,
               haskey: false,
               email: email,
               rollNo: rollNo.current,
               phone: phone.current,
-            }),
-            {
-              loading: "adding document",
-              success: "document added successfully",
-              error: (error) => {
-                toast.dismiss();
-                return error.code;
-              },
-            }
-          );
+            });
+          
+          await sendEmailVerification(auth.currentUser);
+          await signOut(auth);
+            
 
-          await toast.promise(
-            Promise.all([
-              sendEmailVerification(auth.currentUser),
-              signOut(auth),
-            ]),
-            {
-              loading: "sending mail...",
-              success:
-                "An email has been sent, please verify to continue the sign up process",
-              error: (error) => {
-                toast.dismiss();
-                return error.code;
-              },
-            }
-          );
-
+          
           const inputBoxes = document.querySelectorAll(".input-field");
           for (let inputBox of inputBoxes) {
             inputBox.value = "";
           }
+
+          toast.dismiss();
+          toast.success("Check Your Email", {
+            style: {background: "lightgreen"}
+          });
+
+          
         } catch (error) {
-          console.log(error);
+          toast.dismiss();
+          toast.error(error.code, {
+            style: {
+              background: "#ffcccc"
+            }
+          });
         }
       })
       .catch((error) => {
         toast.dismiss();
-        toast.error(error.code);
+        toast.error(error.code, {
+          style: {
+            background: "#ffcccc"
+          }
+        });
       });
   };
 
@@ -125,19 +121,6 @@ export default function Signup() {
                       }}
                     />
                   </div>
-                  {/* email field  */}
-                  {/* <div className="input-wrap">
-                    <input
-                      className="input-field"
-                      type="email"
-                      id="email"
-                      placeholder="Enter your email"
-                      value={email}
-                      onChange={(e) => {
-                        setEmail(e.target.value);
-                      }}
-                    />
-                  </div> */}
                   <div className="input-wrap">
                     <input
                       className="input-field"
@@ -222,13 +205,6 @@ export default function Signup() {
                     }}
                   />
                 </div>
-
-                {/* <div className="error-box">
-                  <p className="message" style={{ display: "none" }}>
-                    Signing you in....
-                  </p>
-                  <p className="error-message">{errorMessage}</p>
-                </div> */}
               </div>
             </div>
 

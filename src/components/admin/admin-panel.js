@@ -151,49 +151,60 @@ const AdminPanel = () => {
   const handleAcceptbtn = async (id) => {
     const docRef = doc(db, "admin", id);
     const document = await getDoc(docRef);
-    await toast.promise(
-      setDoc(doc(db, "users", document.id), document.data()),
-      {
-        loading: "adding new member",
-        success: "A new member has been succesfully added",
-        error: (error) => {
-          toast.dismiss();
-          return error.code;
-        },
-      }
-    );
-    await toast.promise(deleteDoc(doc(db, "admin", document.id)), {
-      loading: "wait...",
-      success: "All set",
-      error: (error) => {
-        toast.dismiss();
-        return error.code;
+    toast("Adding a user", {
+      duration: Infinity,
+      style: {
+        background: "black",
+        color: "white",
       },
     });
-  };
+
+    const promises = [
+      setDoc(doc(db, "users", document.id), document.data()),
+      deleteDoc(doc(db, "admin", document.id))
+    ];
+
+    try {
+      await Promise.allSettled(promises);
+      toast.dismiss();
+      toast.success("User added succesfully", {
+        style: {background: "lightgreen"}
+      });
+    } catch (error) {
+      toast.dismiss();
+      toast.error(error.code, {
+        style: { background: "#ffcccc" },
+      });
+    }
+};
   ////////// Declining a user //////////
   const handleDeclinebtn = async (id) => {
     const docRef = doc(db, "admin", id);
     const document = await getDoc(docRef);
-    await toast.promise(
+    toast("Declining a user", {
+      duration: Infinity,
+      style: {
+      background: "black",
+      color: "white",
+    }}
+    )
+    const promises = [
       setDoc(doc(db, "declined-requests", document.id), document.data()),
-      {
-        loading: "adding document to the declined members collection...",
-        success: "added succesfully",
-        error: (error) => {
-          toast.dismiss();
-          return error.code;
-        },
-      }
-    );
-    await toast.promise(deleteDoc(doc(db, "admin", document.id)), {
-      loading: "declining member request...",
-      success: "Member request declined successfully",
-      error: (error) => {
-        toast.dismiss();
-        return error.code;
-      },
-    });
+      deleteDoc(doc(db, "admin", document.id)),
+    ];
+
+    try {
+      await Promise.allSettled(promises);
+      toast.dismiss()
+      toast.success("User declined succesfully", {
+        style: { background: "lightgreen" },
+      });
+    } catch (error) {
+      toast.dismiss()
+      toast.error(error.code, {
+        style: { background: "#ffcccc" },
+      });
+    }
   };
 
   return (

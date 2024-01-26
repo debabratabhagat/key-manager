@@ -26,44 +26,28 @@ function Login() {
     const func = async () => {
       if (currentUser === "Email verification pending...") {
         toast.dismiss();
-        await toast.promise(signOut(auth), {
-          loading: "Wait...",
-          success: () => {
-            toast.error("verify your email to continue...");
-          },
-          error: (error) => {
-            toast.dismiss();
-            return error.code;
+        await signOut(auth);
+        toast.error("Verify Your Email", {
+          style: {
+            background: "#ffcccc",
           },
         });
       } else if (currentUser === "App access pending...") {
         toast.dismiss();
-        await toast.promise(signOut(auth), {
-          loading: "Wait...",
-          success: () => {
-            toast.error(
-              "Your request to access the app is pending with our admin,please wait for them to give you access"
-            );
-          },
-          error: (error) => {
-            toast.dismiss();
-            return error.code;
+        await signOut(auth);
+        toast.error("Access pending", {
+          style: {
+            background: "#ffcccc",
           },
         });
       } else if (currentUser === "App access declined...") {
         toast.dismiss();
-        await toast.promise(signOut(auth), {
-          loading: "Wait...",
-          success: () => {
-            toast.error(
-              "Your request to access the app is declined by our admins,contact them for further assistance"
-            );
-          },
-          error: (error) => {
-            toast.dismiss();
-            return error.code;
-          },
-        });
+        await signOut(auth);
+        toast.error("User declined", {
+          style: {
+            background: "#ffcccc"
+          }
+        })
       } else {
       }
       const inputBoxes = document.querySelectorAll(".input-field");
@@ -80,40 +64,59 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      await toast.promise(signInWithEmailAndPassword(auth, email, password), {
-        loading: "Logging in...", // Loading message (optional)
-        success: "Logged in successfully!", // Displayed on successful login
-        error: (error) => {
-          toast.dismiss();
-          // Customize error messages based on error code
-          switch (error.code) {
-            case "auth/user-not-found":
-              return "User not found. Please check your RollNo.";
-            case "auth/wrong-password":
-              return "Incorrect password. Please try again.";
-            case "auth/invalid-email":
-              return "Invalid RollNo. Please enter a RollNo.";
-            case "auth/user-disabled":
-              return "User account is disabled. Contact support for assistance.";
-            case "auth/user-token-expired":
-              return "User session has expired. Please sign in again.";
-            case "auth/too-many-requests":
-              return "Too many sign-in attempts. Please try again later.";
-            case "auth/network-request-failed":
-              return "Network error. Check your internet connection.";
-            case "auth/internal-error":
-              return "Internal error occurred. Please try again later.";
-            case "auth/invalid-api-key":
-              return "Invalid Firebase API key. Check your configuration.";
-            case "auth/invalid-tenant-id":
-              return "Invalid tenant ID. Check your setup.";
-            case "auth/operation-not-supported-in-this-environment":
-              return "Sign-in not supported in this environment.";
-            default:
-              return "An error occurred. Please try again.";
-          }
+      await toast.promise(
+        signInWithEmailAndPassword(auth, email, password),
+        {
+          loading: "Logging in...", // Loading message (optional)
+          success: "Logged in successfully!", // Displayed on successful login
+          error: (error) => {
+            toast.dismiss();
+            // Customize error messages based on error code
+            switch (error.code) {
+              case "auth/user-not-found":
+                return "User not found";
+              case "auth/wrong-password":
+                return "Incorrect password";
+              case "auth/invalid-email":
+                return "Invalid RollNo. Please enter a RollNo.";
+              case "auth/user-disabled":
+                return "User account is disabled";
+              case "auth/user-token-expired":
+                return "User session has expired";
+              case "auth/too-many-requests":
+                return "Too many sign-in attempts. Please try again later.";
+              case "auth/network-request-failed":
+                return "Network error. Check your internet connection.";
+              case "auth/internal-error":
+                return "Internal error occurred. Please try again later.";
+              case "auth/invalid-api-key":
+                return "Invalid Firebase API key. Check your configuration.";
+              case "auth/invalid-tenant-id":
+                return "Invalid tenant ID. Check your setup.";
+              case "auth/operation-not-supported-in-this-environment":
+                return "Sign-in not supported in this environment.";
+              default:
+                return "An error occurred. Please try again.";
+            }
+          },
         },
-      });
+        {
+          loading: {
+            style: {
+              background: "black",
+              color: "white",
+            },
+          },
+          success: {
+            style: {
+              background: "lightgreen",
+            },
+          },
+          error: {
+            style: { background: "#ffcccc" },
+          },
+        }
+      );
     } catch (error) {
       // console.log(error);
     }

@@ -1,46 +1,21 @@
 
-# KeyHub - Effortless Key Management
+## Key manager
+https://github.com/debabratabhagat/key-manager/assets/113499033/c17a97b8-a6da-42e0-945e-4c6eb9e1cf1e
+
+##Overview
+Key manager is a web app that shows the current owner of keys. It aims to help the users to keep track of the key owner so that the members can easily access the room.
+
+##Problem statement
+The club members have difficulty in accessing the club room due them being unable to keep track of current key holder. They are also unable to keep track of transfer of keys back to previous owners.
+
+##Details
+The app uses react framework for frontend and firebase for backend. Notification feature is implemented using service workers for receiving messages on client device and a backend in using express and firebase cloud messaging service to send message based on changes in app.
 
 
-Welcome to KeyHub, your all-in-one solution for seamless key management. Our app is designed to make key ownership and access control a breeze.
-
-This app uses service worker and firebase cloud messaging to enable notifications through web browser.
-
-https://github.com/debabratabhagat/key-manager/assets/113499033/1e924262-6bbc-4df4-b454-5e643935964a
 
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
-
-
-## Run Locally
-
-Clone the project
-
-```bash
-  git clone https://github.com/debabratabhagat/key-manager
-```
-
-Go to the project directory
-
-```bash
-  cd my-project
-```
-Replace the firebase config files with your own to gain complete access
-
-Install dependencies
-
-```bash
-  npm install
-```
-
-Start the server
-
-```bash
-  npm run start
-```
-
-To change the login system from roll no to email modify "signup.js" and "login.js" files under "components" section of "src" directory
 
 # Feedback
 We value your feedback! If you encounter any issues or have suggestions for improvement, please open an issue on our GitHub repository.
